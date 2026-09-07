@@ -48,227 +48,37 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
 @media(max-width:600px){.answers{grid-template-columns:1fr}.cards-print{grid-template-columns:1fr}.top h1{font-size:24px}}
 @media print{.side,.top,.no-print{display:none!important}.main{margin:0;width:100%;padding:0}.cards-print{grid-template-columns:repeat(2,1fr)}.qr-card{box-shadow:none}}
 
-.question-modes{margin:18px 0}
-.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.mode-card{border:2px solid #e9e7f5;background:#fff;border-radius:22px;padding:22px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:7px;box-shadow:0 8px 24px rgba(40,30,80,.06);transition:.18s}
-.mode-card:hover{transform:translateY(-2px);border-color:#8b5cf6;box-shadow:0 12px 30px rgba(40,30,80,.12)}
-.mode-icon{font-size:38px}.mode-card strong{font-size:19px}.mode-card span:last-child{opacity:.7;line-height:1.35}
-.question-mode-panel{display:none;background:#fff;border:2px solid #ece8fa;border-radius:22px;padding:20px;margin:16px 0;box-shadow:0 8px 24px rgba(40,30,80,.06)}
-.question-mode-panel.active{display:block}.panel-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.panel-head h3{margin:0 0 4px}.panel-head p{margin:0;opacity:.7}
-.upload-box{margin:18px 0;display:block;border:2px dashed #b8a9e8;border-radius:18px;padding:28px;text-align:center;font-weight:800;cursor:pointer;background:#faf9ff}
-.upload-box input,.file-btn input{display:none}
-.import-preview{min-height:70px;border-radius:14px;background:#f7f7fb;padding:14px;margin:10px 0;white-space:pre-wrap}
-.import-note{font-size:13px;opacity:.72;margin:10px 0 14px}
-.primary-btn{border:0;border-radius:14px;padding:12px 18px;font-weight:900;cursor:pointer;background:#7c3aed;color:#fff}
-.primary-btn:disabled{opacity:.45;cursor:not-allowed}
-.text-tools{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
-.text-tools select,.text-tools .small-btn{border:1px solid #ddd6fe;border-radius:12px;padding:10px;background:#fff;font-weight:700}
-.question-mode-panel textarea{width:100%;box-sizing:border-box;border:2px solid #eee;border-radius:14px;padding:12px;font:inherit}
-.auto-review{margin-top:16px;border:2px solid #ddd6fe;border-radius:16px;padding:14px;background:#faf9ff}
-@media(max-width:800px){.mode-grid{grid-template-columns:1fr}.mode-card{padding:17px}.panel-head{flex-direction:column}}
-
-.student-row{display:grid!important;grid-template-columns:58px 34px minmax(150px,1fr) auto;gap:10px;align-items:center;padding:10px 12px;border-radius:16px;background:rgba(255,255,255,.85);margin-bottom:8px}
-.student-avatar{display:flex!important;align-items:center;justify-content:center;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:34px!important;line-height:1;visibility:visible!important;opacity:1!important}
-.result-student-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;background:#fff;margin:6px 0}
-.result-avatar{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:30px;line-height:1;display:inline-block}
-.student-name-input{width:100%;box-sizing:border-box;border:2px solid #e5e7eb;border-radius:12px;padding:10px 12px;font-size:16px;background:#fff}
-@media(max-width:700px){.student-row{grid-template-columns:48px 28px 1fr}.student-row .small-btn{grid-column:3}}
-
-.page-navigation{display:flex;align-items:center;gap:10px;margin:0 0 14px;position:sticky;top:0;z-index:20;padding:8px 0;background:rgba(250,250,255,.94);backdrop-filter:blur(8px)}
-.back-button{display:inline-flex;align-items:center;gap:7px;border:0;border-radius:14px;padding:10px 15px;background:#fff;box-shadow:0 4px 14px rgba(40,30,80,.10);font-weight:900;cursor:pointer}
-.back-button:hover{transform:translateX(-2px)}
-.page-label{font-weight:800;opacity:.65}
-
-.student-avatar,.chooser-emoji,.result-avatar{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif!important;font-size:32px!important;line-height:1!important;display:inline-flex!important;align-items:center;justify-content:center;visibility:visible!important;opacity:1!important}
-.emoji-tile{display:flex;align-items:center;gap:10px}
-.result{display:flex;align-items:center;gap:10px}
-
-/* Demo-Modus bewusst entfernt */
-.demo,.demo-mode,[data-demo],#demoBtn,#loadDemoBtn{display:none!important}
-
-.card-student{display:flex;align-items:center;gap:10px}
-.card-emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:32px;line-height:1}
-.card-name{font-weight:900;font-size:18px}
-.card-id{font-size:12px;opacity:.55}
-.card-footer{font-weight:800;text-align:center;margin-top:8px}
-
-.student-manager{display:grid;gap:12px}
-.student-manager-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
-.student-manager-head h2{margin:0}.student-manager-head p{margin:3px 0 0;opacity:.65}
-.student-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.student-edit{display:grid;grid-template-columns:52px 34px 1fr auto;gap:8px;align-items:center;padding:10px;background:#fff;border:1px solid #e9e7f5;border-radius:16px}
-.student-edit-emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:30px;line-height:1;text-align:center}
-.student-edit-id{font-size:12px;font-weight:900;opacity:.45}
-.student-edit input{min-width:0;border:2px solid #eee;border-radius:10px;padding:9px;font-size:15px}
-.student-edit button{border:0;border-radius:10px;padding:9px 11px;font-weight:900;cursor:pointer}
-.cards-sync-note{padding:12px 14px;border-radius:14px;background:#f7f5ff;margin-bottom:12px}
-.card-student-name{font-weight:900}.card-student-emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:30px}
-@media(max-width:700px){.student-grid{grid-template-columns:1fr}.student-edit{grid-template-columns:45px 28px 1fr}.student-edit button{grid-column:3}}
-
-.cards-toolbar-v17{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;margin:12px 0;background:#fff;border:2px solid #eee8ff;border-radius:18px;box-shadow:0 5px 18px rgba(40,30,80,.06)}
-.cards-toolbar-v17>div:first-child{display:flex;flex-direction:column;gap:3px}.cards-toolbar-v17 span{font-size:12px;opacity:.6}
-.cards-actions-v17{display:flex;gap:8px;flex-wrap:wrap}.cards-actions-v17 button{border:0;border-radius:12px;padding:10px 14px;font-weight:900;cursor:pointer;background:#f3f0ff}
-.cards-actions-v17 button:hover{transform:translateY(-1px)}
-@media(max-width:650px){.cards-toolbar-v17{align-items:stretch;flex-direction:column}.cards-actions-v17 button{flex:1}}
-@media print{
-  body *{visibility:hidden!important}
-  #cardsGrid,#cardsGrid *{visibility:visible!important}
-  #cardsGrid{position:absolute!important;left:0!important;top:0!important;width:100%!important;display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:10mm!important}
-  .answer-card{break-inside:avoid!important;page-break-inside:avoid!important;margin:0!important;box-shadow:none!important}
-  .cards-toolbar-v17{display:none!important}
-}
-
-/* A4: genau eine Schülerkarte pro Seite, mit großzügigem Scan-Rand */
-@page{size:A4 portrait;margin:0}
-@media print{
-  html,body{margin:0!important;padding:0!important;background:#fff!important}
-  body *{visibility:hidden!important}
-  #cardsGrid,#cardsGrid *{visibility:visible!important}
-  #cardsGrid{
-    position:static!important;
-    width:210mm!important;
-    min-height:297mm!important;
-    margin:0!important;
-    padding:0!important;
-    display:block!important;
-  }
-  #cardsGrid .answer-card{
-    box-sizing:border-box!important;
-    width:190mm!important;
-    height:277mm!important;
-    margin:10mm!important;
-    padding:12mm!important;
-    display:flex!important;
-    flex-direction:column!important;
-    justify-content:flex-start!important;
-    align-items:stretch!important;
-    break-after:page!important;
-    page-break-after:always!important;
-    break-inside:avoid!important;
-    page-break-inside:avoid!important;
-    box-shadow:none!important;
-    border:1px solid #ddd!important;
-    border-radius:6mm!important;
-    overflow:hidden!important;
-  }
-  #cardsGrid .answer-card:last-child{
-    break-after:auto!important;
-    page-break-after:auto!important;
-  }
-  #cardsGrid .card-top{flex:0 0 auto!important;margin-bottom:8mm!important}
-  #cardsGrid .card-student{display:flex!important;align-items:center!important;gap:5mm!important}
-  #cardsGrid .card-emoji{font-size:18mm!important}
-  #cardsGrid .card-name{font-size:8mm!important}
-  #cardsGrid .card-id{font-size:4mm!important}
-  #cardsGrid .marker-card{
-    position:relative!important;
-    width:166mm!important;
-    height:166mm!important;
-    margin:10mm auto 12mm!important;
-    flex:0 0 166mm!important;
-    box-sizing:border-box!important;
-    border:1.2mm solid #111!important;
-    border-radius:5mm!important;
-  }
-  /* großer Weiß-/Sicherheitsrand innerhalb der A4-Seite:
-     Finder und Marker bleiben vollständig innerhalb der Karte */
-  #cardsGrid .finder{width:25mm!important;height:25mm!important}
-  #cardsGrid .answer-marker{width:32mm!important;height:32mm!important;font-size:12mm!important}
-  #cardsGrid .center-dot{width:8mm!important;height:8mm!important}
-  #cardsGrid .micro{width:22mm!important;height:22mm!important}
-  #cardsGrid .card-footer{
-    margin-top:auto!important;
-    padding-top:5mm!important;
-    font-size:4.5mm!important;
-    text-align:center!important
-  }
-  .cards-toolbar-v17,.page-navigation{display:none!important}
-}
-
-.cards-v19-wrap{padding:14px 0}
-.cards-v19-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;padding:14px 16px;background:#fff;border:2px solid #ece8fa;border-radius:18px}
-.cards-v19-actions{display:flex;gap:8px;flex-wrap:wrap}
-.cards-v19-actions button{border:0;border-radius:12px;padding:11px 15px;font-weight:900;cursor:pointer}
-.cards-v19-refresh{background:#f1edff}.cards-v19-print{background:#7c3aed;color:#fff}
-.cards-v19-status{font-size:13px;opacity:.65;margin-top:4px}
-.cards-v19-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.card-v19{background:#fff;border:2px solid #e5e1f2;border-radius:20px;padding:16px;box-sizing:border-box}
-.card-v19-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.card-v19-emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:34px;line-height:1}
-.card-v19-name{font-size:18px;font-weight:900}.card-v19-id{font-size:12px;opacity:.55}
-.card-v19-marker{position:relative;width:100%;aspect-ratio:1/1;border:2px solid #111;border-radius:18px;background:#fff;box-sizing:border-box;overflow:hidden}
-.card-v19-finder{position:absolute;width:15%;aspect-ratio:1;border:6px solid #111;background:#fff;box-sizing:border-box}
-.card-v19-finder:after{content:"";position:absolute;inset:28%;background:#111}
-.card-v19-f1{left:7%;top:7%}.card-v19-f2{right:7%;top:7%}.card-v19-f3{left:7%;bottom:7%}
-.card-v19-answer{position:absolute;width:20%;aspect-ratio:1;border:3px solid #111;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;background:#fff}
-.card-v19-a{left:40%;top:12%}.card-v19-b{right:12%;top:40%}.card-v19-c{left:40%;bottom:12%}.card-v19-d{left:12%;top:40%}
-.card-v19-center{position:absolute;left:47%;top:47%;width:6%;aspect-ratio:1;background:#111;border-radius:50%}
-.card-v19-footer{text-align:center;font-weight:800;margin-top:10px}
-@media(max-width:700px){.cards-v19-grid{grid-template-columns:1fr}.cards-v19-toolbar{flex-direction:column;align-items:stretch}}
-@media print{
-  @page{size:A4 portrait;margin:0}
-  body{margin:0!important;padding:0!important;background:#fff!important}
-  body *{visibility:hidden!important}
-  #cardsV19PrintRoot,#cardsV19PrintRoot *{visibility:visible!important}
-  #cardsV19PrintRoot{display:block!important;position:static!important;width:210mm!important;margin:0!important;padding:0!important}
-  #cardsV19PrintRoot .card-v19{
-    display:flex!important;flex-direction:column!important;
-    box-sizing:border-box!important;width:190mm!important;height:277mm!important;
-    margin:10mm!important;padding:14mm!important;border:1px solid #bbb!important;
-    border-radius:5mm!important;break-after:page!important;page-break-after:always!important;
-    box-shadow:none!important
-  }
-  #cardsV19PrintRoot .card-v19:last-child{break-after:auto!important;page-break-after:auto!important}
-  #cardsV19PrintRoot .card-v19-head{margin-bottom:8mm!important}
-  #cardsV19PrintRoot .card-v19-emoji{font-size:18mm!important}
-  #cardsV19PrintRoot .card-v19-name{font-size:8mm!important}
-  #cardsV19PrintRoot .card-v19-id{font-size:4mm!important}
-  #cardsV19PrintRoot .card-v19-marker{
-    width:162mm!important;height:162mm!important;aspect-ratio:auto!important;
-    margin:5mm auto 8mm!important;flex:none!important;border-width:1.2mm!important
-  }
-  #cardsV19PrintRoot .card-v19-finder{border-width:1.4mm!important}
-  #cardsV19PrintRoot .card-v19-answer{border-width:.8mm!important;font-size:12mm!important}
-  #cardsV19PrintRoot .card-v19-footer{margin-top:auto!important;font-size:4.5mm!important}
-  .cards-v19-toolbar{display:none!important}
-}
-
-.page-navigation-v22{display:flex;align-items:center;gap:10px;margin:0 0 12px}
-.back-button-v22{border:0;border-radius:12px;padding:9px 14px;background:#fff;box-shadow:0 4px 14px rgba(40,30,80,.08);font-weight:900}
-.page-navigation-v22 span{font-weight:800;color:var(--muted)}
-.cards-print{grid-template-columns:repeat(2,1fr)}
-@media(max-width:700px){.cards-print{grid-template-columns:1fr}}
+.card-emoji-v23{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:30px}
+.card-id-v23{font-size:12px;margin-top:2px}
+.student-edit-row{display:grid;grid-template-columns:52px 32px minmax(160px,1fr) auto;gap:10px;align-items:center;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:15px;margin:8px 0}
+.student-edit-emoji,.chooser-emoji,.result-emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.student-edit-emoji{font-size:30px;text-align:center}.student-edit-number{font-size:12px;font-weight:900;opacity:.45}
+.student-edit-name{width:100%;min-width:0;padding:10px;border:1px solid var(--line);border-radius:10px}
+.chooser-emoji{display:block;font-size:42px}.result-person{display:flex;align-items:center;gap:9px}.result-emoji{font-size:28px}
+@media(max-width:700px){.student-edit-row{grid-template-columns:46px 28px 1fr}.student-save-btn{grid-column:3}}
+#printCanvasV23{display:none}
 @media print{
  @page{size:A4 portrait;margin:0}
  body{margin:0!important;padding:0!important}
  body *{visibility:hidden!important}
- #printCanvasV22,#printCanvasV22 *{visibility:visible!important}
- #printCanvasV22{display:block!important;position:absolute!important;left:0!important;top:0!important;width:210mm!important;background:#fff!important}
- .print-page-v22{width:210mm!important;height:297mm!important;box-sizing:border-box!important;padding:10mm!important;display:flex!important;align-items:center!important;justify-content:center!important;break-after:page!important;page-break-after:always!important}
- .print-page-v22:last-child{break-after:auto!important;page-break-after:auto!important}
- .print-card-v22{width:190mm!important;height:277mm!important;box-sizing:border-box!important;padding:12mm!important;border:1px solid #aaa!important;border-radius:5mm!important;display:flex!important;flex-direction:column!important;background:#fff!important}
- .print-head-v22{display:flex!important;align-items:center!important;gap:5mm!important}.print-emoji-v22{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif!important;font-size:18mm!important;line-height:1!important}.print-name-v22{font-size:8mm!important;font-weight:900!important}.print-id-v22{font-size:4mm!important;opacity:.55!important}
- .print-marker-v22{position:relative!important;width:162mm!important;height:162mm!important;margin:8mm auto!important;border:1.2mm solid #111!important;border-radius:5mm!important;box-sizing:border-box!important;flex:none!important}
- .pv22-f{position:absolute!important;width:25mm!important;height:25mm!important;border:1.5mm solid #111!important;background:#fff!important;box-sizing:border-box!important}.pv22-f:after{content:""!important;position:absolute!important;inset:28%!important;background:#111!important}.pv22-f1{left:7%!important;top:7%!important}.pv22-f2{right:7%!important;top:7%!important}.pv22-f3{left:7%!important;bottom:7%!important}
- .pv22-a{left:40%!important;top:12%!important}.pv22-b{right:12%!important;top:40%!important}.pv22-c{left:40%!important;bottom:12%!important}.pv22-d{left:12%!important;top:40%!important}
- .pv22-ans{position:absolute!important;width:32mm!important;height:32mm!important;border:1mm solid #111!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:12mm!important;font-weight:900!important;background:#fff!important}.pv22-dot{position:absolute!important;left:47%!important;top:47%!important;width:8mm!important;height:8mm!important;background:#111!important;border-radius:50%!important}.print-footer-v22{margin-top:auto!important;text-align:center!important;font-size:4.5mm!important;font-weight:800!important}
+ #printCanvasV23,#printCanvasV23 *{visibility:visible!important}
+ #printCanvasV23{display:block!important;position:absolute!important;left:0!important;top:0!important;width:210mm!important;background:#fff!important}
+ .print-page-v23{width:210mm!important;height:297mm!important;padding:10mm!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;break-after:page!important;page-break-after:always!important}
+ .print-page-v23:last-child{break-after:auto!important;page-break-after:auto!important}
+ .print-card-v23{width:190mm!important;height:277mm!important;box-sizing:border-box!important;padding:12mm!important;border:1px solid #aaa!important;border-radius:5mm!important;display:flex!important;flex-direction:column!important;background:#fff!important}
+ .print-head-v23{display:flex!important;align-items:center!important;gap:5mm!important}.print-emoji-v23{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif!important;font-size:18mm!important}.print-name-v23{font-size:8mm!important;font-weight:900!important}.print-id-v23{font-size:4mm!important;opacity:.55!important}
+ .print-marker-v23{position:relative!important;width:162mm!important;height:162mm!important;margin:8mm auto!important;border:1.2mm solid #111!important;border-radius:5mm!important;box-sizing:border-box!important;flex:none!important}
+ .pv-f{position:absolute!important;width:25mm!important;height:25mm!important;border:1.5mm solid #111!important;background:#fff!important;box-sizing:border-box!important}.pv-f:after{content:""!important;position:absolute!important;inset:28%!important;background:#111!important}.pv-f1{left:7%!important;top:7%!important}.pv-f2{right:7%!important;top:7%!important}.pv-f3{left:7%!important;bottom:7%!important}
+ .pv-a{left:40%!important;top:12%!important}.pv-b{right:12%!important;top:40%!important}.pv-c{left:40%!important;bottom:12%!important}.pv-d{left:12%!important;top:40%!important}
+ .pv-ans{position:absolute!important;width:32mm!important;height:32mm!important;border:1mm solid #111!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:12mm!important;font-weight:900!important;background:#fff!important}.pv-dot{position:absolute!important;left:47%!important;top:47%!important;width:8mm!important;height:8mm!important;background:#111!important;border-radius:50%!important}.print-footer-v23{margin-top:auto!important;text-align:center!important;font-size:4.5mm!important;font-weight:800!important}
 }
+
+.backbar-v23{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+@media print{.backbar-v23{display:none!important}}
 </style>
 <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script></head>
+</head>
 <body>
-<div class="cards-v19-actions">
-      <button type="button" class="cards-v19-refresh" id="cardsV19Refresh">🔄 Karten aktualisieren</button>
-      <button type="button" class="cards-v19-print" id="cardsV19Print">🖨️ Karten drucken</button>
-    </div>
-  </div>
-  <div id="cardsV19PrintRoot" class="cards-v19-grid"></div>
-</div>
-<div class="cards-actions-v17">
-    <button type="button" id="refreshCardsV17">🔄 Karten aktualisieren</button>
-    <button type="button" id="printCardsV17">🖨️ Karten drucken · 1/A4</button>
-  </div>
-</div>
 <div class="app">
 <aside class="side">
   <div class="brand">Antwort<span>!</span></div>
@@ -281,80 +91,14 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
   </div>
 </aside>
 <main class="main">
-  <div class="top"><h1 id="pageTitle">Neue Frage</h1><div class="pill" id="classCount">0 Schüler</div>
-<div class="page-navigation-v22" id="pageNavigationV22">
-  <button class="back-button-v22" id="backButtonV22" type="button">← Zurück</button>
-  <span id="pageLabelV22">Neue Frage</span>
-</div>
+<div class="backbar-v23">
+  <button type="button" id="backV23" class="btn secondary">← Zurück</button>
+  <span id="backLabelV23" class="muted">Quiz</span>
 </div>
 
-  
-<section class="question-modes" id="questionModes">
-  <div class="section-title">
-    <div>
-      <h2>Wie möchtest du Fragen erstellen?</h2>
-      <p>Wähle eine der drei Möglichkeiten.</p>
-    </div>
-  </div>
-  <div class="mode-grid">
-    <button class="mode-card" data-mode="manual">
-      <span class="mode-icon">📝</span>
-      <strong>Manuelle Eingabe</strong>
-      <span>Frage und 4 Antworten selbst eingeben</span>
-    </button>
-    <button class="mode-card" data-mode="photo">
-      <span class="mode-icon">📷</span>
-      <strong>Foto → Quiz</strong>
-      <span>Foto mit Fragen und markierten Lösungen übernehmen</span>
-    </button>
-    <button class="mode-card" data-mode="text">
-      <span class="mode-icon">📖</span>
-      <strong>Text → Quiz</strong>
-      <span>Text scannen oder einfügen und Fragen automatisch erzeugen</span>
-    </button>
-  </div>
-</section>
+  <div class="top"><h1 id="pageTitle">Neue Frage</h1><div class="pill" id="classCount">0 Schüler</div></div>
 
-<div class="question-mode-panel" id="photoModePanel">
-  <div class="panel-head">
-    <div><h3>📷 Foto → Quiz</h3><p>Fotografiere ein Arbeitsblatt oder lade ein Bild hoch. Markiere die richtige Antwort mit einem Strich.</p></div>
-    <button class="small-btn" data-close-mode>Schließen</button>
-  </div>
-  <label class="upload-box">
-    <span>📸 Foto aufnehmen / Bild auswählen</span>
-    <input id="questionPhoto" type="file" accept="image/*" capture="environment">
-  </label>
-  <div id="photoPreview" class="import-preview">Noch kein Foto ausgewählt.</div>
-  <div class="import-note">Format-Beispiel: „B) Paris —“ bedeutet: B ist richtig. Die Erkennung wird anschließend zur Kontrolle angezeigt.</div>
-  <button class="primary-btn" id="analyzePhotoBtn" disabled>🔎 Foto lesen & Fragen erkennen</button>
-<div id="ocrProgress" class="import-note"></div>
-</div>
-
-<div class="question-mode-panel" id="textModePanel">
-  <div class="panel-head">
-    <div><h3>📖 Text → Quiz</h3><p>Füge einen Text ein oder scanne ihn mit dem iPhone. Die App erstellt daraus Multiple-Choice-Fragen.</p></div>
-    <button class="small-btn" data-close-mode>Schließen</button>
-  </div>
-  <textarea id="sourceText" rows="8" placeholder="Text hier einfügen oder über „Text scannen“ erfassen …"></textarea>
-  <div class="text-tools">
-    <label class="small-btn file-btn">📷 Textbild auswählen
-      <input id="textPhoto" type="file" accept="image/*" capture="environment">
-    </label>
-    <select id="difficulty">
-      <option value="easy">Leicht</option>
-      <option value="medium" selected>Mittel</option>
-      <option value="hard">Schwer</option>
-    </select>
-    <select id="questionCount">
-      <option value="5">5 Fragen</option><option value="10" selected>10 Fragen</option><option value="15">15 Fragen</option>
-    </select>
-  </div>
-  <div id="textScanStatus" class="import-note">Tipp: Text kann direkt eingefügt oder als Foto aufgenommen werden.</div>
-  <button class="primary-btn" id="ocrTextBtn">📷 Textfoto lesen</button>
-  <button class="primary-btn" id="generateFromTextBtn">✨ Fragen automatisch erstellen</button>
-</div>
-
-<section id="page-quiz">
+  <section id="page-quiz">
     <div class="grid">
       <div class="card">
         <h2>Frage</h2>
@@ -414,7 +158,8 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
       </div>
     </div>
   </section>
-<section id="page-students" class="hidden">
+
+  <section id="page-students" class="hidden">
     <div class="card">
       <div class="toolbar" style="margin-top:0">
         <input id="studentName" placeholder="Name des Schülers" style="flex:1;min-width:220px;padding:13px;border:1px solid var(--line);border-radius:13px">
@@ -431,7 +176,7 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
     <p class="muted">Die Karte zeigt nur ein neutrales Muster. Die Antwort ist nicht als A/B/C/D sichtbar. Nur der Scanner erkennt die Orientierung.</p>
     <div class="toolbar">
       <button class="btn primary" id="generateCards">Karten aktualisieren</button>
-      <button class="btn secondary" id="printCards">🖨️ Karten drucken · 1/A4</button>
+      <button class="btn secondary" id="printCards">🖨️ Karten drucken</button>
     </div>
     <p class="muted" style="margin-top:12px">Tipp: Auf dickerem Papier drucken und ausschneiden. Die vier kleinen Orientierungspunkte bleiben sichtbar für die Kamera.</p>
   </div>
@@ -482,37 +227,27 @@ function uid(){return 'S'+Math.random().toString(36).slice(2,8).toUpperCase()}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 
 const STUDENT_EMOJIS=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶','🐢'];
-
 function ensureStudents(){
   const old=Array.isArray(state.students)?state.students:[];
   const byId=Object.fromEntries(old.map(s=>[s.id,s]));
-  const next=STUDENT_EMOJIS.map((emoji,i)=>{
+  state.students=STUDENT_EMOJIS.map((emoji,i)=>{
     const id='E'+String(i+1).padStart(2,'0');
     const oldStudent=byId[id]||{};
     return {
-      id,
-      emoji,
-      name:(oldStudent.name||'').trim() || 'Spieler '+String(i+1).padStart(2,'0'),
-      results:Array.isArray(oldStudent.results)?oldStudent.results:[]
+      id:id,
+      emoji:emoji,
+      name:(oldStudent.name||'').trim() || 'Spieler '+String(i+1).padStart(2,'0')
     };
   });
-  const changed=JSON.stringify(old)!==JSON.stringify(next);
-  if(changed){
-    state.students=next;
-    localStorage.setItem(KEY,JSON.stringify(state));
-  }
-  return state.students;
 }
 function renderStudentChooser(){
   ensureStudents();
-  const el=$('#studentEmojiGrid');
-  if(!el)return;
-  el.innerHTML=state.students.map(s=>
+  $('#studentEmojiGrid').innerHTML=state.students.map(s=>
     `<button class="emoji-tile" onclick="selectStudent('${s.id}')">
-      <span class="chooser-emoji">${s.emoji}</span><b>${escapeHtml(s.name)}</b>
+      <span class="chooser-emoji">${s.emoji}</span>
+      <b>${escapeHtml(s.name)}</b>
     </button>`).join('');
 }
-
 let selectedStudentId=null;
 function selectStudent(id){
   selectedStudentId=id;
@@ -540,8 +275,11 @@ function renderAll(){
   $('#sCount').textContent=state.students.length;
   $('#classCount').textContent=state.students.length+' Schüler';
   $('#qCount').textContent=state.questions.length;
-  renderStudents(); renderCards(); renderHistory(); renderStudentChooser();
-  if(typeof renderResults==='function') renderResults();
+  renderStudents();
+  renderCards();
+  renderHistory();
+  renderStudentChooser();
+  renderResults();
 }
 function go(page){
  $$('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
@@ -575,74 +313,63 @@ $('#startScan').onclick=()=>{
  state.current=q; state.results={}; $('#liveQuestion').textContent=q.text; renderResults(); go('scan'); startCamera();
 };
 function renderStudents(){
-  const box=document.getElementById('studentList');
-  if(!box)return;
   ensureStudents();
-  box.innerHTML=state.students.map((s,i)=>`
-    <div class="student-row">
-      <div class="avatar student-avatar">${s.emoji}</div>
-      <div class="student-id">${String(i+1).padStart(2,'0')}</div>
-      <input class="student-name-input" value="${escapeHtml(s.name)}" placeholder="Name eingeben" data-student-id="${s.id}">
-      <button class="small-btn" data-save="${s.id}">Speichern</button>
+  const el=$('#studentList');
+  el.innerHTML=state.students.map((s,i)=>`
+    <div class="student-edit-row">
+      <div class="student-edit-emoji">${s.emoji}</div>
+      <div class="student-edit-number">${String(i+1).padStart(2,'0')}</div>
+      <input class="student-edit-name" data-id="${s.id}" value="${escapeHtml(s.name)}" placeholder="Name eingeben">
+      <button class="btn secondary student-save-btn" data-save="${s.id}">Speichern</button>
     </div>`).join('');
-  box.querySelectorAll('.student-name-input').forEach(input=>{
-    input.addEventListener('change',()=>saveStudentName(input));
-  });
-  box.querySelectorAll('[data-save]').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const input=box.querySelector(`[data-student-id="${btn.dataset.save}"]`);
-      if(input)saveStudentName(input);
-    });
+  el.querySelectorAll('[data-save]').forEach(btn=>{
+    btn.onclick=()=>{
+      const input=el.querySelector(`[data-id="${btn.dataset.save}"]`);
+      const s=state.students.find(x=>x.id===btn.dataset.save);
+      if(!s||!input)return;
+      s.name=input.value.trim() || 'Spieler '+String(state.students.indexOf(s)+1).padStart(2,'0');
+      save();
+    };
   });
 }
-function saveStudentName(input){
-  const s=state.students.find(x=>x.id===input.dataset.studentId);
-  if(!s)return;
-  s.name=input.value.trim() || 'Spieler '+String(state.students.indexOf(s)+1).padStart(2,'0');
-  localStorage.setItem(KEY,JSON.stringify(state));
-  renderStudents(); renderCards(); renderStudentChooser(); renderResults();
-}
-
 function removeStudent(id){if(confirm('Schüler wirklich löschen?')){state.students=state.students.filter(s=>s.id!==id);save()}}
-$('#addStudent').onclick=()=>{
-      const n=$('#studentName').value.trim(); if(!n)return;
+
       ensureStudents();
       const free=state.students.findIndex(s=>/^Spieler \d+$/.test(s.name));
       if(free<0){alert('Alle 22 Emoji-Spieler sind bereits vergeben.');return;}
       state.students[free].name=n;
       $('#studentName').value=''; save();
     };
-$('#importDemo').onclick=()=>{['Anna','Ben','Clara','David','Emil','Fatima','Greta','Hugo'].forEach(n=>state.students.push({id:uid(),name:n}));save()};
 function renderCards(){
-  const box=document.getElementById('cardsList');
-  if(!box)return;
   ensureStudents();
-  box.innerHTML='';
-  state.students.forEach((s,i)=>{
-    const card=document.createElement('div');
-    card.className='qr-card';
-    card.dataset.student=s.id;
-    card.innerHTML=`
-      <div class="card-student" style="display:flex;align-items:center;gap:10px">
-        <span style="font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-size:32px">${s.emoji}</span>
-        <div><div class="name">${escapeHtml(s.name)}</div><div class="muted" style="font-size:12px">Schüler ${String(i+1).padStart(2,'0')} · ${s.id}</div></div>
+  const el=$('#cardsList');
+  if(!el)return;
+  el.innerHTML='';
+  if(typeof QRCode==='undefined'){
+    el.innerHTML='<div class="card empty">⚠️ Kartenbibliothek fehlt. Bitte Internetverbindung prüfen.</div>';
+    return;
+  }
+  state.students.forEach((s,idx)=>{
+    const d=document.createElement('div');
+    d.className='qr-card privacy-print-card';
+    d.dataset.student=s.id;
+    d.innerHTML=`
+      <div class="name"><span class="card-emoji-v23">${s.emoji}</span> <span>${escapeHtml(s.name)}</span></div>
+      <div class="muted card-id-v23">Schüler ${String(idx+1).padStart(2,'0')} · ${s.id}</div>
+      <div class="marker-card" data-card="${s.id}">
+        <div class="finder ftl"></div><div class="finder ftr"></div><div class="finder fbr"></div><div class="finder fbl"></div>
+        <div class="answer-marker m0"></div><div class="answer-marker m1"></div><div class="answer-marker m2"></div><div class="answer-marker m3"></div>
+        <div class="center-dot"></div>
+        <div class="micro" id="qr-${s.id}"></div>
       </div>
-      <div class="marker-card" data-student="${s.id}">
-        <div class="finder f1"></div><div class="finder f2"></div><div class="finder f3"></div>
-        <div class="answer-marker am1">A</div><div class="answer-marker am2">B</div>
-        <div class="answer-marker am3">C</div><div class="answer-marker am4">D</div>
-        <div class="center-dot"></div><div class="micro" id="qr-v22-${s.id}"></div>
-      </div>
-      <div class="help">${s.emoji} ${escapeHtml(s.name)} · Antwortkarte</div>`;
-    box.appendChild(card);
-    const qr=card.querySelector('#qr-v22-'+s.id);
-    if(window.QRCode&&qr){
-      try{new QRCode(qr,{text:s.id,width:96,height:96,correctLevel:QRCode.CorrectLevel.M});}catch(e){}
-    }
+      <div class="help">${s.emoji} ${escapeHtml(s.name)} · persönliche Antwortkarte</div>`;
+    el.appendChild(d);
+    new QRCode(d.querySelector('.micro'),{
+      text:s.id,width:90,height:90,correctLevel:QRCode.CorrectLevel.H
+    });
   });
 }
-$('#generateCards').onclick=()=>{renderCards(); buildPrintCardsV22();};
-$('#printCards').onclick=()=>{renderCards(); buildPrintCardsV22(); setTimeout(()=>window.print(),150);};
+$('#generateCards').onclick=()=>{renderCards();buildPrintV23();}; $('#printCards').onclick=()=>{renderCards();buildPrintV23();setTimeout(()=>window.print(),150);};
 
 let stream=null, scanning=false, lastSeen={}, privacyMode=true;
 $('#markerHelp').onclick=()=>showMarkerHelp();
@@ -791,17 +518,21 @@ function recordAnswer(student,ans){
  renderResults(); updateStudentView();
 }
 function renderResults(){
+  ensureStudents();
   const vals=Object.values(state.results), correct=vals.filter(x=>x.correct).length;
-  $('#answered').textContent=vals.length; $('#correctLive').textContent=correct;
+  $('#answered').textContent=vals.length;
+  $('#correctLive').textContent=correct;
   $('#percentLive').textContent=vals.length?Math.round(correct/vals.length*100)+'%':'0%';
   $('#rightCount').textContent=vals.length?Math.round(correct/vals.length*100)+'%':'–';
-  const byName=id=>{
-    const s=state.students.find(x=>x.id===id);
-    return s ? `<span class="result-avatar">${s.emoji}</span><span>${escapeHtml(s.name)}</span>` : `<span class="result-avatar">👤</span><span>${escapeHtml(id||'Unbekannt')}</span>`;
-  };
-  $('#resultList').innerHTML=vals.length?vals.map(x=>`<div class="result">${byName(x.studentId||x.id||x.student)}<b class="${x.correct?'ok':'no'}">${answerLetter(x.answer)} · ${x.correct?'Richtig':'Falsch'}</b></div>`).join(''):'<div class="empty">Noch keine Karten erkannt.</div>';
+  $('#resultList').innerHTML=vals.length?vals.map(x=>{
+    const s=state.students.find(st=>st.id===x.studentId);
+    const emoji=s?s.emoji:'👤', name=s?s.name:(x.student||x.studentId||'Unbekannt');
+    return `<div class="result">
+      <span class="result-person"><span class="result-emoji">${emoji}</span>${escapeHtml(name)}</span>
+      <b class="${x.correct?'ok':'no'}">${answerLetter(x.answer)} · ${x.correct?'Richtig':'Falsch'}</b>
+    </div>`;
+  }).join(''):'<div class="empty">Noch keine Karten erkannt.</div>';
 }
-
 $('#demoBtn').onclick=()=>{
  if(!state.current||!state.students.length)return alert('Starte zuerst eine Frage und lege Schüler an.');
  state.students.forEach((s,i)=>recordAnswer(s,i%4));
@@ -836,602 +567,19 @@ function showMarkerHelp(){
 function closeModal(){$('#modal').classList.add('hidden')}
 ensureStudents(); ensureStudents(); renderAll(); setQuestion({text:'',answers:['','','',''],correct:-1});
 </script>
-
+<div id="printCanvasV23" aria-hidden="true"></div>
 <script>
-(function(){
-  const qs=s=>document.querySelector(s);
-  const qsa=s=>document.querySelectorAll(s);
-
-  function openMode(mode){
-    qsa('.question-mode-panel').forEach(x=>x.classList.remove('active'));
-    if(mode==='photo') qs('#photoModePanel')?.classList.add('active');
-    if(mode==='text') qs('#textModePanel')?.classList.add('active');
-  }
-  qsa('.mode-card').forEach(b=>b.addEventListener('click',()=>openMode(b.dataset.mode)));
-  qsa('[data-close-mode]').forEach(b=>b.addEventListener('click',()=>{
-    qsa('.question-mode-panel').forEach(x=>x.classList.remove('active'));
-  }));
-
-  const photo=qs('#questionPhoto'), analyze=qs('#analyzePhotoBtn'), preview=qs('#photoPreview');
-  photo?.addEventListener('change',()=>{
-    const f=photo.files?.[0]; if(!f)return;
-    preview.textContent=`📷 ${f.name} ausgewählt.`;
-    analyze.disabled=false;
-  });
-  analyze?.addEventListener('click',()=>{
-    preview.innerHTML='<div class="auto-review"><strong>Foto vorbereitet.</strong><br>Die Frage-/Antwort-Erkennung ist als Import-Schritt eingerichtet. Erkannte Fragen werden vor dem Übernehmen angezeigt und können korrigiert werden.</div>';
-  });
-
-  const text=qs('#sourceText'), textPhoto=qs('#textPhoto'), status=qs('#textScanStatus');
-  textPhoto?.addEventListener('change',()=>{
-    const f=textPhoto.files?.[0]; if(!f)return;
-    status.textContent=`📷 ${f.name} ausgewählt. Für echte Texterkennung kann die Datei anschließend analysiert werden.`;
-  });
-  qs('#generateFromTextBtn')?.addEventListener('click',()=>{
-    const raw=(text?.value||'').trim(), count=Number(qs('#questionCount')?.value||10), diff=qs('#difficulty')?.value||'medium';
-    if(!raw){
-      status.textContent='Bitte zuerst einen Text einfügen oder ein Textfoto auswählen.';
-      text?.focus(); return;
-    }
-    // Generate safe draft questions locally from sentences; no fake AI claims.
-    const sentences=raw.split(/(?<=[.!?])\s+/).map(x=>x.trim()).filter(x=>x.length>45).slice(0,count);
-    const drafts=sentences.length ? sentences : [raw.slice(0,260)];
-    const box=document.createElement('div'); box.className='auto-review';
-    box.innerHTML=`<strong>✨ Entwurf erstellt (${Math.min(drafts.length,count)} Fragen · ${diff==='easy'?'leicht':diff==='hard'?'schwer':'mittel'})</strong>
-      <p>Bitte die automatisch erzeugten Fragen prüfen und die richtige Antwort festlegen, bevor sie ins Quiz übernommen werden.</p>`;
-    drafts.forEach((s,i)=>{
-      const item=document.createElement('div');
-      item.style='padding:10px 0;border-top:1px solid #e5e7eb';
-      item.innerHTML=`<strong>${i+1}. ${s.replace(/[<>]/g,'')}</strong><br>
-      <label>Richtige Antwort:
-        <select><option>A</option><option>B</option><option selected>C</option><option>D</option></select>
-      </label>`;
-      box.appendChild(item);
-    });
-    qs('#textModePanel')?.appendChild(box);
-  });
-})();
-</script>
-
-<script>
-(function(){
-  const $=s=>document.querySelector(s);
-  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const setStatus=(el,t)=>{if(el)el.textContent=t};
-
-  async function ocrFile(file, statusEl){
-    if(!file) throw new Error('Keine Datei ausgewählt.');
-    if(!window.Tesseract) throw new Error('OCR-Bibliothek konnte nicht geladen werden. Bitte Internetverbindung prüfen.');
-    setStatus(statusEl,'🔄 Bild wird gelesen …');
-    const result=await Tesseract.recognize(file,'deu+eng',{
-      logger:m=>{
-        if(m.status==='recognizing text' && typeof m.progress==='number')
-          setStatus(statusEl,`🔄 Texterkennung: ${Math.round(m.progress*100)} %`);
-      }
-    });
-    setStatus(statusEl,'✅ Text erkannt.');
-    return result.data.text||'';
-  }
-
-  // Parse worksheet-style questions. A line ending in a marker such as *, ✓, ✔,
-  // or containing a trailing dash is treated as the correct answer.
-  function parseMarkedQuestions(text){
-    const lines=text.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
-    const out=[]; let q=null;
-    const answerRe=/^([A-Da-d])[\)\.\:\-]\s*(.+)$/;
-    for(const line of lines){
-      const am=line.match(answerRe);
-      if(am){
-        if(!q) continue;
-        let val=am[2].trim(), correct=false;
-        if(/(?:\s*[-–—]\s*$)|(?:\s*[✓✔☑]\s*$)|(?:\s*\*+\s*$)/.test(val)){
-          correct=true; val=val.replace(/\s*[-–—✓✔☑*]+\s*$/,'').trim();
-        }
-        q.answers.push({letter:am[1].toUpperCase(),text:val,correct});
-        if(q.answers.length===4){
-          const idx=q.answers.findIndex(a=>a.correct);
-          if(idx>=0){q.correct=q.answers[idx].letter;out.push(q);}
-          q=null;
-        }
-      }else if(!q || q.answers.length===0){
-        if(q && q.question) { /* keep current question */ }
-        q={question:line,answers:[],correct:null};
-      }else if(q.answers.length<4){
-        q.question += ' '+line;
-      }
-    }
-    return out;
-  }
-
-  function renderImportReview(items, target){
-    target.innerHTML='';
-    if(!items.length){
-      target.innerHTML='<div class="auto-review"><strong>Keine vollständigen 4-Antwort-Fragen erkannt.</strong><br>Für Foto-Import bitte A–D verwenden und die richtige Antwort mit „—“, ✓ oder * markieren.</div>';
-      return;
-    }
-    const box=document.createElement('div'); box.className='auto-review';
-    box.innerHTML=`<strong>✅ ${items.length} Frage(n) erkannt</strong><p>Bitte kontrollieren. Die markierte Lösung wird als richtig übernommen.</p>`;
-    items.forEach((q,i)=>{
-      const d=document.createElement('div'); d.style='padding:12px 0;border-top:1px solid #e5e7eb';
-      d.innerHTML=`<strong>${i+1}. ${esc(q.question)}</strong><br>`+
-        q.answers.map(a=>`<label style="display:block;margin:5px 0"><input type="radio" name="imp${i}" value="${a.letter}" ${a.letter===q.correct?'checked':''}> ${a.letter}) ${esc(a.text)}</label>`).join('');
-      box.appendChild(d);
-    });
-    target.appendChild(box);
-  }
-
-  function draftQuestions(text,count){
-    const sentences=text.replace(/\s+/g,' ').split(/(?<=[.!?])\s+/).filter(s=>s.length>55);
-    const result=[];
-    for(let i=0;i<Math.min(count,sentences.length);i++){
-      const s=sentences[i];
-      const words=s.replace(/[.,;:!?()]/g,'').split(/\s+/).filter(w=>w.length>5);
-      const key=words[Math.floor(words.length/2)]||words[0]||'Begriff';
-      const stem=s.length>170?s.slice(0,167)+'…':s;
-      result.push({
-        question:`Welche Aussage passt zum folgenden Textabschnitt?`,
-        answers:[stem,`Eine gegenteilige Aussage zu diesem Text`, `Eine Aussage, die im Text nicht vorkommt`, `Keine der genannten Aussagen`],
-        correct:'A',
-        source:s,
-        key
-      });
-    }
-    if(!result.length && text.trim()){
-      const s=text.trim().slice(0,220);
-      result.push({question:'Welche Aussage wird im Text genannt?',answers:[s,'Eine andere Aussage','Eine nicht genannte Aussage','Keine der genannten Aussagen'],correct:'A',source:text});
-    }
-    return result;
-  }
-
-  // Photo OCR + marked-answer parsing
-  const photo=$('#questionPhoto'), analyze=$('#analyzePhotoBtn'), preview=$('#photoPreview'), prog=$('#ocrProgress');
-  photo?.addEventListener('change',()=>{analyze.disabled=!photo.files?.[0]; if(photo.files?.[0]) preview.textContent='📷 '+photo.files[0].name;});
-  analyze?.addEventListener('click',async()=>{
-    try{
-      const text=await ocrFile(photo.files[0],prog);
-      preview.innerHTML='<div class="auto-review"><strong>Erkannter Text:</strong><pre style="white-space:pre-wrap">'+esc(text)+'</pre></div>';
-      const items=parseMarkedQuestions(text);
-      renderImportReview(items,preview);
-    }catch(e){preview.textContent='❌ '+e.message;}
-  });
-
-  // Text-photo OCR
-  $('#ocrTextBtn')?.addEventListener('click',async()=>{
-    const f=$('#textPhoto')?.files?.[0], status=$('#textScanStatus'), ta=$('#sourceText');
-    try{
-      const text=await ocrFile(f,status);
-      ta.value=text;
-      status.textContent='✅ Text wurde erkannt und ins Textfeld übernommen. Jetzt „Fragen automatisch erstellen“ drücken.';
-    }catch(e){status.textContent='❌ '+e.message;}
-  });
-
-  // Auto question generation from extracted text, entirely client-side.
-  $('#generateFromTextBtn')?.addEventListener('click',()=>{
-    const raw=($('#sourceText')?.value||'').trim(), count=Number($('#questionCount')?.value||10);
-    const target=$('#textModePanel');
-    if(!raw){$('#textScanStatus').textContent='Bitte zuerst Text einfügen oder ein Textfoto lesen.';return;}
-    const items=draftQuestions(raw,count);
-    const old=target.querySelector('.auto-review'); if(old) old.remove();
-    renderImportReview(items,target);
-  });
-})();
-</script>
-
-<script>
-(function(){
-  function emojiFor(id){
-    const s=(window.students||[]).find(x=>x.id===id);
-    return s?s.emoji:'👤';
-  }
-  function nameFor(id){
-    const s=(window.students||[]).find(x=>x.id===id);
-    return s?s.name:id;
-  }
-  window.renderStudentResultsWithEmoji=function(container, rows){
-    if(!container) return;
-    container.innerHTML='';
-    (rows||[]).forEach((r,i)=>{
-      const id=r.id||r.studentId;
-      const el=document.createElement('div');
-      el.className='result-student-row';
-      el.innerHTML=`<span class="result-avatar">${emojiFor(id)}</span><span><strong>${nameFor(id)}</strong></span>`;
-      container.appendChild(el);
-    });
-  };
-})();
-</script>
-
-<script>
-window.addEventListener('DOMContentLoaded',()=>{
-  try{
-    if(typeof ensureStudents==='function') ensureStudents();
-    if(typeof renderAll==='function') renderAll();
-    if(typeof renderStudents==='function') renderStudents();
-  }catch(e){console.error(e);}
-});
-</script>
-
-<script>
-(function(){
-  const labels={
-    quiz:'Quiz',
-    scanner:'Live-Scanner',
-    students:'Schüler',
-    cards:'Karten',
-    results:'Ergebnisse',
-    student:'Schüleransicht'
-  };
-  const pageHistory=[];
-  let currentPage=null;
-  let navigatingBack=false;
-
-  function getPage(){
-    const active=document.querySelector('[id^="page-"].active');
-    if(active) return active.id.replace(/^page-/,'');
-    const visible=[...document.querySelectorAll('[id^="page-"]')].find(x=>{
-      const s=getComputedStyle(x); return s.display!=='none' && s.visibility!=='hidden';
-    });
-    return visible ? visible.id.replace(/^page-/,'') : 'quiz';
-  }
-  function updateBack(){
-    const b=document.getElementById('backButton');
-    const l=document.getElementById('pageLabel');
-    const p=getPage();
-    if(l) l.textContent=labels[p]||p;
-    if(b) b.style.visibility=pageHistory.length?'visible':'hidden';
-  }
-  function recordPage(p){
-    if(!p || p===currentPage) return;
-    if(currentPage && !navigatingBack) pageHistory.push(currentPage);
-    currentPage=p;
-    updateBack();
-  }
-
-  // Capture clicks on existing navigation links/buttons.
-  document.addEventListener('click',e=>{
-    const el=e.target.closest('[data-page], [data-nav], .nav-item, nav button, nav a');
-    if(!el) return;
-    setTimeout(()=>recordPage(getPage()),30);
-  });
-
-  document.getElementById('backButton')?.addEventListener('click',()=>{
-    if(!pageHistory.length) return;
-    const target=pageHistory.pop();
-    navigatingBack=true;
-    try{
-      const candidates=[
-        `[data-page="${target}"]`,
-        `[data-nav="${target}"]`,
-        `#nav-${target}`,
-        `.nav-item[data-target="${target}"]`
-      ];
-      const btn=candidates.map(s=>document.querySelector(s)).find(Boolean);
-      if(btn) btn.click();
-      else if(typeof window.showPage==='function') window.showPage(target);
-      else {
-        const page=document.getElementById('page-'+target);
-        if(page){
-          document.querySelectorAll('[id^="page-"]').forEach(x=>x.classList.remove('active'));
-          page.classList.add('active');
-        }
-      }
-    }finally{
-      setTimeout(()=>{
-        navigatingBack=false;
-        currentPage=getPage();
-        updateBack();
-      },80);
-    }
-  });
-
-  // Browser back also stays inside the app where possible.
-  window.addEventListener('popstate',()=>{
-    if(pageHistory.length){
-      document.getElementById('backButton')?.click();
-    }
-  });
-
-  window.addEventListener('DOMContentLoaded',()=>{
-    currentPage=getPage();
-    updateBack();
-  });
-})();
-</script>
-
-<script>
-window.addEventListener('load',()=>{
-  try{
-    ensureStudents();
-    renderAll();
-  }catch(e){console.error('Student initialization:',e);}
-});
-</script>
-
-<script>
-window.addEventListener('load',()=>{
-  try{
-    document.querySelectorAll('.demo,.demo-mode,[data-demo],#demoBtn,#loadDemoBtn').forEach(e=>e.remove());
-    [...document.querySelectorAll('button')].forEach(b=>{
-      if(/demo/i.test(b.textContent||'')) b.remove();
-    });
-    if(typeof ensureStudents==='function') ensureStudents();
-    if(typeof renderAll==='function') renderAll();
-  }catch(e){ console.error(e); }
-});
-</script>
-
-<script>
-(function(){
-  window.syncStudentNameEverywhere=function(id,name){
-    if(!window.state || !Array.isArray(state.students)) return;
-    const s=state.students.find(x=>x.id===id);
-    if(!s)return;
-    s.name=(name||'').trim() || 'Spieler '+String(state.students.indexOf(s)+1).padStart(2,'0');
-    localStorage.setItem(KEY,JSON.stringify(state));
-    if(typeof renderCards==='function') renderCards();
-    if(typeof renderStudents==='function') renderStudents();
-    if(typeof renderStudentChooser==='function') renderStudentChooser();
-    if(typeof renderResults==='function') renderResults();
-  };
-})();
-</script>
-
-<script>
-window.addEventListener('DOMContentLoaded',()=>{
-  document.addEventListener('change',e=>{
-    const input=e.target.closest('.student-name-input');
-    if(!input || typeof syncStudentNameEverywhere!=='function') return;
-    syncStudentNameEverywhere(input.dataset.studentId,input.value);
-  });
-});
-</script>
-
-<script>
-(function(){
-  const KEY='antwort-v16-students';
-  const EMOJIS=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶','🐢'];
-
-  function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-  function load(){
-    let old=[];
-    try{old=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){}
-    if(!Array.isArray(old))old=[];
-    const oldById=Object.fromEntries(old.map(x=>[x.id,x]));
-    return EMOJIS.map((emoji,i)=>{
-      const id='E'+String(i+1).padStart(2,'0'), x=oldById[id]||{};
-      return {id,emoji,name:(x.name||'').trim()||'Spieler '+String(i+1).padStart(2,'0')};
-    });
-  }
-  let students=load();
-  function save(){localStorage.setItem(KEY,JSON.stringify(students));}
-
-  window.ANTWORT_STUDENTS_V16={
-    get(){return students.slice()},
-    save(){save(); renderAll()},
-    find(id){return students.find(s=>s.id===id)},
-    setName(id,name){
-      const s=students.find(x=>x.id===id); if(!s)return;
-      s.name=(name||'').trim()||('Spieler '+(students.indexOf(s)+1));
-      save(); renderAll();
-    }
-  };
-
-  function renderManager(){
-    const grid=document.getElementById('studentGridV16'); if(!grid)return;
-    grid.innerHTML=students.map((s,i)=>`
-      <div class="student-edit">
-        <span class="student-edit-emoji">${s.emoji}</span>
-        <span class="student-edit-id">${String(i+1).padStart(2,'0')}</span>
-        <input value="${esc(s.name)}" data-v16-name="${s.id}" aria-label="Name ${s.id}">
-        <button type="button" data-v16-save="${s.id}">Speichern</button>
-      </div>`).join('');
-    grid.querySelectorAll('[data-v16-save]').forEach(b=>b.onclick=()=>{
-      const id=b.dataset.v16Save, inp=grid.querySelector(`[data-v16-name="${id}"]`);
-      window.ANTWORT_STUDENTS_V16.setName(id,inp.value);
-    });
-  }
-
-  function renderCardsSync(){
-    // Update existing card labels by student ID.
-    students.forEach(s=>{
-      document.querySelectorAll(`[data-student="${s.id}"]`).forEach(card=>{
-        const name=card.querySelector('.card-name,.card-student-name');
-        const em=card.querySelector('.card-emoji,.card-student-emoji');
-        if(name)name.textContent=s.name;
-        if(em)em.textContent=s.emoji;
-      });
-      document.querySelectorAll(`[data-card-student="${s.id}"]`).forEach(card=>{
-        const name=card.querySelector('.card-name,.card-student-name');
-        const em=card.querySelector('.card-emoji,.card-student-emoji');
-        if(name)name.textContent=s.name;
-        if(em)em.textContent=s.emoji;
-      });
-    });
-  }
-
-  function renderChooserSync(){
-    document.querySelectorAll('[data-v16-chooser]').forEach(x=>x.remove());
-    const host=document.querySelector('#studentEmojiGrid');
-    if(!host)return;
-    host.innerHTML=students.map(s=>`
-      <button class="emoji-tile" type="button" data-v16-choose="${s.id}">
-        <span class="chooser-emoji">${s.emoji}</span><b>${esc(s.name)}</b>
-      </button>`).join('');
-    host.querySelectorAll('[data-v16-choose]').forEach(b=>b.onclick=()=>{
-      const id=b.dataset.v16Choose;
-      if(typeof window.selectStudent==='function') window.selectStudent(id);
-    });
-  }
-
-  function renderAll(){
-    renderManager();
-    renderCardsSync();
-    renderChooserSync();
-    // Also expose canonical names to legacy app state if it exists.
-    if(window.state && Array.isArray(window.state.students)){
-      window.state.students=students.map(s=>{
-        const old=window.state.students.find(x=>x.id===s.id)||{};
-        return {...old,...s};
-      });
-      try{localStorage.setItem(window.KEY||'antwort-plus',JSON.stringify(window.state))}catch(e){}
-    }
-  }
-
-  document.getElementById('saveAllStudentsV16')?.addEventListener('click',()=>{
-    const grid=document.getElementById('studentGridV16');
-    grid?.querySelectorAll('[data-v16-name]').forEach(inp=>{
-      const s=students.find(x=>x.id===inp.dataset.v16Name);
-      if(s)s.name=inp.value.trim()||('Spieler '+(students.indexOf(s)+1));
-    });
-    save(); renderAll();
-  });
-
-  window.addEventListener('load',()=>{
-    // Always recreate the complete 22-student list.
-    students=load(); save(); renderAll();
-    setTimeout(renderAll,500);
-  });
-})();
-</script>
-
-<script>
-(function(){
-  function getStudents(){
-    if(window.ANTWORT_STUDENTS_V16?.get) return window.ANTWORT_STUDENTS_V16.get();
-    if(window.state?.students) return window.state.students;
-    return [];
-  }
-  function escapeV17(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-
-  function rebuildCards(){
-    const grid=document.getElementById('cardsGrid');
-    if(!grid)return;
-    const students=getStudents();
-    grid.innerHTML='';
-    students.slice(0,22).forEach((s,i)=>{
-      const card=document.createElement('article');
-      card.className='answer-card';
-      card.dataset.cardStudent=s.id;
-      card.innerHTML=`
-        <div class="card-top">
-          <div class="card-student">
-            <span class="card-emoji">${s.emoji}</span>
-            <div>
-              <div class="card-name">${escapeV17(s.name)}</div>
-              <div class="card-id">Schüler ${String(i+1).padStart(2,'0')} · ${s.id}</div>
-            </div>
-          </div>
-        </div>
-        <div class="marker-card" data-student="${s.id}">
-          <div class="finder f1"></div><div class="finder f2"></div><div class="finder f3"></div>
-          <div class="answer-marker am1">A</div><div class="answer-marker am2">B</div>
-          <div class="answer-marker am3">C</div><div class="answer-marker am4">D</div>
-          <div class="center-dot"></div>
-          <div class="micro" id="qr-v17-${s.id}"></div>
-        </div>
-        <div class="card-footer">${s.emoji} ${escapeV17(s.name)} · Antwortkarte</div>`;
-      grid.appendChild(card);
-      const qr=card.querySelector('#qr-v17-'+s.id);
-      if(window.QRCode && qr){
-        try{new QRCode(qr,{text:s.id,width:110,height:110,correctLevel:QRCode.CorrectLevel.M});}
-        catch(e){console.error(e);}
-      }
-    });
-    const count=document.getElementById('cardsCountV17');
-    if(count)count.textContent=students.length+' Karten';
-  }
-
-  document.addEventListener('DOMContentLoaded',()=>{
-    document.getElementById('refreshCardsV17')?.addEventListener('click',()=>{
-      if(window.ANTWORT_STUDENTS_V16?.save) window.ANTWORT_STUDENTS_V16.save();
-      rebuildCards();
-      alert('✅ Die 22 Karten wurden aktualisiert.');
-    });
-    document.getElementById('printCardsV17')?.addEventListener('click',()=>{
-      rebuildCards();
-      setTimeout(()=>window.print(),100);
-    });
-  });
-  window.addEventListener('load',()=>setTimeout(rebuildCards,300));
-  window.rebuildCardsV17=rebuildCards;
-})();
-</script>
-
-<script>
-(function(){
-  const E=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶','🐢'];
-  const K='antwort-v16-students';
-  function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-  function students(){
-    let a=[];
-    try{a=JSON.parse(localStorage.getItem(K)||'[]')}catch(e){}
-    if(!Array.isArray(a))a=[];
-    const by=Object.fromEntries(a.map(x=>[x.id,x]));
-    return E.map((emoji,i)=>{const id='E'+String(i+1).padStart(2,'0'),x=by[id]||{};return{id,emoji,name:(x.name||'').trim()||'Spieler '+String(i+1).padStart(2,'0')}})
-  }
-  function render(){
-    const root=document.getElementById('cardsV19PrintRoot');
-    const status=document.getElementById('cardsV19Status');
-    if(!root)return;
-    const ss=students();
-    root.innerHTML='';
-    ss.forEach((s,i)=>{
-      const el=document.createElement('article');
-      el.className='card-v19';
-      el.innerHTML=`<div class="card-v19-head">
-        <span class="card-v19-emoji">${s.emoji}</span>
-        <div><div class="card-v19-name">${esc(s.name)}</div><div class="card-v19-id">Schüler ${String(i+1).padStart(2,'0')} · ${s.id}</div></div>
-      </div>
-      <div class="card-v19-marker" data-student="${s.id}">
-        <div class="card-v19-finder card-v19-f1"></div><div class="card-v19-finder card-v19-f2"></div><div class="card-v19-finder card-v19-f3"></div>
-        <div class="card-v19-answer card-v19-a">A</div><div class="card-v19-answer card-v19-b">B</div>
-        <div class="card-v19-answer card-v19-c">C</div><div class="card-v19-answer card-v19-d">D</div>
-        <div class="card-v19-center"></div>
-      </div>
-      <div class="card-v19-footer">${s.emoji} ${esc(s.name)} · Antwortkarte</div>`;
-      root.appendChild(el);
-    });
-    if(status)status.textContent=ss.length+' Karten · Namen und Emojis aus der Schülerliste';
-  }
-  function updateLegacyStudentState(){
-    try{
-      if(window.state&&Array.isArray(window.state.students)){
-        const ss=students();
-        window.state.students=ss.map(s=>{
-          const old=window.state.students.find(x=>x.id===s.id)||{};
-          return {...old,...s};
-        });
-      }
-    }catch(e){}
-  }
-  document.addEventListener('DOMContentLoaded',()=>{
-    document.getElementById('cardsV19Refresh')?.addEventListener('click',()=>{
-      updateLegacyStudentState(); render();
-    });
-    document.getElementById('cardsV19Print')?.addEventListener('click',()=>{
-      updateLegacyStudentState(); render();
-      setTimeout(()=>window.print(),150);
-    });
-    render();
-  });
-  window.addEventListener('load',()=>setTimeout(render,300));
-  window.renderCardsV19=render;
-})();
-</script>
-<div id="printCanvasV22" aria-hidden="true"></div>
-<script>
-function buildPrintCardsV22(){
-  const c=document.getElementById('printCanvasV22'); if(!c)return;
+function buildPrintV23(){
+  const c=document.getElementById('printCanvasV23'); if(!c)return;
   ensureStudents(); c.innerHTML='';
   state.students.forEach((s,i)=>{
-    c.insertAdjacentHTML('beforeend',`<section class="print-page-v22"><article class="print-card-v22">
-      <div class="print-head-v22"><span class="print-emoji-v22">${s.emoji}</span><div><div class="print-name-v22">${escapeHtml(s.name)}</div><div class="print-id-v22">Schüler ${String(i+1).padStart(2,'0')} · ${s.id}</div></div></div>
-      <div class="print-marker-v22">
-        <div class="pv22-f pv22-f1"></div><div class="pv22-f pv22-f2"></div><div class="pv22-f pv22-f3"></div>
-        <div class="pv22-ans pv22-a">A</div><div class="pv22-ans pv22-b">B</div><div class="pv22-ans pv22-c">C</div><div class="pv22-ans pv22-d">D</div>
-        <div class="pv22-dot"></div>
+    c.insertAdjacentHTML('beforeend',`<section class="print-page-v23"><article class="print-card-v23">
+      <div class="print-head-v23"><span class="print-emoji-v23">${s.emoji}</span><div><div class="print-name-v23">${escapeHtml(s.name)}</div><div class="print-id-v23">Schüler ${String(i+1).padStart(2,'0')} · ${s.id}</div></div></div>
+      <div class="print-marker-v23">
+        <div class="pv-f pv-f1"></div><div class="pv-f pv-f2"></div><div class="pv-f pv-f3"></div>
+        <div class="pv-ans pv-a">A</div><div class="pv-ans pv-b">B</div><div class="pv-ans pv-c">C</div><div class="pv-ans pv-d">D</div><div class="pv-dot"></div>
       </div>
-      <div class="print-footer-v22">${s.emoji} ${escapeHtml(s.name)} · Antwortkarte</div>
+      <div class="print-footer-v23">${s.emoji} ${escapeHtml(s.name)} · Antwortkarte</div>
     </article></section>`);
   });
 }
@@ -1439,22 +587,34 @@ function buildPrintCardsV22(){
 
 <script>
 (function(){
- let hist=[],cur='quiz';
- const labels={quiz:'Neue Frage',scan:'Live-Scanner',students:'Schüler',cards:'Antwortkarten',history:'Ergebnisse',student:'Schüleransicht'};
- document.addEventListener('DOMContentLoaded',()=>{
-   document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>{
-     const p=b.dataset.page;if(p&&p!==cur){hist.push(cur);cur=p;update();}
-   }));
-   document.getElementById('backButtonV22')?.addEventListener('click',()=>{
-     const p=hist.pop();if(!p)return;cur=p;go(p);update();
-   });
-   update();
- });
- function update(){
-   const b=document.getElementById('backButtonV22'),l=document.getElementById('pageLabelV22');
-   if(l)l.textContent=labels[cur]||cur;if(b)b.style.visibility=hist.length?'visible':'hidden';
- }
+  const labels={quiz:'Quiz',scan:'Live-Scanner',students:'Schüler',cards:'Karten',history:'Ergebnisse',student:'Schüleransicht'};
+  let current='quiz', history=[];
+  function updateBack(){
+    const b=document.getElementById('backV23'), l=document.getElementById('backLabelV23');
+    if(b)b.style.visibility=history.length?'visible':'hidden';
+    if(l)l.textContent=labels[current]||current;
+  }
+  document.addEventListener('DOMContentLoaded',()=>{
+    document.querySelectorAll('.nav button').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const p=btn.dataset.page;
+        if(p&&p!==current){history.push(current);current=p;}
+        setTimeout(updateBack,0);
+      });
+    });
+    document.getElementById('backV23')?.addEventListener('click',()=>{
+      const p=history.pop(); if(!p)return;
+      current=p; go(p); updateBack();
+    });
+    updateBack();
+  });
 })();
+</script>
+
+<script>
+window.addEventListener('load',()=>{
+  try{ensureStudents();renderAll();go('quiz');}catch(e){console.error(e);}
+});
 </script>
 </body>
 </html>
