@@ -104,10 +104,101 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
 .cards-sync-note{padding:12px 14px;border-radius:14px;background:#f7f5ff;margin-bottom:12px}
 .card-student-name{font-weight:900}.card-student-emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:30px}
 @media(max-width:700px){.student-grid{grid-template-columns:1fr}.student-edit{grid-template-columns:45px 28px 1fr}.student-edit button{grid-column:3}}
+
+.cards-toolbar-v17{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;margin:12px 0;background:#fff;border:2px solid #eee8ff;border-radius:18px;box-shadow:0 5px 18px rgba(40,30,80,.06)}
+.cards-toolbar-v17>div:first-child{display:flex;flex-direction:column;gap:3px}.cards-toolbar-v17 span{font-size:12px;opacity:.6}
+.cards-actions-v17{display:flex;gap:8px;flex-wrap:wrap}.cards-actions-v17 button{border:0;border-radius:12px;padding:10px 14px;font-weight:900;cursor:pointer;background:#f3f0ff}
+.cards-actions-v17 button:hover{transform:translateY(-1px)}
+@media(max-width:650px){.cards-toolbar-v17{align-items:stretch;flex-direction:column}.cards-actions-v17 button{flex:1}}
+@media print{
+  body *{visibility:hidden!important}
+  #cardsGrid,#cardsGrid *{visibility:visible!important}
+  #cardsGrid{position:absolute!important;left:0!important;top:0!important;width:100%!important;display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:10mm!important}
+  .answer-card{break-inside:avoid!important;page-break-inside:avoid!important;margin:0!important;box-shadow:none!important}
+  .cards-toolbar-v17{display:none!important}
+}
+
+/* A4: genau eine Schülerkarte pro Seite, mit großzügigem Scan-Rand */
+@page{size:A4 portrait;margin:0}
+@media print{
+  html,body{margin:0!important;padding:0!important;background:#fff!important}
+  body *{visibility:hidden!important}
+  #cardsGrid,#cardsGrid *{visibility:visible!important}
+  #cardsGrid{
+    position:static!important;
+    width:210mm!important;
+    min-height:297mm!important;
+    margin:0!important;
+    padding:0!important;
+    display:block!important;
+  }
+  #cardsGrid .answer-card{
+    box-sizing:border-box!important;
+    width:190mm!important;
+    height:277mm!important;
+    margin:10mm!important;
+    padding:12mm!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:flex-start!important;
+    align-items:stretch!important;
+    break-after:page!important;
+    page-break-after:always!important;
+    break-inside:avoid!important;
+    page-break-inside:avoid!important;
+    box-shadow:none!important;
+    border:1px solid #ddd!important;
+    border-radius:6mm!important;
+    overflow:hidden!important;
+  }
+  #cardsGrid .answer-card:last-child{
+    break-after:auto!important;
+    page-break-after:auto!important;
+  }
+  #cardsGrid .card-top{flex:0 0 auto!important;margin-bottom:8mm!important}
+  #cardsGrid .card-student{display:flex!important;align-items:center!important;gap:5mm!important}
+  #cardsGrid .card-emoji{font-size:18mm!important}
+  #cardsGrid .card-name{font-size:8mm!important}
+  #cardsGrid .card-id{font-size:4mm!important}
+  #cardsGrid .marker-card{
+    position:relative!important;
+    width:166mm!important;
+    height:166mm!important;
+    margin:10mm auto 12mm!important;
+    flex:0 0 166mm!important;
+    box-sizing:border-box!important;
+    border:1.2mm solid #111!important;
+    border-radius:5mm!important;
+  }
+  /* großer Weiß-/Sicherheitsrand innerhalb der A4-Seite:
+     Finder und Marker bleiben vollständig innerhalb der Karte */
+  #cardsGrid .finder{width:25mm!important;height:25mm!important}
+  #cardsGrid .answer-marker{width:32mm!important;height:32mm!important;font-size:12mm!important}
+  #cardsGrid .center-dot{width:8mm!important;height:8mm!important}
+  #cardsGrid .micro{width:22mm!important;height:22mm!important}
+  #cardsGrid .card-footer{
+    margin-top:auto!important;
+    padding-top:5mm!important;
+    font-size:4.5mm!important;
+    text-align:center!important
+  }
+  .cards-toolbar-v17,.page-navigation{display:none!important}
+}
 </style>
 <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script></head>
 <body>
+<div class="cards-toolbar-v17">
+  <div>
+    <strong>🪪 Schülerkarten</strong>
+    <span id="cardsCountV17">22 Karten</span>
+  </div>
+  <div class="cards-actions-v17">
+    <button type="button" id="refreshCardsV17">🔄 Karten aktualisieren</button>
+    <button type="button" id="printCardsV17">🖨️ Karten drucken · 1/A4</button>
+  </div>
+</div>
+
 <div class="page-navigation" id="pageNavigation">
   <button class="back-button" id="backButton" type="button">← Zurück</button>
   <span class="page-label" id="pageLabel">Quiz</span>
@@ -282,7 +373,7 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
     <p class="muted">Die Karte zeigt nur ein neutrales Muster. Die Antwort ist nicht als A/B/C/D sichtbar. Nur der Scanner erkennt die Orientierung.</p>
     <div class="toolbar">
       <button class="btn primary" id="generateCards">Karten aktualisieren</button>
-      <button class="btn secondary" id="printCards">🖨️ Karten drucken</button>
+      <button class="btn secondary" id="printCards">🖨️ Karten drucken · 1/A4</button>
     </div>
     <p class="muted" style="margin-top:12px">Tipp: Auf dickerem Papier drucken und ausschneiden. Die vier kleinen Orientierungspunkte bleiben sichtbar für die Kamera.</p>
   </div>
@@ -1149,6 +1240,69 @@ window.addEventListener('DOMContentLoaded',()=>{
     students=load(); save(); renderAll();
     setTimeout(renderAll,500);
   });
+})();
+</script>
+
+<script>
+(function(){
+  function getStudents(){
+    if(window.ANTWORT_STUDENTS_V16?.get) return window.ANTWORT_STUDENTS_V16.get();
+    if(window.state?.students) return window.state.students;
+    return [];
+  }
+  function escapeV17(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+  function rebuildCards(){
+    const grid=document.getElementById('cardsGrid');
+    if(!grid)return;
+    const students=getStudents();
+    grid.innerHTML='';
+    students.slice(0,22).forEach((s,i)=>{
+      const card=document.createElement('article');
+      card.className='answer-card';
+      card.dataset.cardStudent=s.id;
+      card.innerHTML=`
+        <div class="card-top">
+          <div class="card-student">
+            <span class="card-emoji">${s.emoji}</span>
+            <div>
+              <div class="card-name">${escapeV17(s.name)}</div>
+              <div class="card-id">Schüler ${String(i+1).padStart(2,'0')} · ${s.id}</div>
+            </div>
+          </div>
+        </div>
+        <div class="marker-card" data-student="${s.id}">
+          <div class="finder f1"></div><div class="finder f2"></div><div class="finder f3"></div>
+          <div class="answer-marker am1">A</div><div class="answer-marker am2">B</div>
+          <div class="answer-marker am3">C</div><div class="answer-marker am4">D</div>
+          <div class="center-dot"></div>
+          <div class="micro" id="qr-v17-${s.id}"></div>
+        </div>
+        <div class="card-footer">${s.emoji} ${escapeV17(s.name)} · Antwortkarte</div>`;
+      grid.appendChild(card);
+      const qr=card.querySelector('#qr-v17-'+s.id);
+      if(window.QRCode && qr){
+        try{new QRCode(qr,{text:s.id,width:110,height:110,correctLevel:QRCode.CorrectLevel.M});}
+        catch(e){console.error(e);}
+      }
+    });
+    const count=document.getElementById('cardsCountV17');
+    if(count)count.textContent=students.length+' Karten';
+  }
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    document.getElementById('refreshCardsV17')?.addEventListener('click',()=>{
+      if(window.ANTWORT_STUDENTS_V16?.save) window.ANTWORT_STUDENTS_V16.save();
+      rebuildCards();
+      alert('✅ Die 22 Karten wurden aktualisiert.');
+    });
+    document.getElementById('printCardsV17')?.addEventListener('click',()=>{
+      rebuildCards();
+      setTimeout(()=>window.print(),100);
+    });
+  });
+  window.addEventListener('load',()=>setTimeout(rebuildCards,300));
+  window.rebuildCardsV17=rebuildCards;
 })();
 </script>
 </body>
