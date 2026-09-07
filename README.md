@@ -72,10 +72,10 @@ Die Karten verwenden jetzt einen separaten, neutralen Orientierungsmarker. Die A
 Hinweis: Das ist eine browserbasierte Näherung. Für eine kommerzielle/hochzuverlässige Erkennung von 22 gleichzeitig hochgehaltenen Karten wäre eine native Computer-Vision-Implementierung mit echten ArUco/AprilTag-Markern und Perspektivkorrektur die nächste technische Ausbaustufe.
 
 
-## Version 6 – stabilerer iPhone-Scanner
-- 📷 Mehrfachscan mit bis zu 22 Karten.
-- 🔎 Vollbild-Scan plus zusätzlicher 2×2-Tile-Scan für kleinere Karten.
-- 🔄 Orientierungsbestimmung über mehrere QR-Geometrie-Kanten statt nur einer Kante.
-- 📊 Live-Anzeige der erkannten Karten.
-- 📱 Hinweise für iPhone-Haltung, Beleuchtung und Kartenabstand.
-- 🗑️ Neues Spiel bleibt erhalten.
+## Version 7 – Karten/Emoji-Fix
+- 🪪 Karten-Seite ist garantiert in der Navigation vorhanden.
+- 🖨️ Karten werden beim Öffnen der Seite automatisch für alle 22 Spieler erzeugt.
+- 👥 Jeder Spieler hat sichtbar einen Emoji.
+- 🦊 Die 22 Emoji-Identitäten bleiben stabil.
+- ➕ „Schüler hinzufügen“ benennt einen der 22 vorhandenen Emoji-Spieler statt weitere IDs zu erzeugen.
+- QRCode.js wird geprüft; bei fehlender Bibliothek erscheint eine klare Fehlermeldung.

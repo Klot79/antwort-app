@@ -9,7 +9,7 @@
 <style>
 :root{--bg:#f5f7fb;--card:#fff;--ink:#142033;--muted:#6d7890;--primary:#5b5cf0;--primary2:#7a6ff2;--good:#17a673;--bad:#e95362;--line:#e4e8f0;--shadow:0 12px 40px rgba(25,35,60,.09);--radius:20px}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f7f8fc,#eef1fb);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}
-button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-height:100vh;display:flex}.side{width:250px;background:#12182b;color:#fff;padding:24px 16px;position:fixed;inset:0 auto 0 0}.brand{font-weight:900;font-size:22px;letter-spacing:-.6px;padding:10px 12px 26px}.brand span{color:#9d9aff}.nav button{width:100%;padding:12px 14px;text-align:left;background:transparent;color:#b9c1d5;border-radius:12px;margin:3px 0}.nav button.active,.nav button:hover{background:#222a43;color:#fff}.main{margin-left:250px;width:calc(100% - 250px);padding:30px;max-width:1500px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}.top h1{margin:0;font-size:30px}.pill{background:#e9eaff;color:#4e4ed0;padding:8px 12px;border-radius:999px;font-weight:700}.grid{display:grid;grid-template-columns:1.35fr .85fr;gap:22px}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}.card h2{margin:0 0 16px;font-size:19px}.question-input{width:100%;min-height:125px;border:1px solid var(--line);border-radius:16px;padding:16px;resize:vertical;outline:none}.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.answer{display:flex;gap:10px;align-items:center;border:2px solid var(--line);border-radius:15px;padding:10px}.answer.correct{border-color:#36bd8e;background:#effbf6}.letter{width:34px;height:34px;border-radius:10px;background:#eef0f6;display:grid;place-items:center;font-weight:900}.answer.correct .letter{background:#24b781;color:#fff}.answer input{width:100%;border:0;outline:0}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{padding:12px 16px;border-radius:13px;font-weight:800}.primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff}.secondary{background:#eef0f6;color:#27324a}.danger{background:#fff0f1;color:#bf3947}.big{font-size:18px;padding:15px 18px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{background:#f7f8fc;border-radius:15px;padding:16px}.stat b{display:block;font-size:28px}.muted{color:var(--muted)}.hidden{display:none!important}.students{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}.student{border:1px solid var(--line);border-radius:16px;padding:15px;display:flex;justify-content:space-between;gap:10px}.avatar{width:40px;height:40px;border-radius:12px;background:#ecebff;color:#5652db;display:grid;place-items:center;font-weight:900}.scan-layout{display:grid;grid-template-columns:1.25fr .75fr;gap:20px}.camera{background:#0b1020;border-radius:20px;overflow:hidden;position:relative;min-height:500px}.camera video{width:100%;height:100%;min-height:500px;object-fit:cover;transform:scaleX(-1)}.scan-overlay{position:absolute;inset:10%;border:2px dashed rgba(255,255,255,.65);border-radius:25px;pointer-events:none}.scan-hint{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(0,0,0,.6);color:#fff;padding:10px 12px;border-radius:12px;text-align:center;font-size:12px}.scan-result{font-size:20px;font-weight:900}.result-list{display:grid;gap:8px;max-height:450px;overflow:auto}.result{display:flex;justify-content:space-between;padding:11px 13px;background:#f7f8fc;border-radius:12px}.ok{color:var(--good)}.no{color:var(--bad)}.cards-print{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.qr-card{border:2px solid #111;border-radius:16px;padding:14px;background:white;text-align:center;break-inside:avoid}.qr-box{display:flex;justify-content:center}.qr-card .name{font-weight:900;font-size:18px;margin:7px}.qr-card .help{font-size:11px;color:#555}.empty{text-align:center;padding:50px;color:var(--muted)}
+button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-height:100vh;display:flex}.side{width:250px;background:#12182b;color:#fff;padding:24px 16px;position:fixed;inset:0 auto 0 0}.brand{font-weight:900;font-size:22px;letter-spacing:-.6px;padding:10px 12px 26px}.brand span{color:#9d9aff}.nav button{width:100%;padding:12px 14px;text-align:left;background:transparent;color:#b9c1d5;border-radius:12px;margin:3px 0}.nav button.active,.nav button:hover{background:#222a43;color:#fff}.main{margin-left:250px;width:calc(100% - 250px);padding:30px;max-width:1500px}.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}.top h1{margin:0;font-size:30px}.pill{background:#e9eaff;color:#4e4ed0;padding:8px 12px;border-radius:999px;font-weight:700}.grid{display:grid;grid-template-columns:1.35fr .85fr;gap:22px}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}.card h2{margin:0 0 16px;font-size:19px}.question-input{width:100%;min-height:125px;border:1px solid var(--line);border-radius:16px;padding:16px;resize:vertical;outline:none}.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.answer{display:flex;gap:10px;align-items:center;border:2px solid var(--line);border-radius:15px;padding:10px}.answer.correct{border-color:#36bd8e;background:#effbf6}.letter{width:34px;height:34px;border-radius:10px;background:#eef0f6;display:grid;place-items:center;font-weight:900}.answer.correct .letter{background:#24b781;color:#fff}.answer input{width:100%;border:0;outline:0}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{padding:12px 16px;border-radius:13px;font-weight:800}.primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff}.secondary{background:#eef0f6;color:#27324a}.danger{background:#fff0f1;color:#bf3947}.big{font-size:18px;padding:15px 18px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{background:#f7f8fc;border-radius:15px;padding:16px}.stat b{display:block;font-size:28px}.muted{color:var(--muted)}.hidden{display:none!important}.students{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}.student{border:1px solid var(--line);border-radius:16px;padding:15px;display:flex;justify-content:space-between;gap:10px}.avatar{width:40px;height:40px;border-radius:12px;background:#ecebff;color:#5652db;display:grid;place-items:center;font-weight:900}.scan-layout{display:grid;grid-template-columns:1.25fr .75fr;gap:20px}.camera{background:#0b1020;border-radius:20px;overflow:hidden;position:relative;min-height:500px}.camera video{width:100%;height:100%;min-height:500px;object-fit:cover;transform:scaleX(-1)}.scan-overlay{position:absolute;inset:10%;border:2px dashed rgba(255,255,255,.65);border-radius:25px;pointer-events:none}.scan-hint{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(0,0,0,.6);color:#fff;padding:10px 12px;border-radius:12px;text-align:center;font-size:12px}.scan-result{font-size:20px;font-weight:900}.result-list{display:grid;gap:8px;max-height:450px;overflow:auto}.result{display:flex;justify-content:space-between;padding:11px 13px;background:#f7f8fc;border-radius:12px}.ok{color:var(--good)}.no{color:var(--bad)}.cards-print{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.privacy-print-card{min-height:340px}.privacy-print-card .name{font-size:18px}.qr-card{border:2px solid #111;border-radius:16px;padding:14px;background:white;text-align:center;break-inside:avoid}.qr-box{display:flex;justify-content:center}.qr-card .name{font-weight:900;font-size:18px;margin:7px}.qr-card .help{font-size:11px;color:#555}.empty{text-align:center;padding:50px;color:var(--muted)}
 .game{min-height:calc(100vh - 60px);display:grid;place-items:center}
 .game-card{max-width:900px;width:100%;background:#fff;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:28px}
 .emoji-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
@@ -143,7 +143,7 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
     <p class="muted">Die Karte zeigt nur ein neutrales Muster. Die Antwort ist nicht als A/B/C/D sichtbar. Nur der Scanner erkennt die Orientierung.</p>
     <div class="toolbar">
       <button class="btn primary" id="generateCards">Karten aktualisieren</button>
-      <button class="btn secondary" id="printCards">🖨️ Drucken</button>
+      <button class="btn secondary" id="printCards">🖨️ Karten drucken</button>
     </div>
     <p class="muted" style="margin-top:12px">Tipp: Auf dickerem Papier drucken und ausschneiden. Die vier kleinen Orientierungspunkte bleiben sichtbar für die Kamera.</p>
   </div>
@@ -195,10 +195,15 @@ function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':
 
 const STUDENT_EMOJIS=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐼','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶'];
 function ensureStudents(){
-  // Exactly 22 playful identities. Existing students keep their IDs where possible.
-  state.students=STUDENT_EMOJIS.map((emoji,i)=>{
-    const old=state.students[i];
-    return old ? {...old,emoji} : {id:'E'+String(i+1).padStart(2,'0'),name:'Schüler '+(i+1),emoji};
+  const emojis=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶'];
+  const old=Array.isArray(state.students)?state.students:[];
+  state.students=emojis.map((emoji,i)=>{
+    const existing=old[i]||{};
+    return {
+      id:existing.id||('E'+String(i+1).padStart(2,'0')),
+      name:existing.name||('Spieler '+String(i+1).padStart(2,'0')),
+      emoji
+    };
   });
 }
 function renderStudentChooser(){
@@ -265,27 +270,44 @@ $('#startScan').onclick=()=>{
 };
 function renderStudents(){
  const el=$('#studentList'); if(!state.students.length){el.innerHTML='<div class="card empty">Noch keine Schüler. Füge zuerst Schüler hinzu.</div>';return}
- el.innerHTML=state.students.map(s=>`<div class="student"><div style="display:flex;gap:12px;align-items:center"><div class="avatar">${escapeHtml(s.name[0]?.toUpperCase()||'?')}</div><div><b>${escapeHtml(s.name)}</b><div class="muted">${s.id}</div></div></div><button class="btn danger" onclick="removeStudent('${s.id}')">Löschen</button></div>`).join('');
+ el.innerHTML=state.students.map(s=>`<div class="student"><div style="display:flex;gap:12px;align-items:center"><div class="avatar">${s.emoji||'🙂'}</div><div><b>${escapeHtml(s.name)}</b><div class="muted">${s.id}</div></div></div><button class="btn danger" onclick="removeStudent('${s.id}')">Löschen</button></div>`).join('');
 }
 function removeStudent(id){if(confirm('Schüler wirklich löschen?')){state.students=state.students.filter(s=>s.id!==id);save()}}
-$('#addStudent').onclick=()=>{const n=$('#studentName').value.trim();if(!n)return;state.students.push({id:uid(),name:n});$('#studentName').value='';save()};
+$('#addStudent').onclick=()=>{
+      const n=$('#studentName').value.trim(); if(!n)return;
+      ensureStudents();
+      const free=state.students.findIndex(s=>/^Spieler \d+$/.test(s.name));
+      if(free<0){alert('Alle 22 Emoji-Spieler sind bereits vergeben.');return;}
+      state.students[free].name=n;
+      $('#studentName').value=''; save();
+    };
 $('#importDemo').onclick=()=>{['Anna','Ben','Clara','David','Emil','Fatima','Greta','Hugo'].forEach(n=>state.students.push({id:uid(),name:n}));save()};
 function renderCards(){
- const el=$('#cardsList'); el.innerHTML='';
- state.students.forEach((s,idx)=>{
-   const d=document.createElement('div'); d.className='qr-card privacy-print-card';
-   d.innerHTML=`
-     <div class="name">${escapeHtml(s.emoji||'🙂')} <span style="font-size:14px">Spieler ${String(idx+1).padStart(2,'0')}</span></div>
-     <div class="marker-card" data-card="${s.id}">
-       <div class="finder ftl"></div><div class="finder ftr"></div><div class="finder fbr"></div><div class="finder fbl"></div>
-       <div class="answer-marker m0"></div><div class="answer-marker m1"></div><div class="answer-marker m2"></div><div class="answer-marker m3"></div>
-       <div class="center-dot"></div>
-       <div class="micro" id="qr-${s.id}"></div>
-     </div>
-     <div class="help">Neutrale Markerkarte · ↑ → ↓ ← = Antwort A B C D</div>`;
-   el.appendChild(d);
-   new QRCode(d.querySelector('.micro'),{text:s.id,width:70,height:70,correctLevel:QRCode.CorrectLevel.H});
- });
+  ensureStudents();
+  const el=$('#cardsList');
+  if(!el)return;
+  el.innerHTML='';
+  if(typeof QRCode==='undefined'){
+    el.innerHTML='<div class="card empty">⚠️ Die Kartenbibliothek konnte nicht geladen werden. Bitte Internetverbindung prüfen und die Seite neu laden.</div>';
+    return;
+  }
+  state.students.forEach((s,idx)=>{
+    const d=document.createElement('div');
+    d.className='qr-card privacy-print-card';
+    d.innerHTML=`
+      <div class="name">${s.emoji} <span style="font-size:14px">Spieler ${String(idx+1).padStart(2,'0')}</span></div>
+      <div class="marker-card" data-card="${s.id}">
+        <div class="finder ftl"></div><div class="finder ftr"></div><div class="finder fbr"></div><div class="finder fbl"></div>
+        <div class="answer-marker m0"></div><div class="answer-marker m1"></div><div class="answer-marker m2"></div><div class="answer-marker m3"></div>
+        <div class="center-dot"></div>
+        <div class="micro" id="qr-${s.id}"></div>
+      </div>
+      <div class="help">Drehen für Antwort · persönliche Karte</div>`;
+    el.appendChild(d);
+    new QRCode(d.querySelector('.micro'),{
+      text:s.id,width:70,height:70,correctLevel:QRCode.CorrectLevel.H
+    });
+  });
 }
 $('#generateCards').onclick=renderCards; $('#printCards').onclick=()=>window.print();
 
@@ -473,7 +495,7 @@ function showMarkerHelp(){
  $('#modal').classList.remove('hidden');
 }
 function closeModal(){$('#modal').classList.add('hidden')}
-ensureStudents(); renderAll(); setQuestion({text:'',answers:['','','',''],correct:-1});
+ensureStudents(); ensureStudents(); renderAll(); setQuestion({text:'',answers:['','','',''],correct:-1});
 </script>
 </body>
 </html>
