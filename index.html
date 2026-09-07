@@ -39,6 +39,19 @@ textarea,input{border:1px solid var(--line);border-radius:13px;padding:12px;back
 
 .answer-editor{display:grid;gap:10px;margin-top:14px}.answer-row{display:grid;grid-template-columns:42px 28px 1fr;align-items:center;gap:10px;width:100%;padding:9px;border:2px solid var(--line);background:#fff;border-radius:14px;text-align:left}.answer-row:focus-within{border-color:var(--primary)}.answer-letter{font-weight:950;text-align:center}.green-dot{width:20px;height:20px;border:3px solid #7c8799;border-radius:50%;display:block;position:relative}.answer-row.correct{border-color:#25a873;background:#effbf6}.answer-row.correct .green-dot{border-color:#16a36f;background:#16a36f}.answer-row.correct .green-dot:after{content:"✓";position:absolute;color:#fff;font-size:13px;font-weight:950;left:2px;top:-1px}.answer-row input{border:1px solid var(--line)}
 </style>
+<style>
+.manual-answer-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:16px 0 10px;font-size:17px}
+.manual-answer-title span{font-size:14px;font-weight:800;opacity:.7}
+.answer-editor{display:grid;gap:10px}
+.answer-row{display:grid;grid-template-columns:34px 34px minmax(0,1fr);align-items:center;gap:8px;padding:8px 10px;border:2px solid var(--line);border-radius:16px;background:#fff}
+.answer-row.correct{border-color:#18a86f;background:#effbf5}
+.answer-letter{text-align:center;font-size:18px;font-weight:950}
+.correct-dot{width:24px;height:24px;border-radius:50%;border:3px solid #9da5b2;background:#fff;cursor:pointer;padding:0;position:relative}
+.answer-row.correct .correct-dot{border-color:#18a86f;background:#18a86f}
+.answer-row.correct .correct-dot:after{content:"✓";position:absolute;left:3px;top:-1px;color:#fff;font-size:14px;font-weight:950}
+.answer-row input{min-width:0;width:100%}
+@media(max-width:700px){.manual-answer-title{align-items:flex-start;flex-direction:column;gap:3px}}
+</style>
 </head>
 <body>
 <div class="app">
@@ -64,16 +77,43 @@ textarea,input{border:1px solid var(--line);border-radius:13px;padding:12px;back
         <button data-qmode="scantext">3 · Text → Fragen</button>
       </div>
       <div id="qmode-manual">
-        <div class="grid">
-          <div><label class="label">Frage</label><textarea id="qText" rows="4" placeholder="z. B. Welche Hauptstadt hat Frankreich?"></textarea></div>
+        <div>
+          <label class="label" for="qText">Frage</label>
+          <textarea id="qText" rows="4" placeholder="z. B. Welche Hauptstadt hat Frankreich?"></textarea>
         </div>
-        <div class="answer-editor" id="answerEditor">
-          <button type="button" class="answer-row" data-answer="0"><span class="answer-letter">A</span><span class="green-dot"></span><input id="optA" placeholder="Antwort A"></button>
-          <button type="button" class="answer-row" data-answer="1"><span class="answer-letter">B</span><span class="green-dot"></span><input id="optB" placeholder="Antwort B"></button>
-          <button type="button" class="answer-row" data-answer="2"><span class="answer-letter">C</span><span class="green-dot"></span><input id="optC" placeholder="Antwort C"></button>
-          <button type="button" class="answer-row" data-answer="3"><span class="answer-letter">D</span><span class="green-dot"></span><input id="optD" placeholder="Antwort D"></button>
+
+        <div class="manual-answer-title">
+          <strong>4 Antwortmöglichkeiten</strong>
+          <span>🟢 richtige Antwort</span>
         </div>
-        <div class="row" style="margin-top:14px"><button class="btn primary" id="addManual">➕ Frage hinzufügen</button><span class="muted">Tippe auf den grünen Punkt neben der richtigen Antwort.</span></div>
+
+        <div id="answerEditor" class="answer-editor">
+          <div class="answer-row" data-answer="0">
+            <button type="button" class="correct-dot" aria-label="A als richtige Antwort markieren"></button>
+            <span class="answer-letter">A</span>
+            <input id="optA" type="text" placeholder="Antwort A" autocomplete="off">
+          </div>
+          <div class="answer-row" data-answer="1">
+            <button type="button" class="correct-dot" aria-label="B als richtige Antwort markieren"></button>
+            <span class="answer-letter">B</span>
+            <input id="optB" type="text" placeholder="Antwort B" autocomplete="off">
+          </div>
+          <div class="answer-row" data-answer="2">
+            <button type="button" class="correct-dot" aria-label="C als richtige Antwort markieren"></button>
+            <span class="answer-letter">C</span>
+            <input id="optC" type="text" placeholder="Antwort C" autocomplete="off">
+          </div>
+          <div class="answer-row" data-answer="3">
+            <button type="button" class="correct-dot" aria-label="D als richtige Antwort markieren"></button>
+            <span class="answer-letter">D</span>
+            <input id="optD" type="text" placeholder="Antwort D" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:14px">
+          <button class="btn primary" id="addManual" type="button">➕ Frage hinzufügen</button>
+          <span class="muted">Auf den grünen Punkt tippen, um die richtige Antwort zu markieren.</span>
+        </div>
       </div>
       <div id="qmode-photo" hidden>
         <p class="notice">Lade ein Foto hoch, auf dem Fragen und Antworten als Text lesbar sind. Eine markierte richtige Antwort kann im OCR-Text mit einem Stern (*) oder [R] gekennzeichnet werden.</p>
@@ -178,22 +218,41 @@ function addQuestion(text,opts,correct){
  state.questions.push({id:'Q'+Date.now()+Math.random().toString(16).slice(2),text:text.trim(),options:opts.map(x=>x.trim()),correct});
  save();renderQuestions();return true;
 }
-document.querySelectorAll('.answer-row').forEach(row=>{
- row.addEventListener('click',e=>{
-   if(e.target.tagName==='INPUT') return;
-   state.selectedCorrect=Number(row.dataset.answer);
-   document.querySelectorAll('.answer-row').forEach(r=>r.classList.toggle('correct',Number(r.dataset.answer)===state.selectedCorrect));
- });
+let selectedCorrect = 0;
+
+function paintCorrectAnswer(){
+  document.querySelectorAll('#answerEditor .answer-row').forEach((row,i)=>{
+    row.classList.toggle('correct', i === selectedCorrect);
+  });
+}
+
+document.querySelectorAll('#answerEditor .answer-row').forEach(row=>{
+  row.querySelector('.correct-dot').addEventListener('click',e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    selectedCorrect = Number(row.dataset.answer);
+    paintCorrectAnswer();
+  });
+  row.addEventListener('click',e=>{
+    if(e.target.closest('input')) return;
+    selectedCorrect = Number(row.dataset.answer);
+    paintCorrectAnswer();
+  });
 });
+
+paintCorrectAnswer();
+
 $('addManual').onclick=()=>{
- const opts=[$('optA').value,$('optB').value,$('optC').value,$('optD').value];
- if(addQuestion($('qText').value,opts,state.selectedCorrect)){
-   ['qText','optA','optB','optC','optD'].forEach(id=>$(id).value='');
-   state.selectedCorrect=0;
-   document.querySelectorAll('.answer-row').forEach((r,i)=>r.classList.toggle('correct',i===0));
- }
+  const question=$('qText').value.trim();
+  const opts=[$('optA').value.trim(),$('optB').value.trim(),$('optC').value.trim(),$('optD').value.trim()];
+  if(!question){alert('Bitte eine Frage eingeben.');return}
+  if(opts.some(x=>!x)){alert('Bitte alle 4 Antwortfelder ausfüllen.');return}
+  if(addQuestion(question,opts,selectedCorrect)){
+    ['qText','optA','optB','optC','optD'].forEach(id=>$(id).value='');
+    selectedCorrect=0;
+    paintCorrectAnswer();
+  }
 };
-document.querySelector('.answer-row')?.classList.add('correct');
 document.querySelectorAll('[data-qmode]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-qmode]').forEach(x=>x.classList.toggle('active',x===b));['manual','photo','scantext'].forEach(x=>$(('qmode-'+x)).hidden=x!==b.dataset.qmode)});
 $('photoInput').addEventListener('change',async e=>{
  const f=e.target.files?.[0];if(!f)return;
