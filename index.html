@@ -195,16 +195,20 @@ function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':
 
 const STUDENT_EMOJIS=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐼','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶'];
 function ensureStudents(){
-  const emojis=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶'];
-  const old=Array.isArray(state.students)?state.students:[];
-  state.students=emojis.map((emoji,i)=>{
-    const existing=old[i]||{};
+  const emojis=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶','🐢'];
+  if(!Array.isArray(students)) students=[];
+  const oldById=Object.fromEntries(students.map(s=>[s.id,s]));
+  students=emojis.map((emoji,i)=>{
+    const id=`E${String(i+1).padStart(2,'0')}`;
+    const old=oldById[id]||{};
     return {
-      id:existing.id||('E'+String(i+1).padStart(2,'0')),
-      name:existing.name||('Spieler '+String(i+1).padStart(2,'0')),
-      emoji
+      id,
+      name: old.name || `Spieler ${String(i+1).padStart(2,'0')}`,
+      emoji,
+      results: Array.isArray(old.results) ? old.results : []
     };
   });
+  save();
 }
 function renderStudentChooser(){
   ensureStudents();
@@ -269,8 +273,48 @@ $('#startScan').onclick=()=>{
  state.current=q; state.results={}; $('#liveQuestion').textContent=q.text; renderResults(); go('scan'); startCamera();
 };
 function renderStudents(){
- const el=$('#studentList'); if(!state.students.length){el.innerHTML='<div class="card empty">Noch keine Schüler. Füge zuerst Schüler hinzu.</div>';return}
- el.innerHTML=state.students.map(s=>`<div class="student"><div style="display:flex;gap:12px;align-items:center"><div class="avatar">${s.emoji||'🙂'}</div><div><b>${escapeHtml(s.name)}</b><div class="muted">${s.id}</div></div></div><button class="btn danger" onclick="removeStudent('${s.id}')">Löschen</button></div>`).join('');
+  const box=document.getElementById('studentList');
+  if(!box) return;
+  box.innerHTML='';
+  students.forEach((s,i)=>{
+    const row=document.createElement('div');
+    row.className='student-row';
+    row.innerHTML=`
+      <div class="avatar">${s.emoji}</div>
+      <div class="student-id">${String(i+1).padStart(2,'0')}</div>
+      <input class="student-name-input" value="${escapeHtml(s.name)}"
+             placeholder="Name eingeben"
+             aria-label="Name für ${s.emoji}"
+             data-student-id="${s.id}">
+      <button class="small-btn" data-save="${s.id}">Speichern</button>
+    `;
+    box.appendChild(row);
+  });
+
+  box.querySelectorAll('.student-name-input').forEach(input=>{
+    input.addEventListener('change',()=>{
+      const s=students.find(x=>x.id===input.dataset.studentId);
+      if(s){
+        s.name=input.value.trim() || `Spieler ${String(students.indexOf(s)+1).padStart(2,'0')}`;
+        save();
+        renderCards();
+        renderStudentChooser();
+      }
+    });
+  });
+  box.querySelectorAll('[data-save]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const input=box.querySelector(`[data-student-id="${btn.dataset.save}"]`);
+      const s=students.find(x=>x.id===btn.dataset.save);
+      if(s && input){
+        s.name=input.value.trim() || `Spieler ${String(students.indexOf(s)+1).padStart(2,'0')}`;
+        save();
+        renderStudents();
+        renderCards();
+        renderStudentChooser();
+      }
+    });
+  });
 }
 function removeStudent(id){if(confirm('Schüler wirklich löschen?')){state.students=state.students.filter(s=>s.id!==id);save()}}
 $('#addStudent').onclick=()=>{
