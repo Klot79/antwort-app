@@ -78,6 +78,10 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
 .back-button{display:inline-flex;align-items:center;gap:7px;border:0;border-radius:14px;padding:10px 15px;background:#fff;box-shadow:0 4px 14px rgba(40,30,80,.10);font-weight:900;cursor:pointer}
 .back-button:hover{transform:translateX(-2px)}
 .page-label{font-weight:800;opacity:.65}
+
+.student-avatar,.chooser-emoji,.result-avatar{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif!important;font-size:32px!important;line-height:1!important;display:inline-flex!important;align-items:center;justify-content:center;visibility:visible!important;opacity:1!important}
+.emoji-tile{display:flex;align-items:center;gap:10px}
+.result{display:flex;align-items:center;gap:10px}
 </style>
 <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script></head>
@@ -295,22 +299,38 @@ function save(){localStorage.setItem(KEY,JSON.stringify(state)); renderAll()}
 function uid(){return 'S'+Math.random().toString(36).slice(2,8).toUpperCase()}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 
-const STUDENT_EMOJIS=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐼','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶'];
+const STUDENT_EMOJIS=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶','🐢'];
+
 function ensureStudents(){
-  const emojis=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶','🐢'];
-  const old=Array.isArray(students)?students:[];
+  const old=Array.isArray(state.students)?state.students:[];
   const byId=Object.fromEntries(old.map(s=>[s.id,s]));
-  students=emojis.map((emoji,i)=>{
+  const next=STUDENT_EMOJIS.map((emoji,i)=>{
     const id='E'+String(i+1).padStart(2,'0');
-    const s=byId[id]||{};
-    return {id, emoji, name:(s.name||'').trim() || 'Spieler '+String(i+1).padStart(2,'0'), results:Array.isArray(s.results)?s.results:[]};
+    const oldStudent=byId[id]||{};
+    return {
+      id,
+      emoji,
+      name:(oldStudent.name||'').trim() || 'Spieler '+String(i+1).padStart(2,'0'),
+      results:Array.isArray(oldStudent.results)?oldStudent.results:[]
+    };
   });
-  save();
+  const changed=JSON.stringify(old)!==JSON.stringify(next);
+  if(changed){
+    state.students=next;
+    localStorage.setItem(KEY,JSON.stringify(state));
+  }
+  return state.students;
 }
 function renderStudentChooser(){
   ensureStudents();
-  $('#studentEmojiGrid').innerHTML=state.students.map(s=>`<button class="emoji-tile" onclick="selectStudent('${s.id}')">${s.emoji}<b>Spieler ${s.id.slice(1)}</b></button>`).join('');
+  const el=$('#studentEmojiGrid');
+  if(!el)return;
+  el.innerHTML=state.students.map(s=>
+    `<button class="emoji-tile" onclick="selectStudent('${s.id}')">
+      <span class="chooser-emoji">${s.emoji}</span><b>${escapeHtml(s.name)}</b>
+    </button>`).join('');
 }
+
 let selectedStudentId=null;
 function selectStudent(id){
   selectedStudentId=id;
@@ -334,9 +354,12 @@ function updateStudentView(){
 }
 
 function renderAll(){
- $('#sCount').textContent=state.students.length; $('#classCount').textContent=state.students.length+' Schüler';
- $('#qCount').textContent=state.questions.length;
- ensureStudents(); renderStudents(); renderCards(); renderHistory(); renderStudentChooser();
+  ensureStudents();
+  $('#sCount').textContent=state.students.length;
+  $('#classCount').textContent=state.students.length+' Schüler';
+  $('#qCount').textContent=state.questions.length;
+  renderStudents(); renderCards(); renderHistory(); renderStudentChooser();
+  if(typeof renderResults==='function') renderResults();
 }
 function go(page){
  $$('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
@@ -371,33 +394,33 @@ $('#startScan').onclick=()=>{
 };
 function renderStudents(){
   const box=document.getElementById('studentList');
-  if(!box) return;
+  if(!box)return;
   ensureStudents();
-  box.innerHTML='';
-  students.slice(0,22).forEach((s,i)=>{
-    const row=document.createElement('div');
-    row.className='student-row';
-    row.innerHTML=`
+  box.innerHTML=state.students.map((s,i)=>`
+    <div class="student-row">
       <div class="avatar student-avatar">${s.emoji}</div>
       <div class="student-id">${String(i+1).padStart(2,'0')}</div>
       <input class="student-name-input" value="${escapeHtml(s.name)}" placeholder="Name eingeben" data-student-id="${s.id}">
-      <button class="small-btn" data-save="${s.id}">Speichern</button>`;
-    box.appendChild(row);
-  });
+      <button class="small-btn" data-save="${s.id}">Speichern</button>
+    </div>`).join('');
   box.querySelectorAll('.student-name-input').forEach(input=>{
-    input.addEventListener('change',()=>{
-      const s=students.find(x=>x.id===input.dataset.studentId);
-      if(s){s.name=input.value.trim()||('Spieler '+(students.indexOf(s)+1));save();renderCards();renderStudentChooser();renderStudents();}
-    });
+    input.addEventListener('change',()=>saveStudentName(input));
   });
   box.querySelectorAll('[data-save]').forEach(btn=>{
     btn.addEventListener('click',()=>{
       const input=box.querySelector(`[data-student-id="${btn.dataset.save}"]`);
-      const s=students.find(x=>x.id===btn.dataset.save);
-      if(s&&input){s.name=input.value.trim()||('Spieler '+(students.indexOf(s)+1));save();renderStudents();renderCards();renderStudentChooser();renderResults?.();}
+      if(input)saveStudentName(input);
     });
   });
 }
+function saveStudentName(input){
+  const s=state.students.find(x=>x.id===input.dataset.studentId);
+  if(!s)return;
+  s.name=input.value.trim() || 'Spieler '+String(state.students.indexOf(s)+1).padStart(2,'0');
+  localStorage.setItem(KEY,JSON.stringify(state));
+  renderStudents(); renderCards(); renderStudentChooser(); renderResults();
+}
+
 function removeStudent(id){if(confirm('Schüler wirklich löschen?')){state.students=state.students.filter(s=>s.id!==id);save()}}
 $('#addStudent').onclick=()=>{
       const n=$('#studentName').value.trim(); if(!n)return;
@@ -584,11 +607,17 @@ function recordAnswer(student,ans){
  renderResults(); updateStudentView();
 }
 function renderResults(){
- const vals=Object.values(state.results), correct=vals.filter(x=>x.correct).length;
- $('#answered').textContent=vals.length; $('#correctLive').textContent=correct; $('#percentLive').textContent=vals.length?Math.round(correct/vals.length*100)+'%':'0%';
- $('#rightCount').textContent=vals.length?Math.round(correct/vals.length*100)+'%':'–';
- $('#resultList').innerHTML=vals.length?vals.map(x=>`<div class="result"><span>${escapeHtml(x.student)}</span><b class="${x.correct?'ok':'no'}">${answerLetter(x.answer)} · ${x.correct?'Richtig':'Falsch'}</b></div>`).join(''):'<div class="empty">Noch keine Karten erkannt.</div>';
+  const vals=Object.values(state.results), correct=vals.filter(x=>x.correct).length;
+  $('#answered').textContent=vals.length; $('#correctLive').textContent=correct;
+  $('#percentLive').textContent=vals.length?Math.round(correct/vals.length*100)+'%':'0%';
+  $('#rightCount').textContent=vals.length?Math.round(correct/vals.length*100)+'%':'–';
+  const byName=id=>{
+    const s=state.students.find(x=>x.id===id);
+    return s ? `<span class="result-avatar">${s.emoji}</span><span>${escapeHtml(s.name)}</span>` : `<span class="result-avatar">👤</span><span>${escapeHtml(id||'Unbekannt')}</span>`;
+  };
+  $('#resultList').innerHTML=vals.length?vals.map(x=>`<div class="result">${byName(x.studentId||x.id||x.student)}<b class="${x.correct?'ok':'no'}">${answerLetter(x.answer)} · ${x.correct?'Richtig':'Falsch'}</b></div>`).join(''):'<div class="empty">Noch keine Karten erkannt.</div>';
 }
+
 $('#demoBtn').onclick=()=>{
  if(!state.current||!state.students.length)return alert('Starte zuerst eine Frage und lege Schüler an.');
  state.students.forEach((s,i)=>recordAnswer(s,i%4));
@@ -923,6 +952,15 @@ window.addEventListener('DOMContentLoaded',()=>{
     updateBack();
   });
 })();
+</script>
+
+<script>
+window.addEventListener('load',()=>{
+  try{
+    ensureStudents();
+    renderAll();
+  }catch(e){console.error('Student initialization:',e);}
+});
 </script>
 </body>
 </html>
