@@ -91,6 +91,19 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
 .card-name{font-weight:900;font-size:18px}
 .card-id{font-size:12px;opacity:.55}
 .card-footer{font-weight:800;text-align:center;margin-top:8px}
+
+.student-manager{display:grid;gap:12px}
+.student-manager-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.student-manager-head h2{margin:0}.student-manager-head p{margin:3px 0 0;opacity:.65}
+.student-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.student-edit{display:grid;grid-template-columns:52px 34px 1fr auto;gap:8px;align-items:center;padding:10px;background:#fff;border:1px solid #e9e7f5;border-radius:16px}
+.student-edit-emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:30px;line-height:1;text-align:center}
+.student-edit-id{font-size:12px;font-weight:900;opacity:.45}
+.student-edit input{min-width:0;border:2px solid #eee;border-radius:10px;padding:9px;font-size:15px}
+.student-edit button{border:0;border-radius:10px;padding:9px 11px;font-weight:900;cursor:pointer}
+.cards-sync-note{padding:12px 14px;border-radius:14px;background:#f7f5ff;margin-bottom:12px}
+.card-student-name{font-weight:900}.card-student-emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:30px}
+@media(max-width:700px){.student-grid{grid-template-columns:1fr}.student-edit{grid-template-columns:45px 28px 1fr}.student-edit button{grid-column:3}}
 </style>
 <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script></head>
@@ -241,7 +254,18 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
     </div>
   </section>
 
-  <section id="page-students" class="hidden">
+  
+<section id="studentManagerStandalone" class="student-manager">
+  <div class="student-manager-head">
+    <div>
+      <h2>👥 Meine 22 Schüler</h2>
+      <p>Jeder Schüler hat ein festes Emoji und eine feste Karte. Der Name wird automatisch auf die Karte übernommen.</p>
+    </div>
+    <button id="saveAllStudentsV16" class="primary-btn" type="button">💾 Alle Namen speichern</button>
+  </div>
+  <div class="student-grid" id="studentGridV16"></div>
+</section>
+<section id="page-students" class="hidden">
     <div class="card">
       <div class="toolbar" style="margin-top:0">
         <input id="studentName" placeholder="Name des Schülers" style="flex:1;min-width:220px;padding:13px;border:1px solid var(--line);border-radius:13px">
@@ -1018,6 +1042,114 @@ window.addEventListener('DOMContentLoaded',()=>{
     syncStudentNameEverywhere(input.dataset.studentId,input.value);
   });
 });
+</script>
+
+<script>
+(function(){
+  const KEY='antwort-v16-students';
+  const EMOJIS=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶','🐢'];
+
+  function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function load(){
+    let old=[];
+    try{old=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){}
+    if(!Array.isArray(old))old=[];
+    const oldById=Object.fromEntries(old.map(x=>[x.id,x]));
+    return EMOJIS.map((emoji,i)=>{
+      const id='E'+String(i+1).padStart(2,'0'), x=oldById[id]||{};
+      return {id,emoji,name:(x.name||'').trim()||'Spieler '+String(i+1).padStart(2,'0')};
+    });
+  }
+  let students=load();
+  function save(){localStorage.setItem(KEY,JSON.stringify(students));}
+
+  window.ANTWORT_STUDENTS_V16={
+    get(){return students.slice()},
+    save(){save(); renderAll()},
+    find(id){return students.find(s=>s.id===id)},
+    setName(id,name){
+      const s=students.find(x=>x.id===id); if(!s)return;
+      s.name=(name||'').trim()||('Spieler '+(students.indexOf(s)+1));
+      save(); renderAll();
+    }
+  };
+
+  function renderManager(){
+    const grid=document.getElementById('studentGridV16'); if(!grid)return;
+    grid.innerHTML=students.map((s,i)=>`
+      <div class="student-edit">
+        <span class="student-edit-emoji">${s.emoji}</span>
+        <span class="student-edit-id">${String(i+1).padStart(2,'0')}</span>
+        <input value="${esc(s.name)}" data-v16-name="${s.id}" aria-label="Name ${s.id}">
+        <button type="button" data-v16-save="${s.id}">Speichern</button>
+      </div>`).join('');
+    grid.querySelectorAll('[data-v16-save]').forEach(b=>b.onclick=()=>{
+      const id=b.dataset.v16Save, inp=grid.querySelector(`[data-v16-name="${id}"]`);
+      window.ANTWORT_STUDENTS_V16.setName(id,inp.value);
+    });
+  }
+
+  function renderCardsSync(){
+    // Update existing card labels by student ID.
+    students.forEach(s=>{
+      document.querySelectorAll(`[data-student="${s.id}"]`).forEach(card=>{
+        const name=card.querySelector('.card-name,.card-student-name');
+        const em=card.querySelector('.card-emoji,.card-student-emoji');
+        if(name)name.textContent=s.name;
+        if(em)em.textContent=s.emoji;
+      });
+      document.querySelectorAll(`[data-card-student="${s.id}"]`).forEach(card=>{
+        const name=card.querySelector('.card-name,.card-student-name');
+        const em=card.querySelector('.card-emoji,.card-student-emoji');
+        if(name)name.textContent=s.name;
+        if(em)em.textContent=s.emoji;
+      });
+    });
+  }
+
+  function renderChooserSync(){
+    document.querySelectorAll('[data-v16-chooser]').forEach(x=>x.remove());
+    const host=document.querySelector('#studentEmojiGrid');
+    if(!host)return;
+    host.innerHTML=students.map(s=>`
+      <button class="emoji-tile" type="button" data-v16-choose="${s.id}">
+        <span class="chooser-emoji">${s.emoji}</span><b>${esc(s.name)}</b>
+      </button>`).join('');
+    host.querySelectorAll('[data-v16-choose]').forEach(b=>b.onclick=()=>{
+      const id=b.dataset.v16Choose;
+      if(typeof window.selectStudent==='function') window.selectStudent(id);
+    });
+  }
+
+  function renderAll(){
+    renderManager();
+    renderCardsSync();
+    renderChooserSync();
+    // Also expose canonical names to legacy app state if it exists.
+    if(window.state && Array.isArray(window.state.students)){
+      window.state.students=students.map(s=>{
+        const old=window.state.students.find(x=>x.id===s.id)||{};
+        return {...old,...s};
+      });
+      try{localStorage.setItem(window.KEY||'antwort-plus',JSON.stringify(window.state))}catch(e){}
+    }
+  }
+
+  document.getElementById('saveAllStudentsV16')?.addEventListener('click',()=>{
+    const grid=document.getElementById('studentGridV16');
+    grid?.querySelectorAll('[data-v16-name]').forEach(inp=>{
+      const s=students.find(x=>x.id===inp.dataset.v16Name);
+      if(s)s.name=inp.value.trim()||('Spieler '+(students.indexOf(s)+1));
+    });
+    save(); renderAll();
+  });
+
+  window.addEventListener('load',()=>{
+    // Always recreate the complete 22-student list.
+    students=load(); save(); renderAll();
+    setTimeout(renderAll,500);
+  });
+})();
 </script>
 </body>
 </html>
