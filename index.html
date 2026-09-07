@@ -184,10 +184,72 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
   }
   .cards-toolbar-v17,.page-navigation{display:none!important}
 }
+
+.cards-v19-wrap{padding:14px 0}
+.cards-v19-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;padding:14px 16px;background:#fff;border:2px solid #ece8fa;border-radius:18px}
+.cards-v19-actions{display:flex;gap:8px;flex-wrap:wrap}
+.cards-v19-actions button{border:0;border-radius:12px;padding:11px 15px;font-weight:900;cursor:pointer}
+.cards-v19-refresh{background:#f1edff}.cards-v19-print{background:#7c3aed;color:#fff}
+.cards-v19-status{font-size:13px;opacity:.65;margin-top:4px}
+.cards-v19-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card-v19{background:#fff;border:2px solid #e5e1f2;border-radius:20px;padding:16px;box-sizing:border-box}
+.card-v19-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.card-v19-emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:34px;line-height:1}
+.card-v19-name{font-size:18px;font-weight:900}.card-v19-id{font-size:12px;opacity:.55}
+.card-v19-marker{position:relative;width:100%;aspect-ratio:1/1;border:2px solid #111;border-radius:18px;background:#fff;box-sizing:border-box;overflow:hidden}
+.card-v19-finder{position:absolute;width:15%;aspect-ratio:1;border:6px solid #111;background:#fff;box-sizing:border-box}
+.card-v19-finder:after{content:"";position:absolute;inset:28%;background:#111}
+.card-v19-f1{left:7%;top:7%}.card-v19-f2{right:7%;top:7%}.card-v19-f3{left:7%;bottom:7%}
+.card-v19-answer{position:absolute;width:20%;aspect-ratio:1;border:3px solid #111;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;background:#fff}
+.card-v19-a{left:40%;top:12%}.card-v19-b{right:12%;top:40%}.card-v19-c{left:40%;bottom:12%}.card-v19-d{left:12%;top:40%}
+.card-v19-center{position:absolute;left:47%;top:47%;width:6%;aspect-ratio:1;background:#111;border-radius:50%}
+.card-v19-footer{text-align:center;font-weight:800;margin-top:10px}
+@media(max-width:700px){.cards-v19-grid{grid-template-columns:1fr}.cards-v19-toolbar{flex-direction:column;align-items:stretch}}
+@media print{
+  @page{size:A4 portrait;margin:0}
+  body{margin:0!important;padding:0!important;background:#fff!important}
+  body *{visibility:hidden!important}
+  #cardsV19PrintRoot,#cardsV19PrintRoot *{visibility:visible!important}
+  #cardsV19PrintRoot{display:block!important;position:static!important;width:210mm!important;margin:0!important;padding:0!important}
+  #cardsV19PrintRoot .card-v19{
+    display:flex!important;flex-direction:column!important;
+    box-sizing:border-box!important;width:190mm!important;height:277mm!important;
+    margin:10mm!important;padding:14mm!important;border:1px solid #bbb!important;
+    border-radius:5mm!important;break-after:page!important;page-break-after:always!important;
+    box-shadow:none!important
+  }
+  #cardsV19PrintRoot .card-v19:last-child{break-after:auto!important;page-break-after:auto!important}
+  #cardsV19PrintRoot .card-v19-head{margin-bottom:8mm!important}
+  #cardsV19PrintRoot .card-v19-emoji{font-size:18mm!important}
+  #cardsV19PrintRoot .card-v19-name{font-size:8mm!important}
+  #cardsV19PrintRoot .card-v19-id{font-size:4mm!important}
+  #cardsV19PrintRoot .card-v19-marker{
+    width:162mm!important;height:162mm!important;aspect-ratio:auto!important;
+    margin:5mm auto 8mm!important;flex:none!important;border-width:1.2mm!important
+  }
+  #cardsV19PrintRoot .card-v19-finder{border-width:1.4mm!important}
+  #cardsV19PrintRoot .card-v19-answer{border-width:.8mm!important;font-size:12mm!important}
+  #cardsV19PrintRoot .card-v19-footer{margin-top:auto!important;font-size:4.5mm!important}
+  .cards-v19-toolbar{display:none!important}
+}
 </style>
 <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script></head>
 <body>
+<div id="cardsV19Section" class="cards-v19-wrap">
+  <div class="cards-v19-toolbar">
+    <div>
+      <strong>🪪 Schülerkarten</strong>
+      <div class="cards-v19-status" id="cardsV19Status">22 Karten werden geladen …</div>
+    </div>
+    <div class="cards-v19-actions">
+      <button type="button" class="cards-v19-refresh" id="cardsV19Refresh">🔄 Karten aktualisieren</button>
+      <button type="button" class="cards-v19-print" id="cardsV19Print">🖨️ Karten drucken</button>
+    </div>
+  </div>
+  <div id="cardsV19PrintRoot" class="cards-v19-grid"></div>
+</div>
+
 <div class="cards-toolbar-v17">
   <div>
     <strong>🪪 Schülerkarten</strong>
@@ -1303,6 +1365,68 @@ window.addEventListener('DOMContentLoaded',()=>{
   });
   window.addEventListener('load',()=>setTimeout(rebuildCards,300));
   window.rebuildCardsV17=rebuildCards;
+})();
+</script>
+
+<script>
+(function(){
+  const E=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶','🐢'];
+  const K='antwort-v16-students';
+  function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function students(){
+    let a=[];
+    try{a=JSON.parse(localStorage.getItem(K)||'[]')}catch(e){}
+    if(!Array.isArray(a))a=[];
+    const by=Object.fromEntries(a.map(x=>[x.id,x]));
+    return E.map((emoji,i)=>{const id='E'+String(i+1).padStart(2,'0'),x=by[id]||{};return{id,emoji,name:(x.name||'').trim()||'Spieler '+String(i+1).padStart(2,'0')}})
+  }
+  function render(){
+    const root=document.getElementById('cardsV19PrintRoot');
+    const status=document.getElementById('cardsV19Status');
+    if(!root)return;
+    const ss=students();
+    root.innerHTML='';
+    ss.forEach((s,i)=>{
+      const el=document.createElement('article');
+      el.className='card-v19';
+      el.innerHTML=`<div class="card-v19-head">
+        <span class="card-v19-emoji">${s.emoji}</span>
+        <div><div class="card-v19-name">${esc(s.name)}</div><div class="card-v19-id">Schüler ${String(i+1).padStart(2,'0')} · ${s.id}</div></div>
+      </div>
+      <div class="card-v19-marker" data-student="${s.id}">
+        <div class="card-v19-finder card-v19-f1"></div><div class="card-v19-finder card-v19-f2"></div><div class="card-v19-finder card-v19-f3"></div>
+        <div class="card-v19-answer card-v19-a">A</div><div class="card-v19-answer card-v19-b">B</div>
+        <div class="card-v19-answer card-v19-c">C</div><div class="card-v19-answer card-v19-d">D</div>
+        <div class="card-v19-center"></div>
+      </div>
+      <div class="card-v19-footer">${s.emoji} ${esc(s.name)} · Antwortkarte</div>`;
+      root.appendChild(el);
+    });
+    if(status)status.textContent=ss.length+' Karten · Namen und Emojis aus der Schülerliste';
+  }
+  function updateLegacyStudentState(){
+    try{
+      if(window.state&&Array.isArray(window.state.students)){
+        const ss=students();
+        window.state.students=ss.map(s=>{
+          const old=window.state.students.find(x=>x.id===s.id)||{};
+          return {...old,...s};
+        });
+      }
+    }catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded',()=>{
+    document.getElementById('cardsV19Refresh')?.addEventListener('click',()=>{
+      updateLegacyStudentState(); render();
+    });
+    document.getElementById('cardsV19Print')?.addEventListener('click',()=>{
+      updateLegacyStudentState(); render();
+      setTimeout(()=>window.print(),150);
+    });
+    render();
+  });
+  window.addEventListener('load',()=>setTimeout(render,300));
+  window.renderCardsV19=render;
 })();
 </script>
 </body>
