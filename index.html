@@ -48,33 +48,25 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
 @media(max-width:600px){.answers{grid-template-columns:1fr}.cards-print{grid-template-columns:1fr}.top h1{font-size:24px}}
 @media print{.side,.top,.no-print{display:none!important}.main{margin:0;width:100%;padding:0}.cards-print{grid-template-columns:repeat(2,1fr)}.qr-card{box-shadow:none}}
 
-.card-emoji-v23{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:30px}
-.card-id-v23{font-size:12px;margin-top:2px}
-.student-edit-row{display:grid;grid-template-columns:52px 32px minmax(160px,1fr) auto;gap:10px;align-items:center;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:15px;margin:8px 0}
-.student-edit-emoji,.chooser-emoji,.result-emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
-.student-edit-emoji{font-size:30px;text-align:center}.student-edit-number{font-size:12px;font-weight:900;opacity:.45}
-.student-edit-name{width:100%;min-width:0;padding:10px;border:1px solid var(--line);border-radius:10px}
-.chooser-emoji{display:block;font-size:42px}.result-person{display:flex;align-items:center;gap:9px}.result-emoji{font-size:28px}
-@media(max-width:700px){.student-edit-row{grid-template-columns:46px 28px 1fr}.student-save-btn{grid-column:3}}
-#printCanvasV23{display:none}
+.student-editor-v24{display:grid;grid-template-columns:52px 32px minmax(150px,1fr) auto;gap:10px;align-items:center;padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:15px;margin:8px 0}
+.student-emoji-v24,.card-emoji-v24{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.student-emoji-v24{font-size:32px;text-align:center}.student-num-v24{font-size:12px;font-weight:900;opacity:.45}.student-name-v24{min-width:0;padding:10px;border:1px solid var(--line);border-radius:10px}.card-name-v24{display:flex;align-items:center;justify-content:center;gap:8px;font-size:19px}.card-emoji-v24{font-size:32px}
+#printCanvasV24{display:none}
+@media(max-width:700px){.student-editor-v24{grid-template-columns:46px 28px 1fr}.student-editor-v24 button{grid-column:3}.side{position:sticky!important;top:0!important;z-index:50!important}}
 @media print{
  @page{size:A4 portrait;margin:0}
  body{margin:0!important;padding:0!important}
  body *{visibility:hidden!important}
- #printCanvasV23,#printCanvasV23 *{visibility:visible!important}
- #printCanvasV23{display:block!important;position:absolute!important;left:0!important;top:0!important;width:210mm!important;background:#fff!important}
- .print-page-v23{width:210mm!important;height:297mm!important;padding:10mm!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;break-after:page!important;page-break-after:always!important}
- .print-page-v23:last-child{break-after:auto!important;page-break-after:auto!important}
- .print-card-v23{width:190mm!important;height:277mm!important;box-sizing:border-box!important;padding:12mm!important;border:1px solid #aaa!important;border-radius:5mm!important;display:flex!important;flex-direction:column!important;background:#fff!important}
- .print-head-v23{display:flex!important;align-items:center!important;gap:5mm!important}.print-emoji-v23{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif!important;font-size:18mm!important}.print-name-v23{font-size:8mm!important;font-weight:900!important}.print-id-v23{font-size:4mm!important;opacity:.55!important}
- .print-marker-v23{position:relative!important;width:162mm!important;height:162mm!important;margin:8mm auto!important;border:1.2mm solid #111!important;border-radius:5mm!important;box-sizing:border-box!important;flex:none!important}
- .pv-f{position:absolute!important;width:25mm!important;height:25mm!important;border:1.5mm solid #111!important;background:#fff!important;box-sizing:border-box!important}.pv-f:after{content:""!important;position:absolute!important;inset:28%!important;background:#111!important}.pv-f1{left:7%!important;top:7%!important}.pv-f2{right:7%!important;top:7%!important}.pv-f3{left:7%!important;bottom:7%!important}
- .pv-a{left:40%!important;top:12%!important}.pv-b{right:12%!important;top:40%!important}.pv-c{left:40%!important;bottom:12%!important}.pv-d{left:12%!important;top:40%!important}
- .pv-ans{position:absolute!important;width:32mm!important;height:32mm!important;border:1mm solid #111!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:12mm!important;font-weight:900!important;background:#fff!important}.pv-dot{position:absolute!important;left:47%!important;top:47%!important;width:8mm!important;height:8mm!important;background:#111!important;border-radius:50%!important}.print-footer-v23{margin-top:auto!important;text-align:center!important;font-size:4.5mm!important;font-weight:800!important}
+ #printCanvasV24,#printCanvasV24 *{visibility:visible!important}
+ #printCanvasV24{display:block!important;position:absolute!important;left:0!important;top:0!important;width:210mm!important;background:#fff!important}
+ .print-page-v24{width:210mm!important;height:297mm!important;padding:10mm!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;break-after:page!important;page-break-after:always!important}
+ .print-page-v24:last-child{break-after:auto!important;page-break-after:auto!important}
+ .print-card-v24{width:190mm!important;height:277mm!important;box-sizing:border-box!important;padding:12mm!important;border:1px solid #aaa!important;border-radius:5mm!important;display:flex!important;flex-direction:column!important;background:#fff!important}
+ .print-head-v24{display:flex!important;align-items:center!important;gap:5mm!important}.print-emoji-v24{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif!important;font-size:18mm!important}.print-name-v24{font-size:8mm!important;font-weight:900!important}.print-id-v24{font-size:4mm!important;opacity:.55!important}
+ .print-marker-v24{position:relative!important;width:162mm!important;height:162mm!important;margin:8mm auto!important;border:1.2mm solid #111!important;border-radius:5mm!important;box-sizing:border-box!important;flex:none!important}
+ .pfv{position:absolute!important;width:25mm!important;height:25mm!important;border:1.5mm solid #111!important;background:#fff!important;box-sizing:border-box!important}.pfv:after{content:""!important;position:absolute!important;inset:28%!important;background:#111!important}.pfv1{left:7%!important;top:7%!important}.pfv2{right:7%!important;top:7%!important}.pfv3{right:7%!important;bottom:7%!important}.pfv4{left:7%!important;bottom:7%!important}
+ .pav{position:absolute!important;width:32mm!important;height:32mm!important;border:1mm solid #111!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:12mm!important;font-weight:900!important;background:#fff!important}.pava{left:40%!important;top:12%!important}.pavb{right:12%!important;top:40%!important}.pavc{right:40%!important;bottom:12%!important}.pavd{left:12%!important;top:40%!important}.pdot{position:absolute!important;left:47%!important;top:47%!important;width:8mm!important;height:8mm!important;background:#111!important;border-radius:50%!important}.print-footer-v24{margin-top:auto!important;text-align:center!important;font-size:4.5mm!important;font-weight:800!important}
 }
-
-.backbar-v23{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-@media print{.backbar-v23{display:none!important}}
 </style>
 <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
 </head>
@@ -91,11 +83,6 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
   </div>
 </aside>
 <main class="main">
-<div class="backbar-v23">
-  <button type="button" id="backV23" class="btn secondary">← Zurück</button>
-  <span id="backLabelV23" class="muted">Quiz</span>
-</div>
-
   <div class="top"><h1 id="pageTitle">Neue Frage</h1><div class="pill" id="classCount">0 Schüler</div></div>
 
   <section id="page-quiz">
@@ -142,7 +129,7 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
         <div class="toolbar no-print">
           <button class="btn primary" id="cameraBtn">Kamera starten</button>
           <button class="btn secondary" id="stopCamera">Stoppen</button>
-          <button class="btn secondary" id="privacyToggle">🔒 Sichtschutz</button><button class="btn secondary" id="markerHelp">❓ Marker-Hilfe</button><span class="pill" id="multiScanStatus">0 Karten erkannt</span><span class="pill" id="scanQuality">Scan bereit</span>
+          <button class="btn secondary" id="demoBtn">Demo-Erkennung</button><button class="btn secondary" id="privacyToggle">🔒 Sichtschutz</button><button class="btn secondary" id="markerHelp">❓ Marker-Hilfe</button><span class="pill" id="multiScanStatus">0 Karten erkannt</span><span class="pill" id="scanQuality">Scan bereit</span>
           <button class="btn danger" id="finishRound">Runde beenden</button>
         </div>
       </div>
@@ -160,22 +147,19 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
   </section>
 
   <section id="page-students" class="hidden">
-    <div class="card">
-      <div class="toolbar" style="margin-top:0">
-        <input id="studentName" placeholder="Name des Schülers" style="flex:1;min-width:220px;padding:13px;border:1px solid var(--line);border-radius:13px">
-        <button class="btn primary" id="addStudent">+ Schüler hinzufügen</button>
-        
-      </div>
-    </div>
-    <div class="students" id="studentList" style="margin-top:18px"></div>
-  </section>
+  <div class="card">
+    <h2>👥 Meine 22 Schüler</h2>
+    <p class="muted">Jeder Platz hat ein festes Emoji. Trage rechts den Namen ein und speichere ihn. Der Name wird automatisch auf die passende Karte und in den Ergebnissen verwendet.</p>
+  </div>
+  <div class="students" id="studentList" style="margin-top:18px"></div>
+</section>
 
   <section id="page-cards" class="hidden">
   <div class="card no-print">
     <h2>🔒 Blickgeschützte Antwortkarten</h2>
     <p class="muted">Die Karte zeigt nur ein neutrales Muster. Die Antwort ist nicht als A/B/C/D sichtbar. Nur der Scanner erkennt die Orientierung.</p>
     <div class="toolbar">
-      <button class="btn primary" id="generateCards">Karten aktualisieren</button>
+      <button class="btn primary" id="generateCards">🔄 Karten aktualisieren</button>
       <button class="btn secondary" id="printCards">🖨️ Karten drucken</button>
     </div>
     <p class="muted" style="margin-top:12px">Tipp: Auf dickerem Papier drucken und ausschneiden. Die vier kleinen Orientierungspunkte bleiben sichtbar für die Kamera.</p>
@@ -231,22 +215,13 @@ function ensureStudents(){
   const old=Array.isArray(state.students)?state.students:[];
   const byId=Object.fromEntries(old.map(s=>[s.id,s]));
   state.students=STUDENT_EMOJIS.map((emoji,i)=>{
-    const id='E'+String(i+1).padStart(2,'0');
-    const oldStudent=byId[id]||{};
-    return {
-      id:id,
-      emoji:emoji,
-      name:(oldStudent.name||'').trim() || 'Spieler '+String(i+1).padStart(2,'0')
-    };
+    const id='E'+String(i+1).padStart(2,'0'), oldStudent=byId[id]||{};
+    return {id,emoji,name:(oldStudent.name||'').trim()||'Spieler '+String(i+1).padStart(2,'0')};
   });
 }
 function renderStudentChooser(){
   ensureStudents();
-  $('#studentEmojiGrid').innerHTML=state.students.map(s=>
-    `<button class="emoji-tile" onclick="selectStudent('${s.id}')">
-      <span class="chooser-emoji">${s.emoji}</span>
-      <b>${escapeHtml(s.name)}</b>
-    </button>`).join('');
+  $('#studentEmojiGrid').innerHTML=state.students.map(s=>`<button class="emoji-tile" onclick="selectStudent('${s.id}')">${s.emoji}<b>Spieler ${s.id.slice(1)}</b></button>`).join('');
 }
 let selectedStudentId=null;
 function selectStudent(id){
@@ -271,15 +246,11 @@ function updateStudentView(){
 }
 
 function renderAll(){
-  ensureStudents();
-  $('#sCount').textContent=state.students.length;
-  $('#classCount').textContent=state.students.length+' Schüler';
-  $('#qCount').textContent=state.questions.length;
-  renderStudents();
-  renderCards();
-  renderHistory();
-  renderStudentChooser();
-  renderResults();
+ ensureStudents();
+ $('#sCount').textContent=state.students.length;
+ $('#classCount').textContent=state.students.length+' Schüler';
+ $('#qCount').textContent=state.questions.length;
+ renderStudents(); renderCards(); renderHistory(); renderStudentChooser(); renderResults();
 }
 function go(page){
  $$('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
@@ -313,27 +284,24 @@ $('#startScan').onclick=()=>{
  state.current=q; state.results={}; $('#liveQuestion').textContent=q.text; renderResults(); go('scan'); startCamera();
 };
 function renderStudents(){
-  ensureStudents();
-  const el=$('#studentList');
-  el.innerHTML=state.students.map((s,i)=>`
-    <div class="student-edit-row">
-      <div class="student-edit-emoji">${s.emoji}</div>
-      <div class="student-edit-number">${String(i+1).padStart(2,'0')}</div>
-      <input class="student-edit-name" data-id="${s.id}" value="${escapeHtml(s.name)}" placeholder="Name eingeben">
-      <button class="btn secondary student-save-btn" data-save="${s.id}">Speichern</button>
-    </div>`).join('');
-  el.querySelectorAll('[data-save]').forEach(btn=>{
-    btn.onclick=()=>{
-      const input=el.querySelector(`[data-id="${btn.dataset.save}"]`);
-      const s=state.students.find(x=>x.id===btn.dataset.save);
-      if(!s||!input)return;
-      s.name=input.value.trim() || 'Spieler '+String(state.students.indexOf(s)+1).padStart(2,'0');
-      save();
-    };
-  });
+ ensureStudents();
+ const el=$('#studentList');
+ el.innerHTML=state.students.map((s,i)=>`
+  <div class="student-editor-v24">
+   <span class="student-emoji-v24">${s.emoji}</span>
+   <span class="student-num-v24">${String(i+1).padStart(2,'0')}</span>
+   <input class="student-name-v24" data-student-id="${s.id}" value="${escapeHtml(s.name)}" placeholder="Name eingeben">
+   <button class="btn secondary" data-save-student="${s.id}">Speichern</button>
+  </div>`).join('');
+ el.querySelectorAll('[data-save-student]').forEach(btn=>{
+  btn.onclick=()=>{
+   const input=el.querySelector(`[data-student-id="${btn.dataset.saveStudent}"]`);
+   const s=state.students.find(x=>x.id===btn.dataset.saveStudent);
+   if(s&&input){s.name=input.value.trim()||('Spieler '+String(state.students.indexOf(s)+1).padStart(2,'0'));save();}
+  };
+ });
 }
 function removeStudent(id){if(confirm('Schüler wirklich löschen?')){state.students=state.students.filter(s=>s.id!==id);save()}}
-
       ensureStudents();
       const free=state.students.findIndex(s=>/^Spieler \d+$/.test(s.name));
       if(free<0){alert('Alle 22 Emoji-Spieler sind bereits vergeben.');return;}
@@ -341,35 +309,29 @@ function removeStudent(id){if(confirm('Schüler wirklich löschen?')){state.stud
       $('#studentName').value=''; save();
     };
 function renderCards(){
-  ensureStudents();
-  const el=$('#cardsList');
-  if(!el)return;
-  el.innerHTML='';
-  if(typeof QRCode==='undefined'){
-    el.innerHTML='<div class="card empty">⚠️ Kartenbibliothek fehlt. Bitte Internetverbindung prüfen.</div>';
-    return;
-  }
-  state.students.forEach((s,idx)=>{
-    const d=document.createElement('div');
-    d.className='qr-card privacy-print-card';
-    d.dataset.student=s.id;
-    d.innerHTML=`
-      <div class="name"><span class="card-emoji-v23">${s.emoji}</span> <span>${escapeHtml(s.name)}</span></div>
-      <div class="muted card-id-v23">Schüler ${String(idx+1).padStart(2,'0')} · ${s.id}</div>
-      <div class="marker-card" data-card="${s.id}">
-        <div class="finder ftl"></div><div class="finder ftr"></div><div class="finder fbr"></div><div class="finder fbl"></div>
-        <div class="answer-marker m0"></div><div class="answer-marker m1"></div><div class="answer-marker m2"></div><div class="answer-marker m3"></div>
-        <div class="center-dot"></div>
-        <div class="micro" id="qr-${s.id}"></div>
-      </div>
-      <div class="help">${s.emoji} ${escapeHtml(s.name)} · persönliche Antwortkarte</div>`;
-    el.appendChild(d);
-    new QRCode(d.querySelector('.micro'),{
-      text:s.id,width:90,height:90,correctLevel:QRCode.CorrectLevel.H
-    });
-  });
+ ensureStudents();
+ const el=$('#cardsList'); if(!el)return;
+ el.innerHTML='';
+ if(typeof QRCode==='undefined'){
+   el.innerHTML='<div class="card empty">⚠️ QR-Code-Bibliothek nicht geladen. Bitte Internetverbindung prüfen.</div>';
+   return;
+ }
+ state.students.forEach((s,idx)=>{
+  const d=document.createElement('div');
+  d.className='qr-card privacy-print-card';
+  d.innerHTML=`<div class="card-name-v24"><span class="card-emoji-v24">${s.emoji}</span><strong>${escapeHtml(s.name)}</strong></div>
+   <div class="muted" style="font-size:12px">Schüler ${String(idx+1).padStart(2,'0')} · ${s.id}</div>
+   <div class="marker-card" data-card="${s.id}">
+    <div class="finder ftl"></div><div class="finder ftr"></div><div class="finder fbr"></div><div class="finder fbl"></div>
+    <div class="answer-marker m0"></div><div class="answer-marker m1"></div><div class="answer-marker m2"></div><div class="answer-marker m3"></div>
+    <div class="center-dot"></div><div class="micro" id="qr-${s.id}"></div>
+   </div>
+   <div class="help">${s.emoji} ${escapeHtml(s.name)} · persönliche Antwortkarte</div>`;
+  el.appendChild(d);
+  new QRCode(d.querySelector('.micro'),{text:s.id,width:90,height:90,correctLevel:QRCode.CorrectLevel.H});
+ });
 }
-$('#generateCards').onclick=()=>{renderCards();buildPrintV23();}; $('#printCards').onclick=()=>{renderCards();buildPrintV23();setTimeout(()=>window.print(),150);};
+$('#generateCards').onclick=()=>{renderCards();buildPrintV24();}; $('#printCards').onclick=()=>{renderCards();buildPrintV24();setTimeout(()=>window.print(),200);};
 
 let stream=null, scanning=false, lastSeen={}, privacyMode=true;
 $('#markerHelp').onclick=()=>showMarkerHelp();
@@ -518,20 +480,10 @@ function recordAnswer(student,ans){
  renderResults(); updateStudentView();
 }
 function renderResults(){
-  ensureStudents();
-  const vals=Object.values(state.results), correct=vals.filter(x=>x.correct).length;
-  $('#answered').textContent=vals.length;
-  $('#correctLive').textContent=correct;
-  $('#percentLive').textContent=vals.length?Math.round(correct/vals.length*100)+'%':'0%';
-  $('#rightCount').textContent=vals.length?Math.round(correct/vals.length*100)+'%':'–';
-  $('#resultList').innerHTML=vals.length?vals.map(x=>{
-    const s=state.students.find(st=>st.id===x.studentId);
-    const emoji=s?s.emoji:'👤', name=s?s.name:(x.student||x.studentId||'Unbekannt');
-    return `<div class="result">
-      <span class="result-person"><span class="result-emoji">${emoji}</span>${escapeHtml(name)}</span>
-      <b class="${x.correct?'ok':'no'}">${answerLetter(x.answer)} · ${x.correct?'Richtig':'Falsch'}</b>
-    </div>`;
-  }).join(''):'<div class="empty">Noch keine Karten erkannt.</div>';
+ const vals=Object.values(state.results), correct=vals.filter(x=>x.correct).length;
+ $('#answered').textContent=vals.length; $('#correctLive').textContent=correct; $('#percentLive').textContent=vals.length?Math.round(correct/vals.length*100)+'%':'0%';
+ $('#rightCount').textContent=vals.length?Math.round(correct/vals.length*100)+'%':'–';
+ $('#resultList').innerHTML=vals.length?vals.map(x=>`<div class="result"><span>${escapeHtml(x.student)}</span><b class="${x.correct?'ok':'no'}">${answerLetter(x.answer)} · ${x.correct?'Richtig':'Falsch'}</b></div>`).join(''):'<div class="empty">Noch keine Karten erkannt.</div>';
 }
 $('#demoBtn').onclick=()=>{
  if(!state.current||!state.students.length)return alert('Starte zuerst eine Frage und lege Schüler an.');
@@ -567,53 +519,27 @@ function showMarkerHelp(){
 function closeModal(){$('#modal').classList.add('hidden')}
 ensureStudents(); ensureStudents(); renderAll(); setQuestion({text:'',answers:['','','',''],correct:-1});
 </script>
-<div id="printCanvasV23" aria-hidden="true"></div>
+<div id="printCanvasV24" aria-hidden="true"></div>
 <script>
-function buildPrintV23(){
-  const c=document.getElementById('printCanvasV23'); if(!c)return;
-  ensureStudents(); c.innerHTML='';
-  state.students.forEach((s,i)=>{
-    c.insertAdjacentHTML('beforeend',`<section class="print-page-v23"><article class="print-card-v23">
-      <div class="print-head-v23"><span class="print-emoji-v23">${s.emoji}</span><div><div class="print-name-v23">${escapeHtml(s.name)}</div><div class="print-id-v23">Schüler ${String(i+1).padStart(2,'0')} · ${s.id}</div></div></div>
-      <div class="print-marker-v23">
-        <div class="pv-f pv-f1"></div><div class="pv-f pv-f2"></div><div class="pv-f pv-f3"></div>
-        <div class="pv-ans pv-a">A</div><div class="pv-ans pv-b">B</div><div class="pv-ans pv-c">C</div><div class="pv-ans pv-d">D</div><div class="pv-dot"></div>
-      </div>
-      <div class="print-footer-v23">${s.emoji} ${escapeHtml(s.name)} · Antwortkarte</div>
-    </article></section>`);
-  });
+function buildPrintV24(){
+ const c=document.getElementById('printCanvasV24');if(!c)return;
+ ensureStudents();c.innerHTML='';
+ state.students.forEach((s,i)=>c.insertAdjacentHTML('beforeend',`<section class="print-page-v24"><article class="print-card-v24">
+  <div class="print-head-v24"><span class="print-emoji-v24">${s.emoji}</span><div><div class="print-name-v24">${escapeHtml(s.name)}</div><div class="print-id-v24">Schüler ${String(i+1).padStart(2,'0')} · ${s.id}</div></div></div>
+  <div class="print-marker-v24"><div class="pfv pfv1"></div><div class="pfv pfv2"></div><div class="pfv pfv3"></div><div class="pfv pfv4"></div>
+   <div class="pav pava">A</div><div class="pav pavb">B</div><div class="pav pavc">C</div><div class="pav pavd">D</div><div class="pdot"></div></div>
+  <div class="print-footer-v24">${s.emoji} ${escapeHtml(s.name)} · Antwortkarte</div>
+ </article></section>`));
 }
 </script>
 
 <script>
-(function(){
-  const labels={quiz:'Quiz',scan:'Live-Scanner',students:'Schüler',cards:'Karten',history:'Ergebnisse',student:'Schüleransicht'};
-  let current='quiz', history=[];
-  function updateBack(){
-    const b=document.getElementById('backV23'), l=document.getElementById('backLabelV23');
-    if(b)b.style.visibility=history.length?'visible':'hidden';
-    if(l)l.textContent=labels[current]||current;
-  }
-  document.addEventListener('DOMContentLoaded',()=>{
-    document.querySelectorAll('.nav button').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const p=btn.dataset.page;
-        if(p&&p!==current){history.push(current);current=p;}
-        setTimeout(updateBack,0);
-      });
-    });
-    document.getElementById('backV23')?.addEventListener('click',()=>{
-      const p=history.pop(); if(!p)return;
-      current=p; go(p); updateBack();
-    });
-    updateBack();
-  });
-})();
-</script>
-
-<script>
 window.addEventListener('load',()=>{
-  try{ensureStudents();renderAll();go('quiz');}catch(e){console.error(e);}
+ try{
+  ensureStudents();
+  renderAll();
+  go('quiz');
+ }catch(e){console.error(e)}
 });
 </script>
 </body>
