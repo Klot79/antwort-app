@@ -8,7 +8,7 @@
 </style></head>
 <body>
 <div class="controls"><button id="full">⛶ Vollbild</button><button id="hide">Steuerung ausblenden</button></div>
-<main class="screen"><div class="tag">Antwort! · Klassenquiz</div><div id="content"><div class="q">Warte auf eine Frage …</div><div class="hint">Auf dem Lehrergerät eine Frage starten.</div></div></main>
+<main class="screen"><div class="tag">Antwort! · Klassenquiz</div><div id="questionLabel" style="opacity:.45;font-size:13px;font-weight:800;margin-top:10px">FRAGE</div><div id="content"><div class="q">Warte auf eine Frage …</div><div class="hint">Auf dem Lehrergerät eine Frage starten.</div></div></main>
 <script>
 const KEY='antwort-v1-state';
 let last='';
@@ -19,7 +19,7 @@ function render(){
  const content=document.getElementById('content');
  if(!q){content.innerHTML='<div class="q">Warte auf eine Frage …</div>';return}
  let reveal=s?.revealAnswer;
- content.innerHTML=`<div class="q">${esc(q.text)}</div><div class="opts">${q.options.map((o,i)=>`<div class="opt">${'ABCD'[i]} · ${esc(o)}</div>`).join('')}</div>${reveal?`<div class="reveal">✓ Richtige Antwort: ${esc(q.options[q.correct])}</div>`:''}<div class="hint">${reveal?'Besprechung der Lösung':'Bitte Antwortkarte hochhalten.'}</div>`;
+ content.innerHTML=`<div id="questionText" class="q">${esc(q.text)}</div><div class="opts">${q.options.map((o,i)=>`<div class="opt">${'ABCD'[i]} · ${esc(o)}</div>`).join('')}</div>${reveal?`<div class="reveal">✓ Richtige Antwort: ${esc(q.options[q.correct])}</div>`:''}<div class="hint">${reveal?'Besprechung der Lösung':'Bitte Antwortkarte hochhalten.'}</div>`;
 }
 setInterval(render,300);render();
 document.getElementById('full').onclick=async()=>{try{await document.documentElement.requestFullscreen()}catch(e){}};
