@@ -70,3 +70,12 @@ Die Karten verwenden jetzt einen separaten, neutralen Orientierungsmarker. Die A
 - auf iPhone/iPad nutzbar
 
 Hinweis: Das ist eine browserbasierte Näherung. Für eine kommerzielle/hochzuverlässige Erkennung von 22 gleichzeitig hochgehaltenen Karten wäre eine native Computer-Vision-Implementierung mit echten ArUco/AprilTag-Markern und Perspektivkorrektur die nächste technische Ausbaustufe.
+
+
+## Version 5 – Neues Spiel + Mehrfachscan
+- 🗑️ **Neues Spiel:** löscht alle Fragen und Ergebnisse, behält die 22 Emoji-Schüler und Karten.
+- 📷 **Mehrfachscan:** bis zu 22 Karten werden pro Kamerabild nacheinander gesucht.
+- 📱 Für iPhone/iPad geeignet.
+- Live-Anzeige der erkannten Karten.
+- Identität kommt aus der persönlichen Karte; A/B/C/D steht nicht sichtbar auf der Karte.
+- Für beste Erkennung: gute Beleuchtung, Karten vollständig sichtbar und möglichst wenig Überlappung.

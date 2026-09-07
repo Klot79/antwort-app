@@ -80,7 +80,7 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
         <div class="toolbar">
           <button class="btn primary big" id="startScan">📷 Frage starten</button>
           <button class="btn secondary" id="saveQuestion">Frage speichern</button>
-          <button class="btn secondary" id="clearQuestion">Leeren</button>
+          <button class="btn secondary" id="clearQuestion">Leeren</button><button class="btn danger" id="newGame">🗑️ Neues Spiel</button>
         </div>
       </div>
       <div class="card">
@@ -105,11 +105,11 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
   <section id="page-scan" class="hidden">
     <div class="scan-layout">
       <div class="card" style="padding:12px">
-        <div class="camera"><video id="video" autoplay playsinline muted></video><div class="scan-overlay"></div><div class="scan-hint">Karte vollständig ins Feld halten · neutraler Marker = Antwort · Daten bleiben lokal</div></div>
+        <div class="camera"><video id="video" autoplay playsinline muted></video><div class="scan-overlay"></div><div class="scan-hint">Mehrere Karten gleichzeitig ins Feld halten · Identität + Drehung werden lokal erkannt</div></div>
         <div class="toolbar no-print">
           <button class="btn primary" id="cameraBtn">Kamera starten</button>
           <button class="btn secondary" id="stopCamera">Stoppen</button>
-          <button class="btn secondary" id="demoBtn">Demo-Erkennung</button><button class="btn secondary" id="privacyToggle">🔒 Sichtschutz</button><button class="btn secondary" id="markerHelp">❓ Marker-Hilfe</button>
+          <button class="btn secondary" id="demoBtn">Demo-Erkennung</button><button class="btn secondary" id="privacyToggle">🔒 Sichtschutz</button><button class="btn secondary" id="markerHelp">❓ Marker-Hilfe</button><span class="pill" id="multiScanStatus">0 Karten erkannt</span>
           <button class="btn danger" id="finishRound">Runde beenden</button>
         </div>
       </div>
@@ -249,6 +249,12 @@ function setQuestion(q){
  $$('.answer').forEach((x,i)=>x.classList.toggle('correct',i===q.correct));
 }
 $('#clearQuestion').onclick=()=>setQuestion({text:'',answers:['','','',''],correct:-1});
+$('#newGame').onclick=()=>{
+  if(!confirm('Wirklich ein komplett neues Spiel starten? Alle Fragen und Ergebnisse werden gelöscht. Die 22 Schüler und ihre Karten bleiben erhalten.')) return;
+  stopCamera(); state.questions=[]; state.history=[]; state.current=null; state.results={}; lastSeen={};
+  setQuestion({text:'',answers:['','','',''],correct:-1}); save(); go('quiz');
+  alert('🎮 Neues Spiel ist bereit!');
+};
 $('#saveQuestion').onclick=()=>{
  const q=getQuestion(); if(!q.text||q.answers.some(a=>!a)||q.correct<0)return alert('Bitte Frage, alle vier Antworten und eine richtige Antwort angeben.');
  state.questions.push({...q,id:uid()}); save(); alert('Frage gespeichert.');
@@ -298,64 +304,61 @@ $('#cameraBtn').onclick=startCamera; $('#stopCamera').onclick=stopCamera;
 
 const canvas=document.createElement('canvas'), ctx=canvas.getContext('2d',{willReadFrequently:true});
 function orientationFromMarker(imageData){
-  // Perspective-tolerant approximation for a physical card:
-  // Divide the detected card bounding box into a 3x3 logical grid and inspect
-  // four side-marker zones. The strongest L-shaped dark run is the answer.
   const {data,width,height}=imageData;
-  function gray(x,y){
-    const i=(y*width+x)*4;
-    return (0.299*data[i]+0.587*data[i+1]+0.114*data[i+2]);
-  }
-  function score(x0,y0,x1,y1){
-    x0=Math.max(0,Math.floor(x0));y0=Math.max(0,Math.floor(y0));
-    x1=Math.min(width,Math.floor(x1));y1=Math.min(height,Math.floor(y1));
-    let dark=0,total=0;
-    for(let y=y0;y<y1;y+=2) for(let x=x0;x<x1;x+=2){total++;if(gray(x,y)<85)dark++}
+  function gray(x,y){const i=(y*width+x)*4;return .299*data[i]+.587*data[i+1]+.114*data[i+2]}
+  function score(x0,y0,x1,y1){let dark=0,total=0;
+    for(let y=Math.max(0,Math.floor(y0));y<Math.min(height,Math.floor(y1));y+=2)
+      for(let x=Math.max(0,Math.floor(x0));x<Math.min(width,Math.floor(x1));x+=2){total++;if(gray(x,y)<85)dark++}
     return total?dark/total:0;
   }
-  const zones=[
-    [0.25,0.02,0.75,0.28], // top
-    [0.72,0.25,0.98,0.75], // right
-    [0.25,0.72,0.75,0.98], // bottom
-    [0.02,0.25,0.28,0.75]  // left
-  ];
-  const scores=zones.map(z=>score(z[0]*width,z[1]*height,z[2]*width,z[3]*height));
-  // Strongest side marker gives orientation. Threshold avoids random detections.
-  let max=Math.max(...scores), idx=scores.indexOf(max);
-  if(max<0.10)return null;
-  return idx;
+  const z=[[.25,.02,.75,.28],[.72,.25,.98,.75],[.25,.72,.75,.98],[.02,.25,.28,.75]];
+  const s=z.map(q=>score(q[0]*width,q[1]*height,q[2]*width,q[3]*height));
+  const m=Math.max(...s),i=s.indexOf(m); return m<.10?null:i;
+}
+function orientationFromQR(loc){
+  const a=loc.topLeftFinderPattern,b=loc.topRightFinderPattern;
+  if(!a||!b)return null;
+  let deg=Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI;
+  if(deg<0)deg+=360;
+  return (Math.round(deg/90)%4+4)%4;
 }
 function answerLetter(i){return ['A','B','C','D'][i]||'?'}
+function detectManyCodes(imgData){
+  const found=[], work=new Uint8ClampedArray(imgData.data);
+  const maxCards=Math.min(22,state.students.length||22);
+  for(let n=0;n<maxCards;n++){
+    const code=window.jsQR?.(work,imgData.width,imgData.height,{inversionAttempts:'attemptBoth'});
+    if(!code)break;
+    found.push(code);
+    const pts=[code.location.topLeftCorner,code.location.topRightCorner,code.location.bottomRightCorner,code.location.bottomLeftCorner];
+    const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);
+    const minX=Math.max(0,Math.floor(Math.min(...xs)-12)),maxX=Math.min(imgData.width,Math.ceil(Math.max(...xs)+12));
+    const minY=Math.max(0,Math.floor(Math.min(...ys)-12)),maxY=Math.min(imgData.height,Math.ceil(Math.max(...ys)+12));
+    for(let y=minY;y<maxY;y++)for(let x=minX;x<maxX;x++){
+      const i=(y*imgData.width+x)*4; work[i]=255;work[i+1]=255;work[i+2]=255;work[i+3]=255;
+    }
+  }
+  return found;
+}
 function scanLoop(){
  if(!scanning)return;
  const v=$('#video');
  if(v.readyState>=2){
-   const w=Math.min(900,v.videoWidth||900),h=Math.round(w*(v.videoHeight/v.videoWidth||.5625));
+   const w=Math.min(1280,v.videoWidth||1280),h=Math.round(w*(v.videoHeight/v.videoWidth||.5625));
    canvas.width=w;canvas.height=h;ctx.drawImage(v,0,0,w,h);
-   const img=ctx.getImageData(0,0,w,h);
-   const code=window.jsQR?.(img.data,img.width,img.height,{inversionAttempts:'attemptBoth'});
-   if(code){
-     const id=code.data.trim(); const student=state.students.find(s=>s.id===id);
-     if(student){
-       // Crop a generous square around the detected QR and inspect the physical marker
-       // surrounding it. This decouples identity from orientation.
-       const pts=[code.location.topLeftCorner,code.location.topRightCorner,code.location.bottomRightCorner,code.location.bottomLeftCorner];
-       const xs=pts.map(p=>p.x), ys=pts.map(p=>p.y);
-       const minX=Math.max(0,Math.floor(Math.min(...xs)-Math.abs(Math.max(...xs)-Math.min(...xs))*1.9));
-       const maxX=Math.min(img.width,Math.ceil(Math.max(...xs)+Math.abs(Math.max(...xs)-Math.min(...xs))*1.9));
-       const minY=Math.max(0,Math.floor(Math.min(...ys)-Math.abs(Math.max(...ys)-Math.min(...ys))*1.9));
-       const maxY=Math.min(img.height,Math.ceil(Math.max(...ys)+Math.abs(Math.max(...ys)-Math.min(...ys))*1.9));
-       const cw=maxX-minX,ch=maxY-minY;
-       if(cw>20&&ch>20){
-         const crop=ctx.getImageData(minX,minY,cw,ch);
-         const ans=orientationFromMarker(crop);
-         const now=Date.now();
-         if(ans!==null && (!lastSeen[id]||now-lastSeen[id]>900)){
-           lastSeen[id]=now; recordAnswer(student,ans);
-         }
-       }
+   const img=ctx.getImageData(0,0,w,h),codes=detectManyCodes(img);
+   $('#multiScanStatus').textContent=codes.length+' Karten erkannt';
+   const frameSeen=new Set();
+   codes.forEach(code=>{
+     const id=code.data.trim(),student=state.students.find(s=>s.id===id);
+     if(!student||frameSeen.has(id))return;
+     frameSeen.add(id);
+     const now=Date.now();
+     if(!lastSeen[id]||now-lastSeen[id]>900){
+       const ans=orientationFromQR(code.location);
+       if(ans!==null){lastSeen[id]=now;recordAnswer(student,ans);}
      }
-   }
+   });
  }
  requestAnimationFrame(scanLoop);
 }
