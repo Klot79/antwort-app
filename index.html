@@ -232,6 +232,43 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
   #cardsV19PrintRoot .card-v19-footer{margin-top:auto!important;font-size:4.5mm!important}
   .cards-v19-toolbar{display:none!important}
 }
+
+/* v20: dedicated print canvas */
+#printCanvasV20{display:none}
+@media print{
+  @page{size:A4 portrait;margin:0}
+  html,body{width:210mm!important;margin:0!important;padding:0!important;background:#fff!important}
+  body *{visibility:hidden!important}
+  #printCanvasV20,#printCanvasV20 *{visibility:visible!important}
+  #printCanvasV20{display:block!important;position:absolute!important;left:0!important;top:0!important;width:210mm!important;margin:0!important;padding:0!important;background:#fff!important}
+  .print-page-v20{
+    width:210mm!important;height:297mm!important;box-sizing:border-box!important;
+    padding:10mm!important;display:flex!important;align-items:center!important;justify-content:center!important;
+    break-after:page!important;page-break-after:always!important;overflow:hidden!important;
+  }
+  .print-page-v20:last-child{break-after:auto!important;page-break-after:auto!important}
+  .print-card-v20{
+    width:190mm!important;height:277mm!important;box-sizing:border-box!important;
+    padding:12mm!important;border:1px solid #999!important;border-radius:5mm!important;
+    display:flex!important;flex-direction:column!important;background:#fff!important;
+  }
+  .print-head-v20{display:flex!important;align-items:center!important;gap:5mm!important}
+  .print-emoji-v20{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif!important;font-size:18mm!important;line-height:1!important}
+  .print-name-v20{font-size:8mm!important;font-weight:900!important}
+  .print-id-v20{font-size:4mm!important;opacity:.6!important}
+  .print-marker-v20{
+    position:relative!important;width:162mm!important;height:162mm!important;
+    margin:8mm auto!important;border:1.2mm solid #111!important;border-radius:5mm!important;
+    box-sizing:border-box!important;background:#fff!important;flex:none!important
+  }
+  .print-finder-v20{position:absolute!important;width:25mm!important;height:25mm!important;border:1.5mm solid #111!important;box-sizing:border-box!important;background:#fff!important}
+  .print-finder-v20:after{content:""!important;position:absolute!important;inset:28%!important;background:#111!important}
+  .pf1{left:7%!important;top:7%!important}.pf2{right:7%!important;top:7%!important}.pf3{left:7%!important;bottom:7%!important}
+  .print-answer-v20{position:absolute!important;width:32mm!important;height:32mm!important;border:1mm solid #111!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;font-size:12mm!important;font-weight:900!important;background:#fff!important}
+  .pa{left:40%!important;top:12%!important}.pb{right:12%!important;top:40%!important}.pc{left:40%!important;bottom:12%!important}.pd{left:12%!important;top:40%!important}
+  .print-center-v20{position:absolute!important;left:47%!important;top:47%!important;width:8mm!important;height:8mm!important;background:#111!important;border-radius:50%!important}
+  .print-footer-v20{margin-top:auto!important;text-align:center!important;font-size:4.5mm!important;font-weight:800!important}
+}
 </style>
 <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script></head>
@@ -1427,6 +1464,72 @@ window.addEventListener('DOMContentLoaded',()=>{
   });
   window.addEventListener('load',()=>setTimeout(render,300));
   window.renderCardsV19=render;
+})();
+</script>
+<div id="printCanvasV20" aria-hidden="true"></div>
+<script>
+(function(){
+  const EMOJIS=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶','🐢'];
+  const KEY='antwort-v16-students';
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function getStudents(){
+    let a=[]; try{a=JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){}
+    if(!Array.isArray(a))a=[];
+    const by=Object.fromEntries(a.map(x=>[x.id,x]));
+    return EMOJIS.map((emoji,i)=>{
+      const id='E'+String(i+1).padStart(2,'0'), x=by[id]||{};
+      return {id,emoji,name:(x.name||'').trim()||'Spieler '+String(i+1).padStart(2,'0')};
+    });
+  }
+  function renderVisible(){
+    const root=document.getElementById('cardsV19PrintRoot');
+    if(!root)return;
+    const ss=getStudents();
+    root.innerHTML='';
+    ss.forEach((s,i)=>{
+      const el=document.createElement('article');
+      el.className='card-v19';
+      el.innerHTML=`<div class="card-v19-head"><span class="card-v19-emoji">${s.emoji}</span><div><div class="card-v19-name">${esc(s.name)}</div><div class="card-v19-id">Schüler ${String(i+1).padStart(2,'0')} · ${s.id}</div></div></div>
+      <div class="card-v19-marker"><div class="card-v19-finder card-v19-f1"></div><div class="card-v19-finder card-v19-f2"></div><div class="card-v19-finder card-v19-f3"></div>
+      <div class="card-v19-answer card-v19-a">A</div><div class="card-v19-answer card-v19-b">B</div><div class="card-v19-answer card-v19-c">C</div><div class="card-v19-answer card-v19-d">D</div><div class="card-v19-center"></div></div>
+      <div class="card-v19-footer">${s.emoji} ${esc(s.name)} · Antwortkarte</div>`;
+      root.appendChild(el);
+    });
+    const st=document.getElementById('cardsV19Status'); if(st)st.textContent=ss.length+' Karten · Namen und Emojis aus der Schülerliste';
+  }
+  function buildPrintCanvas(){
+    const c=document.getElementById('printCanvasV20'); if(!c)return;
+    c.innerHTML='';
+    getStudents().forEach((s,i)=>{
+      const page=document.createElement('section'); page.className='print-page-v20';
+      page.innerHTML=`<article class="print-card-v20">
+        <div class="print-head-v20"><span class="print-emoji-v20">${s.emoji}</span><div><div class="print-name-v20">${esc(s.name)}</div><div class="print-id-v20">Schüler ${String(i+1).padStart(2,'0')} · ${s.id}</div></div></div>
+        <div class="print-marker-v20">
+          <div class="print-finder-v20 pf1"></div><div class="print-finder-v20 pf2"></div><div class="print-finder-v20 pf3"></div>
+          <div class="print-answer-v20 pa">A</div><div class="print-answer-v20 pb">B</div><div class="print-answer-v20 pc">C</div><div class="print-answer-v20 pd">D</div>
+          <div class="print-center-v20"></div>
+        </div>
+        <div class="print-footer-v20">${s.emoji} ${esc(s.name)} · Antwortkarte</div>
+      </article>`;
+      c.appendChild(page);
+    });
+  }
+  function refresh(){
+    renderVisible();
+    buildPrintCanvas();
+  }
+  document.addEventListener('DOMContentLoaded',()=>{
+    document.getElementById('cardsV19Refresh')?.addEventListener('click',()=>{
+      refresh();
+      const st=document.getElementById('cardsV19Status'); if(st)st.textContent='✅ 22 Karten aktualisiert';
+    });
+    document.getElementById('cardsV19Print')?.addEventListener('click',()=>{
+      refresh();
+      setTimeout(()=>window.print(),200);
+    });
+    refresh();
+  });
+  window.addEventListener('load',()=>setTimeout(refresh,300));
 })();
 </script>
 </body>
