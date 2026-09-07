@@ -109,7 +109,7 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
         <div class="toolbar no-print">
           <button class="btn primary" id="cameraBtn">Kamera starten</button>
           <button class="btn secondary" id="stopCamera">Stoppen</button>
-          <button class="btn secondary" id="demoBtn">Demo-Erkennung</button><button class="btn secondary" id="privacyToggle">🔒 Sichtschutz</button><button class="btn secondary" id="markerHelp">❓ Marker-Hilfe</button><span class="pill" id="multiScanStatus">0 Karten erkannt</span>
+          <button class="btn secondary" id="demoBtn">Demo-Erkennung</button><button class="btn secondary" id="privacyToggle">🔒 Sichtschutz</button><button class="btn secondary" id="markerHelp">❓ Marker-Hilfe</button><span class="pill" id="multiScanStatus">0 Karten erkannt</span><span class="pill" id="scanQuality">Scan bereit</span>
           <button class="btn danger" id="finishRound">Runde beenden</button>
         </div>
       </div>
@@ -316,38 +316,106 @@ function orientationFromMarker(imageData){
   const m=Math.max(...s),i=s.indexOf(m); return m<.10?null:i;
 }
 function orientationFromQR(loc){
-  const a=loc.topLeftFinderPattern,b=loc.topRightFinderPattern;
-  if(!a||!b)return null;
-  let deg=Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI;
-  if(deg<0)deg+=360;
-  return (Math.round(deg/90)%4+4)%4;
+  // Estimate the physical card rotation from all four QR edges instead of
+  // relying on one edge. This is more stable when the card is tilted.
+  const pts=loc;
+  const pairs=[
+    [pts.topLeftFinderPattern,pts.topRightFinderPattern],
+    [pts.bottomLeftFinderPattern,pts.bottomRightFinderPattern],
+    [pts.topLeftFinderPattern,pts.bottomLeftFinderPattern],
+    [pts.topRightFinderPattern,pts.bottomRightFinderPattern]
+  ];
+  const angles=[];
+  pairs.forEach(([p,q],i)=>{
+    if(!p||!q)return;
+    let deg=Math.atan2(q.y-p.y,q.x-p.x)*180/Math.PI;
+    if(deg<0)deg+=360;
+    // Horizontal edges describe the QR's rotation directly. Vertical edges
+    // are converted by +90° so all four estimates agree.
+    if(i>=2)deg=(deg+90)%360;
+    angles.push(deg);
+  });
+  if(!angles.length)return null;
+  // Circular mean.
+  let sx=0,sy=0;
+  angles.forEach(d=>{const r=d*Math.PI/180;sx+=Math.cos(r);sy+=Math.sin(r)});
+  let mean=Math.atan2(sy,sx)*180/Math.PI;if(mean<0)mean+=360;
+  return Math.round(mean/90)%4;
 }
 function answerLetter(i){return ['A','B','C','D'][i]||'?'}
-function detectManyCodes(imgData){
-  const found=[], work=new Uint8ClampedArray(imgData.data);
-  const maxCards=Math.min(22,state.students.length||22);
-  for(let n=0;n<maxCards;n++){
-    const code=window.jsQR?.(work,imgData.width,imgData.height,{inversionAttempts:'attemptBoth'});
-    if(!code)break;
-    found.push(code);
-    const pts=[code.location.topLeftCorner,code.location.topRightCorner,code.location.bottomRightCorner,code.location.bottomLeftCorner];
-    const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);
-    const minX=Math.max(0,Math.floor(Math.min(...xs)-12)),maxX=Math.min(imgData.width,Math.ceil(Math.max(...xs)+12));
-    const minY=Math.max(0,Math.floor(Math.min(...ys)-12)),maxY=Math.min(imgData.height,Math.ceil(Math.max(...ys)+12));
-    for(let y=minY;y<maxY;y++)for(let x=minX;x<maxX;x++){
-      const i=(y*imgData.width+x)*4; work[i]=255;work[i+1]=255;work[i+2]=255;work[i+3]=255;
-    }
+function scanOneRegion(imageData, offsetX=0, offsetY=0, scale=1){
+  const result=window.jsQR?.(imageData.data,imageData.width,imageData.height,{inversionAttempts:'attemptBoth'});
+  if(!result)return null;
+  // Convert region-local coordinates to full-frame coordinates.
+  const copy=JSON.parse(JSON.stringify(result));
+  ['topLeftCorner','topRightCorner','bottomRightCorner','bottomLeftCorner',
+   'topLeftFinderPattern','topRightFinderPattern','bottomRightFinderPattern','bottomLeftFinderPattern']
+   .forEach(k=>{if(copy.location&&copy.location[k]){copy.location[k].x=copy.location[k].x/scale+offsetX;copy.location[k].y=copy.location[k].y/scale+offsetY;}});
+  return copy;
+}
+function maskCode(work,w,h,code){
+  const pts=[code.location.topLeftCorner,code.location.topRightCorner,code.location.bottomRightCorner,code.location.bottomLeftCorner];
+  const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);
+  const minX=Math.max(0,Math.floor(Math.min(...xs)-14)),maxX=Math.min(w,Math.ceil(Math.max(...xs)+14));
+  const minY=Math.max(0,Math.floor(Math.min(...ys)-14)),maxY=Math.min(h,Math.ceil(Math.max(...ys)+14));
+  for(let y=minY;y<maxY;y++)for(let x=minX;x<maxX;x++){
+    const i=(y*w+x)*4;work[i]=255;work[i+1]=255;work[i+2]=255;work[i+3]=255;
   }
-  return found;
+}
+function detectManyCodes(imgData){
+  const found=[], seen=new Set(), W=imgData.width,H=imgData.height;
+  const maxCards=Math.min(22,state.students.length||22);
+
+  // First pass: full resolution.
+  let work=new Uint8ClampedArray(imgData.data);
+  for(let n=0;n<maxCards;n++){
+    const code=window.jsQR?.(work,W,H,{inversionAttempts:'attemptBoth'});
+    if(!code)break;
+    if(code.data && !seen.has(code.data)){seen.add(code.data);found.push(code);}
+    maskCode(work,W,H,code);
+  }
+
+  // Second pass: scan a 2x2 grid. This helps when one large card/hand dominates
+  // the full frame and jsQR otherwise misses smaller cards.
+  if(found.length<maxCards){
+    const regions=[[0,0,W/2,H/2],[W/2,0,W,H/2],[0,H/2,W/2,H],[W/2,H/2,W,H]];
+    regions.forEach(([x0,y0,x1,y1])=>{
+      if(found.length>=maxCards)return;
+      const rw=Math.max(120,Math.floor(x1-x0)),rh=Math.max(120,Math.floor(y1-y0));
+      const temp=document.createElement('canvas');temp.width=rw;temp.height=rh;
+      const tc=temp.getContext('2d',{willReadFrequently:true});
+      tc.drawImage(canvas,x0,y0,rw,rh,0,0,rw,rh);
+      const ri=tc.getImageData(0,0,rw,rh);
+      for(let n=0;n<maxCards-found.length;n++){
+        const c=window.jsQR?.(ri.data,rw,rh,{inversionAttempts:'attemptBoth'});
+        if(!c)break;
+        const full={data:c.data,location:{}};
+        Object.keys(c.location).forEach(k=>{
+          const p=c.location[k];
+          full.location[k]={x:p.x+x0,y:p.y+y0};
+        });
+        if(c.data&&!seen.has(c.data)){seen.add(c.data);found.push(full);}
+        // mask local code before searching for another in this tile
+        const q=[c.location.topLeftCorner,c.location.topRightCorner,c.location.bottomRightCorner,c.location.bottomLeftCorner];
+        const qx=q.map(p=>p.x),qy=q.map(p=>p.y);
+        const mnx=Math.max(0,Math.floor(Math.min(...qx)-10)),mxx=Math.min(rw,Math.ceil(Math.max(...qx)+10));
+        const mny=Math.max(0,Math.floor(Math.min(...qy)-10)),mxy=Math.min(rh,Math.ceil(Math.max(...qy)+10));
+        for(let yy=mny;yy<mxy;yy++)for(let xx=mnx;xx<mxx;xx++){const ii=(yy*rw+xx)*4;ri.data[ii]=255;ri.data[ii+1]=255;ri.data[ii+2]=255;}
+      }
+    });
+  }
+
+  return found.slice(0,maxCards);
 }
 function scanLoop(){
  if(!scanning)return;
  const v=$('#video');
  if(v.readyState>=2){
-   const w=Math.min(1280,v.videoWidth||1280),h=Math.round(w*(v.videoHeight/v.videoWidth||.5625));
+   const w=Math.min(1400,v.videoWidth||1400),h=Math.round(w*(v.videoHeight/v.videoWidth||.5625));
    canvas.width=w;canvas.height=h;ctx.drawImage(v,0,0,w,h);
    const img=ctx.getImageData(0,0,w,h),codes=detectManyCodes(img);
    $('#multiScanStatus').textContent=codes.length+' Karten erkannt';
+   $('#scanQuality').textContent=codes.length>=Math.max(1,state.students.length)?'Alle erkannt':'Scanner aktiv';
    const frameSeen=new Set();
    codes.forEach(code=>{
      const id=code.data.trim(),student=state.students.find(s=>s.id===id);
