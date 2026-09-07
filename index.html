@@ -66,10 +66,27 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
 .question-mode-panel textarea{width:100%;box-sizing:border-box;border:2px solid #eee;border-radius:14px;padding:12px;font:inherit}
 .auto-review{margin-top:16px;border:2px solid #ddd6fe;border-radius:16px;padding:14px;background:#faf9ff}
 @media(max-width:800px){.mode-grid{grid-template-columns:1fr}.mode-card{padding:17px}.panel-head{flex-direction:column}}
+
+.student-row{display:grid!important;grid-template-columns:58px 34px minmax(150px,1fr) auto;gap:10px;align-items:center;padding:10px 12px;border-radius:16px;background:rgba(255,255,255,.85);margin-bottom:8px}
+.student-avatar{display:flex!important;align-items:center;justify-content:center;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:34px!important;line-height:1;visibility:visible!important;opacity:1!important}
+.result-student-row{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;background:#fff;margin:6px 0}
+.result-avatar{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:30px;line-height:1;display:inline-block}
+.student-name-input{width:100%;box-sizing:border-box;border:2px solid #e5e7eb;border-radius:12px;padding:10px 12px;font-size:16px;background:#fff}
+@media(max-width:700px){.student-row{grid-template-columns:48px 28px 1fr}.student-row .small-btn{grid-column:3}}
+
+.page-navigation{display:flex;align-items:center;gap:10px;margin:0 0 14px;position:sticky;top:0;z-index:20;padding:8px 0;background:rgba(250,250,255,.94);backdrop-filter:blur(8px)}
+.back-button{display:inline-flex;align-items:center;gap:7px;border:0;border-radius:14px;padding:10px 15px;background:#fff;box-shadow:0 4px 14px rgba(40,30,80,.10);font-weight:900;cursor:pointer}
+.back-button:hover{transform:translateX(-2px)}
+.page-label{font-weight:800;opacity:.65}
 </style>
 <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script></head>
 <body>
+<div class="page-navigation" id="pageNavigation">
+  <button class="back-button" id="backButton" type="button">← Zurück</button>
+  <span class="page-label" id="pageLabel">Quiz</span>
+</div>
+
 <div class="app">
 <aside class="side">
   <div class="brand">Antwort<span>!</span></div>
@@ -281,17 +298,12 @@ function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':
 const STUDENT_EMOJIS=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐼','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶'];
 function ensureStudents(){
   const emojis=['🦊','🐼','🐸','🐯','🦄','🐨','🐵','🐙','🦁','🐧','🐰','🐹','🐻','🐝','🦋','🐬','🐳','🦉','🐲','🐱','🐶','🐢'];
-  if(!Array.isArray(students)) students=[];
-  const oldById=Object.fromEntries(students.map(s=>[s.id,s]));
+  const old=Array.isArray(students)?students:[];
+  const byId=Object.fromEntries(old.map(s=>[s.id,s]));
   students=emojis.map((emoji,i)=>{
-    const id=`E${String(i+1).padStart(2,'0')}`;
-    const old=oldById[id]||{};
-    return {
-      id,
-      name: old.name || `Spieler ${String(i+1).padStart(2,'0')}`,
-      emoji,
-      results: Array.isArray(old.results) ? old.results : []
-    };
+    const id='E'+String(i+1).padStart(2,'0');
+    const s=byId[id]||{};
+    return {id, emoji, name:(s.name||'').trim() || 'Spieler '+String(i+1).padStart(2,'0'), results:Array.isArray(s.results)?s.results:[]};
   });
   save();
 }
@@ -360,44 +372,29 @@ $('#startScan').onclick=()=>{
 function renderStudents(){
   const box=document.getElementById('studentList');
   if(!box) return;
+  ensureStudents();
   box.innerHTML='';
-  students.forEach((s,i)=>{
+  students.slice(0,22).forEach((s,i)=>{
     const row=document.createElement('div');
     row.className='student-row';
     row.innerHTML=`
-      <div class="avatar">${s.emoji}</div>
+      <div class="avatar student-avatar">${s.emoji}</div>
       <div class="student-id">${String(i+1).padStart(2,'0')}</div>
-      <input class="student-name-input" value="${escapeHtml(s.name)}"
-             placeholder="Name eingeben"
-             aria-label="Name für ${s.emoji}"
-             data-student-id="${s.id}">
-      <button class="small-btn" data-save="${s.id}">Speichern</button>
-    `;
+      <input class="student-name-input" value="${escapeHtml(s.name)}" placeholder="Name eingeben" data-student-id="${s.id}">
+      <button class="small-btn" data-save="${s.id}">Speichern</button>`;
     box.appendChild(row);
   });
-
   box.querySelectorAll('.student-name-input').forEach(input=>{
     input.addEventListener('change',()=>{
       const s=students.find(x=>x.id===input.dataset.studentId);
-      if(s){
-        s.name=input.value.trim() || `Spieler ${String(students.indexOf(s)+1).padStart(2,'0')}`;
-        save();
-        renderCards();
-        renderStudentChooser();
-      }
+      if(s){s.name=input.value.trim()||('Spieler '+(students.indexOf(s)+1));save();renderCards();renderStudentChooser();renderStudents();}
     });
   });
   box.querySelectorAll('[data-save]').forEach(btn=>{
     btn.addEventListener('click',()=>{
       const input=box.querySelector(`[data-student-id="${btn.dataset.save}"]`);
       const s=students.find(x=>x.id===btn.dataset.save);
-      if(s && input){
-        s.name=input.value.trim() || `Spieler ${String(students.indexOf(s)+1).padStart(2,'0')}`;
-        save();
-        renderStudents();
-        renderCards();
-        renderStudentChooser();
-      }
+      if(s&&input){s.name=input.value.trim()||('Spieler '+(students.indexOf(s)+1));save();renderStudents();renderCards();renderStudentChooser();renderResults?.();}
     });
   });
 }
@@ -803,6 +800,127 @@ ensureStudents(); ensureStudents(); renderAll(); setQuestion({text:'',answers:['
     const items=draftQuestions(raw,count);
     const old=target.querySelector('.auto-review'); if(old) old.remove();
     renderImportReview(items,target);
+  });
+})();
+</script>
+
+<script>
+(function(){
+  function emojiFor(id){
+    const s=(window.students||[]).find(x=>x.id===id);
+    return s?s.emoji:'👤';
+  }
+  function nameFor(id){
+    const s=(window.students||[]).find(x=>x.id===id);
+    return s?s.name:id;
+  }
+  window.renderStudentResultsWithEmoji=function(container, rows){
+    if(!container) return;
+    container.innerHTML='';
+    (rows||[]).forEach((r,i)=>{
+      const id=r.id||r.studentId;
+      const el=document.createElement('div');
+      el.className='result-student-row';
+      el.innerHTML=`<span class="result-avatar">${emojiFor(id)}</span><span><strong>${nameFor(id)}</strong></span>`;
+      container.appendChild(el);
+    });
+  };
+})();
+</script>
+
+<script>
+window.addEventListener('DOMContentLoaded',()=>{
+  try{
+    if(typeof ensureStudents==='function') ensureStudents();
+    if(typeof renderAll==='function') renderAll();
+    if(typeof renderStudents==='function') renderStudents();
+  }catch(e){console.error(e);}
+});
+</script>
+
+<script>
+(function(){
+  const labels={
+    quiz:'Quiz',
+    scanner:'Live-Scanner',
+    students:'Schüler',
+    cards:'Karten',
+    results:'Ergebnisse',
+    student:'Schüleransicht'
+  };
+  const pageHistory=[];
+  let currentPage=null;
+  let navigatingBack=false;
+
+  function getPage(){
+    const active=document.querySelector('[id^="page-"].active');
+    if(active) return active.id.replace(/^page-/,'');
+    const visible=[...document.querySelectorAll('[id^="page-"]')].find(x=>{
+      const s=getComputedStyle(x); return s.display!=='none' && s.visibility!=='hidden';
+    });
+    return visible ? visible.id.replace(/^page-/,'') : 'quiz';
+  }
+  function updateBack(){
+    const b=document.getElementById('backButton');
+    const l=document.getElementById('pageLabel');
+    const p=getPage();
+    if(l) l.textContent=labels[p]||p;
+    if(b) b.style.visibility=pageHistory.length?'visible':'hidden';
+  }
+  function recordPage(p){
+    if(!p || p===currentPage) return;
+    if(currentPage && !navigatingBack) pageHistory.push(currentPage);
+    currentPage=p;
+    updateBack();
+  }
+
+  // Capture clicks on existing navigation links/buttons.
+  document.addEventListener('click',e=>{
+    const el=e.target.closest('[data-page], [data-nav], .nav-item, nav button, nav a');
+    if(!el) return;
+    setTimeout(()=>recordPage(getPage()),30);
+  });
+
+  document.getElementById('backButton')?.addEventListener('click',()=>{
+    if(!pageHistory.length) return;
+    const target=pageHistory.pop();
+    navigatingBack=true;
+    try{
+      const candidates=[
+        `[data-page="${target}"]`,
+        `[data-nav="${target}"]`,
+        `#nav-${target}`,
+        `.nav-item[data-target="${target}"]`
+      ];
+      const btn=candidates.map(s=>document.querySelector(s)).find(Boolean);
+      if(btn) btn.click();
+      else if(typeof window.showPage==='function') window.showPage(target);
+      else {
+        const page=document.getElementById('page-'+target);
+        if(page){
+          document.querySelectorAll('[id^="page-"]').forEach(x=>x.classList.remove('active'));
+          page.classList.add('active');
+        }
+      }
+    }finally{
+      setTimeout(()=>{
+        navigatingBack=false;
+        currentPage=getPage();
+        updateBack();
+      },80);
+    }
+  });
+
+  // Browser back also stays inside the app where possible.
+  window.addEventListener('popstate',()=>{
+    if(pageHistory.length){
+      document.getElementById('backButton')?.click();
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    currentPage=getPage();
+    updateBack();
   });
 })();
 </script>
