@@ -82,6 +82,9 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
 .student-avatar,.chooser-emoji,.result-avatar{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif!important;font-size:32px!important;line-height:1!important;display:inline-flex!important;align-items:center;justify-content:center;visibility:visible!important;opacity:1!important}
 .emoji-tile{display:flex;align-items:center;gap:10px}
 .result{display:flex;align-items:center;gap:10px}
+
+/* Demo-Modus bewusst entfernt */
+.demo,.demo-mode,[data-demo],#demoBtn,#loadDemoBtn{display:none!important}
 </style>
 <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script></head>
@@ -215,7 +218,7 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
         <div class="toolbar no-print">
           <button class="btn primary" id="cameraBtn">Kamera starten</button>
           <button class="btn secondary" id="stopCamera">Stoppen</button>
-          <button class="btn secondary" id="demoBtn">Demo-Erkennung</button><button class="btn secondary" id="privacyToggle">🔒 Sichtschutz</button><button class="btn secondary" id="markerHelp">❓ Marker-Hilfe</button><span class="pill" id="multiScanStatus">0 Karten erkannt</span><span class="pill" id="scanQuality">Scan bereit</span>
+          <button class="btn secondary" id="privacyToggle">🔒 Sichtschutz</button><button class="btn secondary" id="markerHelp">❓ Marker-Hilfe</button><span class="pill" id="multiScanStatus">0 Karten erkannt</span><span class="pill" id="scanQuality">Scan bereit</span>
           <button class="btn danger" id="finishRound">Runde beenden</button>
         </div>
       </div>
@@ -237,7 +240,7 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
       <div class="toolbar" style="margin-top:0">
         <input id="studentName" placeholder="Name des Schülers" style="flex:1;min-width:220px;padding:13px;border:1px solid var(--line);border-radius:13px">
         <button class="btn primary" id="addStudent">+ Schüler hinzufügen</button>
-        <button class="btn secondary" id="importDemo">Demo-Klasse</button>
+        
       </div>
     </div>
     <div class="students" id="studentList" style="margin-top:18px"></div>
@@ -960,6 +963,19 @@ window.addEventListener('load',()=>{
     ensureStudents();
     renderAll();
   }catch(e){console.error('Student initialization:',e);}
+});
+</script>
+
+<script>
+window.addEventListener('load',()=>{
+  try{
+    document.querySelectorAll('.demo,.demo-mode,[data-demo],#demoBtn,#loadDemoBtn').forEach(e=>e.remove());
+    [...document.querySelectorAll('button')].forEach(b=>{
+      if(/demo/i.test(b.textContent||'')) b.remove();
+    });
+    if(typeof ensureStudents==='function') ensureStudents();
+    if(typeof renderAll==='function') renderAll();
+  }catch(e){ console.error(e); }
 });
 </script>
 </body>
