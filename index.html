@@ -47,9 +47,28 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
 @media(max-width:900px){.side{position:static;width:100%;height:auto}.app{display:block}.main{margin:0;width:100%;padding:18px}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap}.grid,.scan-layout{grid-template-columns:1fr}.cards-print{grid-template-columns:1fr 1fr}.camera,.camera video{min-height:360px}}
 @media(max-width:600px){.answers{grid-template-columns:1fr}.cards-print{grid-template-columns:1fr}.top h1{font-size:24px}}
 @media print{.side,.top,.no-print{display:none!important}.main{margin:0;width:100%;padding:0}.cards-print{grid-template-columns:repeat(2,1fr)}.qr-card{box-shadow:none}}
+
+.question-modes{margin:18px 0}
+.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.mode-card{border:2px solid #e9e7f5;background:#fff;border-radius:22px;padding:22px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:7px;box-shadow:0 8px 24px rgba(40,30,80,.06);transition:.18s}
+.mode-card:hover{transform:translateY(-2px);border-color:#8b5cf6;box-shadow:0 12px 30px rgba(40,30,80,.12)}
+.mode-icon{font-size:38px}.mode-card strong{font-size:19px}.mode-card span:last-child{opacity:.7;line-height:1.35}
+.question-mode-panel{display:none;background:#fff;border:2px solid #ece8fa;border-radius:22px;padding:20px;margin:16px 0;box-shadow:0 8px 24px rgba(40,30,80,.06)}
+.question-mode-panel.active{display:block}.panel-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.panel-head h3{margin:0 0 4px}.panel-head p{margin:0;opacity:.7}
+.upload-box{margin:18px 0;display:block;border:2px dashed #b8a9e8;border-radius:18px;padding:28px;text-align:center;font-weight:800;cursor:pointer;background:#faf9ff}
+.upload-box input,.file-btn input{display:none}
+.import-preview{min-height:70px;border-radius:14px;background:#f7f7fb;padding:14px;margin:10px 0;white-space:pre-wrap}
+.import-note{font-size:13px;opacity:.72;margin:10px 0 14px}
+.primary-btn{border:0;border-radius:14px;padding:12px 18px;font-weight:900;cursor:pointer;background:#7c3aed;color:#fff}
+.primary-btn:disabled{opacity:.45;cursor:not-allowed}
+.text-tools{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.text-tools select,.text-tools .small-btn{border:1px solid #ddd6fe;border-radius:12px;padding:10px;background:#fff;font-weight:700}
+.question-mode-panel textarea{width:100%;box-sizing:border-box;border:2px solid #eee;border-radius:14px;padding:12px;font:inherit}
+.auto-review{margin-top:16px;border:2px solid #ddd6fe;border-radius:16px;padding:14px;background:#faf9ff}
+@media(max-width:800px){.mode-grid{grid-template-columns:1fr}.mode-card{padding:17px}.panel-head{flex-direction:column}}
 </style>
 <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
-</head>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script></head>
 <body>
 <div class="app">
 <aside class="side">
@@ -65,7 +84,73 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
 <main class="main">
   <div class="top"><h1 id="pageTitle">Neue Frage</h1><div class="pill" id="classCount">0 Schüler</div></div>
 
-  <section id="page-quiz">
+  
+<section class="question-modes" id="questionModes">
+  <div class="section-title">
+    <div>
+      <h2>Wie möchtest du Fragen erstellen?</h2>
+      <p>Wähle eine der drei Möglichkeiten.</p>
+    </div>
+  </div>
+  <div class="mode-grid">
+    <button class="mode-card" data-mode="manual">
+      <span class="mode-icon">📝</span>
+      <strong>Manuelle Eingabe</strong>
+      <span>Frage und 4 Antworten selbst eingeben</span>
+    </button>
+    <button class="mode-card" data-mode="photo">
+      <span class="mode-icon">📷</span>
+      <strong>Foto → Quiz</strong>
+      <span>Foto mit Fragen und markierten Lösungen übernehmen</span>
+    </button>
+    <button class="mode-card" data-mode="text">
+      <span class="mode-icon">📖</span>
+      <strong>Text → Quiz</strong>
+      <span>Text scannen oder einfügen und Fragen automatisch erzeugen</span>
+    </button>
+  </div>
+</section>
+
+<div class="question-mode-panel" id="photoModePanel">
+  <div class="panel-head">
+    <div><h3>📷 Foto → Quiz</h3><p>Fotografiere ein Arbeitsblatt oder lade ein Bild hoch. Markiere die richtige Antwort mit einem Strich.</p></div>
+    <button class="small-btn" data-close-mode>Schließen</button>
+  </div>
+  <label class="upload-box">
+    <span>📸 Foto aufnehmen / Bild auswählen</span>
+    <input id="questionPhoto" type="file" accept="image/*" capture="environment">
+  </label>
+  <div id="photoPreview" class="import-preview">Noch kein Foto ausgewählt.</div>
+  <div class="import-note">Format-Beispiel: „B) Paris —“ bedeutet: B ist richtig. Die Erkennung wird anschließend zur Kontrolle angezeigt.</div>
+  <button class="primary-btn" id="analyzePhotoBtn" disabled>🔎 Foto lesen & Fragen erkennen</button>
+<div id="ocrProgress" class="import-note"></div>
+</div>
+
+<div class="question-mode-panel" id="textModePanel">
+  <div class="panel-head">
+    <div><h3>📖 Text → Quiz</h3><p>Füge einen Text ein oder scanne ihn mit dem iPhone. Die App erstellt daraus Multiple-Choice-Fragen.</p></div>
+    <button class="small-btn" data-close-mode>Schließen</button>
+  </div>
+  <textarea id="sourceText" rows="8" placeholder="Text hier einfügen oder über „Text scannen“ erfassen …"></textarea>
+  <div class="text-tools">
+    <label class="small-btn file-btn">📷 Textbild auswählen
+      <input id="textPhoto" type="file" accept="image/*" capture="environment">
+    </label>
+    <select id="difficulty">
+      <option value="easy">Leicht</option>
+      <option value="medium" selected>Mittel</option>
+      <option value="hard">Schwer</option>
+    </select>
+    <select id="questionCount">
+      <option value="5">5 Fragen</option><option value="10" selected>10 Fragen</option><option value="15">15 Fragen</option>
+    </select>
+  </div>
+  <div id="textScanStatus" class="import-note">Tipp: Text kann direkt eingefügt oder als Foto aufgenommen werden.</div>
+  <button class="primary-btn" id="ocrTextBtn">📷 Textfoto lesen</button>
+  <button class="primary-btn" id="generateFromTextBtn">✨ Fragen automatisch erstellen</button>
+</div>
+
+<section id="page-quiz">
     <div class="grid">
       <div class="card">
         <h2>Frage</h2>
@@ -540,6 +625,186 @@ function showMarkerHelp(){
 }
 function closeModal(){$('#modal').classList.add('hidden')}
 ensureStudents(); ensureStudents(); renderAll(); setQuestion({text:'',answers:['','','',''],correct:-1});
+</script>
+
+<script>
+(function(){
+  const qs=s=>document.querySelector(s);
+  const qsa=s=>document.querySelectorAll(s);
+
+  function openMode(mode){
+    qsa('.question-mode-panel').forEach(x=>x.classList.remove('active'));
+    if(mode==='photo') qs('#photoModePanel')?.classList.add('active');
+    if(mode==='text') qs('#textModePanel')?.classList.add('active');
+  }
+  qsa('.mode-card').forEach(b=>b.addEventListener('click',()=>openMode(b.dataset.mode)));
+  qsa('[data-close-mode]').forEach(b=>b.addEventListener('click',()=>{
+    qsa('.question-mode-panel').forEach(x=>x.classList.remove('active'));
+  }));
+
+  const photo=qs('#questionPhoto'), analyze=qs('#analyzePhotoBtn'), preview=qs('#photoPreview');
+  photo?.addEventListener('change',()=>{
+    const f=photo.files?.[0]; if(!f)return;
+    preview.textContent=`📷 ${f.name} ausgewählt.`;
+    analyze.disabled=false;
+  });
+  analyze?.addEventListener('click',()=>{
+    preview.innerHTML='<div class="auto-review"><strong>Foto vorbereitet.</strong><br>Die Frage-/Antwort-Erkennung ist als Import-Schritt eingerichtet. Erkannte Fragen werden vor dem Übernehmen angezeigt und können korrigiert werden.</div>';
+  });
+
+  const text=qs('#sourceText'), textPhoto=qs('#textPhoto'), status=qs('#textScanStatus');
+  textPhoto?.addEventListener('change',()=>{
+    const f=textPhoto.files?.[0]; if(!f)return;
+    status.textContent=`📷 ${f.name} ausgewählt. Für echte Texterkennung kann die Datei anschließend analysiert werden.`;
+  });
+  qs('#generateFromTextBtn')?.addEventListener('click',()=>{
+    const raw=(text?.value||'').trim(), count=Number(qs('#questionCount')?.value||10), diff=qs('#difficulty')?.value||'medium';
+    if(!raw){
+      status.textContent='Bitte zuerst einen Text einfügen oder ein Textfoto auswählen.';
+      text?.focus(); return;
+    }
+    // Generate safe draft questions locally from sentences; no fake AI claims.
+    const sentences=raw.split(/(?<=[.!?])\s+/).map(x=>x.trim()).filter(x=>x.length>45).slice(0,count);
+    const drafts=sentences.length ? sentences : [raw.slice(0,260)];
+    const box=document.createElement('div'); box.className='auto-review';
+    box.innerHTML=`<strong>✨ Entwurf erstellt (${Math.min(drafts.length,count)} Fragen · ${diff==='easy'?'leicht':diff==='hard'?'schwer':'mittel'})</strong>
+      <p>Bitte die automatisch erzeugten Fragen prüfen und die richtige Antwort festlegen, bevor sie ins Quiz übernommen werden.</p>`;
+    drafts.forEach((s,i)=>{
+      const item=document.createElement('div');
+      item.style='padding:10px 0;border-top:1px solid #e5e7eb';
+      item.innerHTML=`<strong>${i+1}. ${s.replace(/[<>]/g,'')}</strong><br>
+      <label>Richtige Antwort:
+        <select><option>A</option><option>B</option><option selected>C</option><option>D</option></select>
+      </label>`;
+      box.appendChild(item);
+    });
+    qs('#textModePanel')?.appendChild(box);
+  });
+})();
+</script>
+
+<script>
+(function(){
+  const $=s=>document.querySelector(s);
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const setStatus=(el,t)=>{if(el)el.textContent=t};
+
+  async function ocrFile(file, statusEl){
+    if(!file) throw new Error('Keine Datei ausgewählt.');
+    if(!window.Tesseract) throw new Error('OCR-Bibliothek konnte nicht geladen werden. Bitte Internetverbindung prüfen.');
+    setStatus(statusEl,'🔄 Bild wird gelesen …');
+    const result=await Tesseract.recognize(file,'deu+eng',{
+      logger:m=>{
+        if(m.status==='recognizing text' && typeof m.progress==='number')
+          setStatus(statusEl,`🔄 Texterkennung: ${Math.round(m.progress*100)} %`);
+      }
+    });
+    setStatus(statusEl,'✅ Text erkannt.');
+    return result.data.text||'';
+  }
+
+  // Parse worksheet-style questions. A line ending in a marker such as *, ✓, ✔,
+  // or containing a trailing dash is treated as the correct answer.
+  function parseMarkedQuestions(text){
+    const lines=text.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+    const out=[]; let q=null;
+    const answerRe=/^([A-Da-d])[\)\.\:\-]\s*(.+)$/;
+    for(const line of lines){
+      const am=line.match(answerRe);
+      if(am){
+        if(!q) continue;
+        let val=am[2].trim(), correct=false;
+        if(/(?:\s*[-–—]\s*$)|(?:\s*[✓✔☑]\s*$)|(?:\s*\*+\s*$)/.test(val)){
+          correct=true; val=val.replace(/\s*[-–—✓✔☑*]+\s*$/,'').trim();
+        }
+        q.answers.push({letter:am[1].toUpperCase(),text:val,correct});
+        if(q.answers.length===4){
+          const idx=q.answers.findIndex(a=>a.correct);
+          if(idx>=0){q.correct=q.answers[idx].letter;out.push(q);}
+          q=null;
+        }
+      }else if(!q || q.answers.length===0){
+        if(q && q.question) { /* keep current question */ }
+        q={question:line,answers:[],correct:null};
+      }else if(q.answers.length<4){
+        q.question += ' '+line;
+      }
+    }
+    return out;
+  }
+
+  function renderImportReview(items, target){
+    target.innerHTML='';
+    if(!items.length){
+      target.innerHTML='<div class="auto-review"><strong>Keine vollständigen 4-Antwort-Fragen erkannt.</strong><br>Für Foto-Import bitte A–D verwenden und die richtige Antwort mit „—“, ✓ oder * markieren.</div>';
+      return;
+    }
+    const box=document.createElement('div'); box.className='auto-review';
+    box.innerHTML=`<strong>✅ ${items.length} Frage(n) erkannt</strong><p>Bitte kontrollieren. Die markierte Lösung wird als richtig übernommen.</p>`;
+    items.forEach((q,i)=>{
+      const d=document.createElement('div'); d.style='padding:12px 0;border-top:1px solid #e5e7eb';
+      d.innerHTML=`<strong>${i+1}. ${esc(q.question)}</strong><br>`+
+        q.answers.map(a=>`<label style="display:block;margin:5px 0"><input type="radio" name="imp${i}" value="${a.letter}" ${a.letter===q.correct?'checked':''}> ${a.letter}) ${esc(a.text)}</label>`).join('');
+      box.appendChild(d);
+    });
+    target.appendChild(box);
+  }
+
+  function draftQuestions(text,count){
+    const sentences=text.replace(/\s+/g,' ').split(/(?<=[.!?])\s+/).filter(s=>s.length>55);
+    const result=[];
+    for(let i=0;i<Math.min(count,sentences.length);i++){
+      const s=sentences[i];
+      const words=s.replace(/[.,;:!?()]/g,'').split(/\s+/).filter(w=>w.length>5);
+      const key=words[Math.floor(words.length/2)]||words[0]||'Begriff';
+      const stem=s.length>170?s.slice(0,167)+'…':s;
+      result.push({
+        question:`Welche Aussage passt zum folgenden Textabschnitt?`,
+        answers:[stem,`Eine gegenteilige Aussage zu diesem Text`, `Eine Aussage, die im Text nicht vorkommt`, `Keine der genannten Aussagen`],
+        correct:'A',
+        source:s,
+        key
+      });
+    }
+    if(!result.length && text.trim()){
+      const s=text.trim().slice(0,220);
+      result.push({question:'Welche Aussage wird im Text genannt?',answers:[s,'Eine andere Aussage','Eine nicht genannte Aussage','Keine der genannten Aussagen'],correct:'A',source:text});
+    }
+    return result;
+  }
+
+  // Photo OCR + marked-answer parsing
+  const photo=$('#questionPhoto'), analyze=$('#analyzePhotoBtn'), preview=$('#photoPreview'), prog=$('#ocrProgress');
+  photo?.addEventListener('change',()=>{analyze.disabled=!photo.files?.[0]; if(photo.files?.[0]) preview.textContent='📷 '+photo.files[0].name;});
+  analyze?.addEventListener('click',async()=>{
+    try{
+      const text=await ocrFile(photo.files[0],prog);
+      preview.innerHTML='<div class="auto-review"><strong>Erkannter Text:</strong><pre style="white-space:pre-wrap">'+esc(text)+'</pre></div>';
+      const items=parseMarkedQuestions(text);
+      renderImportReview(items,preview);
+    }catch(e){preview.textContent='❌ '+e.message;}
+  });
+
+  // Text-photo OCR
+  $('#ocrTextBtn')?.addEventListener('click',async()=>{
+    const f=$('#textPhoto')?.files?.[0], status=$('#textScanStatus'), ta=$('#sourceText');
+    try{
+      const text=await ocrFile(f,status);
+      ta.value=text;
+      status.textContent='✅ Text wurde erkannt und ins Textfeld übernommen. Jetzt „Fragen automatisch erstellen“ drücken.';
+    }catch(e){status.textContent='❌ '+e.message;}
+  });
+
+  // Auto question generation from extracted text, entirely client-side.
+  $('#generateFromTextBtn')?.addEventListener('click',()=>{
+    const raw=($('#sourceText')?.value||'').trim(), count=Number($('#questionCount')?.value||10);
+    const target=$('#textModePanel');
+    if(!raw){$('#textScanStatus').textContent='Bitte zuerst Text einfügen oder ein Textfoto lesen.';return;}
+    const items=draftQuestions(raw,count);
+    const old=target.querySelector('.auto-review'); if(old) old.remove();
+    renderImportReview(items,target);
+  });
+})();
 </script>
 </body>
 </html>
