@@ -1,6 +1,6 @@
-# Antwort! — Plickers Plus
+# Antwort! —App
 
-Eine lokale, moderne Plickers-ähnliche Web-App.
+Eine lokale, moderne Antwortt-App Web-App.
 
 ## Start
 1. `index.html` in einem Browser öffnen.
