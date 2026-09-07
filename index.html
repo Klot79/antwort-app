@@ -85,6 +85,12 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}.app{min-heigh
 
 /* Demo-Modus bewusst entfernt */
 .demo,.demo-mode,[data-demo],#demoBtn,#loadDemoBtn{display:none!important}
+
+.card-student{display:flex;align-items:center;gap:10px}
+.card-emoji{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:32px;line-height:1}
+.card-name{font-weight:900;font-size:18px}
+.card-id{font-size:12px;opacity:.55}
+.card-footer{font-weight:800;text-align:center;margin-top:8px}
 </style>
 <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script></head>
@@ -435,30 +441,39 @@ $('#addStudent').onclick=()=>{
     };
 $('#importDemo').onclick=()=>{['Anna','Ben','Clara','David','Emil','Fatima','Greta','Hugo'].forEach(n=>state.students.push({id:uid(),name:n}));save()};
 function renderCards(){
+  const box=document.getElementById('cardsGrid');
+  if(!box)return;
   ensureStudents();
-  const el=$('#cardsList');
-  if(!el)return;
-  el.innerHTML='';
-  if(typeof QRCode==='undefined'){
-    el.innerHTML='<div class="card empty">⚠️ Die Kartenbibliothek konnte nicht geladen werden. Bitte Internetverbindung prüfen und die Seite neu laden.</div>';
-    return;
-  }
-  state.students.forEach((s,idx)=>{
-    const d=document.createElement('div');
-    d.className='qr-card privacy-print-card';
-    d.innerHTML=`
-      <div class="name">${s.emoji} <span style="font-size:14px">Spieler ${String(idx+1).padStart(2,'0')}</span></div>
-      <div class="marker-card" data-card="${s.id}">
-        <div class="finder ftl"></div><div class="finder ftr"></div><div class="finder fbr"></div><div class="finder fbl"></div>
-        <div class="answer-marker m0"></div><div class="answer-marker m1"></div><div class="answer-marker m2"></div><div class="answer-marker m3"></div>
+  box.innerHTML='';
+  state.students.forEach((s,i)=>{
+    const card=document.createElement('div');
+    card.className='answer-card';
+    card.innerHTML=`
+      <div class="card-top">
+        <div class="card-student">
+          <span class="card-emoji">${s.emoji}</span>
+          <div>
+            <div class="card-name">${escapeHtml(s.name)}</div>
+            <div class="card-id">Schüler ${String(i+1).padStart(2,'0')} · ${s.id}</div>
+          </div>
+        </div>
+      </div>
+      <div class="marker-card" data-student="${s.id}">
+        <div class="finder f1"></div><div class="finder f2"></div><div class="finder f3"></div>
+        <div class="answer-marker am1">A</div><div class="answer-marker am2">B</div>
+        <div class="answer-marker am3">C</div><div class="answer-marker am4">D</div>
         <div class="center-dot"></div>
         <div class="micro" id="qr-${s.id}"></div>
       </div>
-      <div class="help">Drehen für Antwort · persönliche Karte</div>`;
-    el.appendChild(d);
-    new QRCode(d.querySelector('.micro'),{
-      text:s.id,width:70,height:70,correctLevel:QRCode.CorrectLevel.H
-    });
+      <div class="card-footer">Antwortkarte · ${escapeHtml(s.name)}</div>`;
+    box.appendChild(card);
+
+    const qr=card.querySelector('#qr-'+s.id);
+    if(window.QRCode && qr){
+      try{
+        new QRCode(qr,{text:s.id,width:96,height:96,correctLevel:QRCode.CorrectLevel.M});
+      }catch(e){ console.error('QR '+s.id,e); }
+    }
   });
 }
 $('#generateCards').onclick=renderCards; $('#printCards').onclick=()=>window.print();
@@ -976,6 +991,32 @@ window.addEventListener('load',()=>{
     if(typeof ensureStudents==='function') ensureStudents();
     if(typeof renderAll==='function') renderAll();
   }catch(e){ console.error(e); }
+});
+</script>
+
+<script>
+(function(){
+  window.syncStudentNameEverywhere=function(id,name){
+    if(!window.state || !Array.isArray(state.students)) return;
+    const s=state.students.find(x=>x.id===id);
+    if(!s)return;
+    s.name=(name||'').trim() || 'Spieler '+String(state.students.indexOf(s)+1).padStart(2,'0');
+    localStorage.setItem(KEY,JSON.stringify(state));
+    if(typeof renderCards==='function') renderCards();
+    if(typeof renderStudents==='function') renderStudents();
+    if(typeof renderStudentChooser==='function') renderStudentChooser();
+    if(typeof renderResults==='function') renderResults();
+  };
+})();
+</script>
+
+<script>
+window.addEventListener('DOMContentLoaded',()=>{
+  document.addEventListener('change',e=>{
+    const input=e.target.closest('.student-name-input');
+    if(!input || typeof syncStudentNameEverywhere!=='function') return;
+    syncStudentNameEverywhere(input.dataset.studentId,input.value);
+  });
 });
 </script>
 </body>
