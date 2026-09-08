@@ -212,3 +212,11 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - Das Hintergrundbild wurde deshalb technisch bereinigt: Die statischen Top-5-Zeilen wurden entfernt.
 - Jetzt wird **nur noch die echte dynamische Top-5** angezeigt.
 - Die rechte Spalte enthält weiterhin nur den Home-Button.
+
+
+## v36 – finales Jubelbild passend eingebaut
+- Das neue Jubelbild wurde als offizieller Abschluss-Hintergrund übernommen.
+- Die dynamische Top-5 liegt **direkt unter dem Pokal** an der vorgesehenen Stelle.
+- Die Ergebniszeilen sind vollständig deckend, damit keine statische Beispielwertung aus dem Bild durchscheint.
+- Rechts im Mac-Steuerungsfenster bleibt ausschließlich der Home-Button.
+- Im AirPlay-Display gibt es keinen Home-Button.

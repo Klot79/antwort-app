@@ -119,6 +119,113 @@ body.final-display .homeBtn{display:none!important}
   z-index:10!important;
 }
 </style>
+
+<style id="final-v36">
+/* Exact final leaderboard poster: the artwork supplies the celebration,
+   while the five opaque rows below the trophy are populated live. */
+.main.final-mode{
+  position:relative!important;
+  min-height:650px!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  background:#168eea!important;
+}
+.main.final-mode .finalCelebration{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:650px!important;
+  background:#168eea url("abschluss-gesamtbewertung.png") center center / 100% 100% no-repeat!important;
+}
+.final-mode .dynamicBoard{
+  position:absolute!important;
+  left:50%!important;
+  top:66%!important;
+  transform:translate(-50%,-50%)!important;
+  width:52%!important;
+  max-width:760px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:10px!important;
+  z-index:20!important;
+}
+.final-mode .dynamicRow{
+  height:clamp(60px,7.0vh,82px)!important;
+  border-radius:24px!important;
+  background:#fff!important;
+  opacity:1!important;
+  border:2px solid rgba(255,255,255,.98)!important;
+  box-shadow:0 7px 18px rgba(30,70,130,.16)!important;
+  display:grid!important;
+  grid-template-columns:72px 82px 1fr 135px!important;
+  align-items:center!important;
+  padding:0 22px 0 12px!important;
+  box-sizing:border-box!important;
+}
+.final-mode .dynamicRank{
+  font-size:clamp(24px,2.2vw,38px)!important;
+  font-weight:950!important;
+  color:#61728c!important;
+  text-align:center!important;
+}
+.final-mode .dynamicEmoji{
+  font-size:clamp(34px,3vw,52px)!important;
+  text-align:center!important;
+}
+.final-mode .dynamicPlace{
+  font-size:clamp(23px,2vw,36px)!important;
+  font-weight:950!important;
+  color:#172238!important;
+}
+.final-mode .dynamicPoints{
+  font-size:clamp(22px,1.9vw,34px)!important;
+  font-weight:950!important;
+  color:#1678db!important;
+  text-align:right!important;
+  white-space:nowrap!important;
+}
+#totalWrap.final-side{
+  display:block!important;
+  height:100%!important;
+}
+#totalWrap.final-side .finalSideHome{
+  height:100%;
+  min-height:650px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  box-sizing:border-box;
+}
+#totalWrap.final-side .homeBtn{
+  position:static!important;
+  transform:none!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+}
+</style>
+
+<style id="display-v36">
+body.final-display #main{
+  position:fixed!important; inset:0!important; width:100vw!important; height:100vh!important;
+  max-width:none!important; margin:0!important; padding:0!important; background:#168eea!important;
+}
+body.final-display .finalCelebration{
+  position:fixed!important; inset:0!important; width:100vw!important; height:100vh!important;
+  background:#168eea url("abschluss-gesamtbewertung.png") center center / 100% 100% no-repeat!important;
+}
+body.final-display .dynamicBoard{
+  left:50%!important; top:66%!important; width:47%!important; max-width:760px!important;
+  transform:translate(-50%,-50%)!important; z-index:20!important;
+}
+body.final-display .dynamicRow{
+  background:#fff!important; opacity:1!important;
+}
+body.final-display .homeBtn{display:none!important}
+</style>
 </head><body><div class="wrap"><div class="head"><div class="logo">Antwort!</div><div class="spacer"></div><div class="counter">📷 <span id="count">0</span> Antworten</div></div><main id="main" class="main"></main></div>
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script><script>
 const KEY='antwort-v4-state',$=id=>document.getElementById(id);let remoteState=null,peer=null,conn=null;
@@ -133,16 +240,14 @@ function render(){const s=get(),q=s?.questions?.find(x=>x.id===s.currentQuestion
    return {...st,points};
  }).sort((a,b)=>b.points-a.points||String(a.id).localeCompare(String(b.id)));
  const top5=totals.slice(0,5);
- $('main').innerHTML=`
-  <div class="finalCelebration" aria-label="Gesamtergebnis">
+ $('main').innerHTML=`<div class="finalCelebration" aria-label="Gesamtergebnis">
    <div class="dynamicBoard">
-    ${top5.map((st,i)=>`
-     <div class="dynamicRow">
+    ${top5.map((st,i)=>`<div class="dynamicRow">
       <div class="dynamicRank">${i+1}.</div>
       <div class="dynamicEmoji">${esc(st.emoji||'👤')}</div>
       <div class="dynamicPlace">Platz ${i+1}</div>
       <div class="dynamicPoints">${st.points} Pkt.</div>
-     </div>`).join('')}
+    </div>`).join('')}
    </div>
   </div>`;
  return;

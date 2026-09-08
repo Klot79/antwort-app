@@ -224,6 +224,94 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,Bl
   z-index:10!important;
 }
 </style>
+
+<style id="final-v36">
+/* Exact final leaderboard poster: the artwork supplies the celebration,
+   while the five opaque rows below the trophy are populated live. */
+.main.final-mode{
+  position:relative!important;
+  min-height:650px!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  background:#168eea!important;
+}
+.main.final-mode .finalCelebration{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:650px!important;
+  background:#168eea url("abschluss-gesamtbewertung.png") center center / 100% 100% no-repeat!important;
+}
+.final-mode .dynamicBoard{
+  position:absolute!important;
+  left:50%!important;
+  top:66%!important;
+  transform:translate(-50%,-50%)!important;
+  width:52%!important;
+  max-width:760px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:10px!important;
+  z-index:20!important;
+}
+.final-mode .dynamicRow{
+  height:clamp(60px,7.0vh,82px)!important;
+  border-radius:24px!important;
+  background:#fff!important;
+  opacity:1!important;
+  border:2px solid rgba(255,255,255,.98)!important;
+  box-shadow:0 7px 18px rgba(30,70,130,.16)!important;
+  display:grid!important;
+  grid-template-columns:72px 82px 1fr 135px!important;
+  align-items:center!important;
+  padding:0 22px 0 12px!important;
+  box-sizing:border-box!important;
+}
+.final-mode .dynamicRank{
+  font-size:clamp(24px,2.2vw,38px)!important;
+  font-weight:950!important;
+  color:#61728c!important;
+  text-align:center!important;
+}
+.final-mode .dynamicEmoji{
+  font-size:clamp(34px,3vw,52px)!important;
+  text-align:center!important;
+}
+.final-mode .dynamicPlace{
+  font-size:clamp(23px,2vw,36px)!important;
+  font-weight:950!important;
+  color:#172238!important;
+}
+.final-mode .dynamicPoints{
+  font-size:clamp(22px,1.9vw,34px)!important;
+  font-weight:950!important;
+  color:#1678db!important;
+  text-align:right!important;
+  white-space:nowrap!important;
+}
+#totalWrap.final-side{
+  display:block!important;
+  height:100%!important;
+}
+#totalWrap.final-side .finalSideHome{
+  height:100%;
+  min-height:650px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  box-sizing:border-box;
+}
+#totalWrap.final-side .homeBtn{
+  position:static!important;
+  transform:none!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+}
+</style>
 </head>
 <body>
 <header class="top">
@@ -350,36 +438,30 @@ function renderTotal(s){
 
  const main=document.querySelector('.main');
  if(!main)return;
-
  main.classList.add('final-mode');
+
  ['phase','question','answers','instruction','control','stateText','action','feedback'].forEach(id=>{
-   const el=$(id);
-   if(el) el.style.display='none';
+   const el=$(id); if(el) el.style.display='none';
  });
 
  const totalWrap=$('totalWrap');
  if(totalWrap){
    totalWrap.className='final-side';
    totalWrap.style.display='block';
-   totalWrap.innerHTML=`
-    <div class="finalSideHome">
-      <button class="homeBtn" id="finalHomeBtn" type="button">🏠 Zurück zum Administrator</button>
-    </div>`;
+   totalWrap.innerHTML=`<div class="finalSideHome"><button class="homeBtn" id="finalHomeBtn" type="button">🏠 Zurück zum Administrator</button></div>`;
    $('finalHomeBtn').onclick=()=>location.href='index.html';
  }
 
  const board=document.createElement('div');
  board.className='finalCelebration';
- board.innerHTML=`
-   <div class="dynamicBoard">
-    ${top5.map((x,i)=>`
-      <div class="dynamicRow">
-       <div class="dynamicRank">${i+1}.</div>
-       <div class="dynamicEmoji">${esc(x.emoji||'👤')}</div>
-       <div class="dynamicPlace">Platz ${i+1}</div>
-       <div class="dynamicPoints">${x.points} Pkt.</div>
-      </div>`).join('')}
-   </div>`;
+ board.innerHTML=`<div class="dynamicBoard">
+ ${top5.map((x,i)=>`<div class="dynamicRow">
+   <div class="dynamicRank">${i+1}.</div>
+   <div class="dynamicEmoji">${esc(x.emoji||'👤')}</div>
+   <div class="dynamicPlace">Platz ${i+1}</div>
+   <div class="dynamicPoints">${x.points} Pkt.</div>
+ </div>`).join('')}
+ </div>`;
  main.innerHTML='';
  main.appendChild(board);
 }
