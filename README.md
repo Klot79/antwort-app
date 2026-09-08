@@ -151,10 +151,12 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - Keine zusätzliche Leerseite nach der letzten Karte.
 
 
-## v27 – QR doppelt größer + Druckfix
-- Hochformat und Kartendesign bleiben wie in v26.
-- QR-Code bleibt technisch **600 × 600 Pixel**.
-- Gedruckte QR-Fläche ist auf **90 mm × 90 mm** vergrößert (ca. doppelte Kantenlänge gegenüber 45 mm).
-- A/B/C/D bleiben außerhalb des QR-Codes und sind nicht Teil des Codes.
-- Jede Kinderkarte ist exakt eine A4-Seite.
-- Keine zusätzliche leere Seite zwischen oder nach den Karten.
+## v28 – endgültiges Kartendruck-Layout
+- Hochformat A4 bleibt unverändert.
+- Kein zusätzlicher Rahmen/Finder innerhalb der Karte; nur der abgerundete Kartenrahmen bleibt.
+- QR-Code wird technisch mit **600 × 600 Pixel** erzeugt und physisch auf **90 × 90 mm** vergrößert.
+- A/B/C/D stehen mit festem Abstand außerhalb des QR-Codes.
+- Antwortbuchstaben werden pro Drehvariante korrekt angeordnet.
+- Jede Karte belegt exakt eine A4-Seite.
+- Seitenumbruch erfolgt erst **vor der nächsten Karte**, nicht nach der letzten Karte. Dadurch keine zusätzliche leere Seite.
+- Name, Emoji und E-ID bleiben aus dem Administrator übernommen und editierbar.
