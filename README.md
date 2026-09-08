@@ -30,3 +30,17 @@ Im Administrator gibt es jetzt einen sichtbaren Button **„📱 Karten scannen 
 
 ## v11.1 – iPhone-Scanner erreichbar
 Der Button „📱 Karten scannen“ öffnet den Scanner nun direkt per Seitenwechsel statt per neuem Fenster. Das ist auf iPhones/Safari zuverlässiger. Im Scanner gibt es ein eigenes Raumcode-Feld mit automatischer Großschreibung und Fokus.
+
+
+## Ablauf nach dem Scan
+Mit „Frage starten“ zeigt das Display sofort Frage und Antworten und das verbundene iPhone startet den Scanner. Jeder erkannte Scan zeigt auf dem iPhone kurz 👍 bei richtiger bzw. ❗ bei falscher Antwort. Nach „Scannen stoppen“ zeigt das Display automatisch die Auflösung: richtige Antwort markiert und Klassenverteilung. „Weiter →“ startet die nächste Frage. Nach der letzten Frage zeigt das Display die Gesamtpunkte aller 22 Schüler.
+
+
+## v14 – vereinfachter Lehrerablauf
+Der Unterrichtsbildschirm verwendet jetzt nur noch eine aktive Hauptaktion:
+- **Bereit:** „Frage starten“
+- **Scannen:** „Scannen beenden“
+- **Auswertung:** „Nächste Frage“
+- **Fertig:** Gesamtwertung auf dem Display
+
+Display und iPhone bleiben als separate Geräte erhalten. Die Kamera des iPhones startet erst, wenn die aktuelle Frage vom Lehrer gestartet wurde.
