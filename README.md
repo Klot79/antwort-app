@@ -48,3 +48,13 @@ Display und iPhone bleiben als separate Geräte erhalten. Die Kamera des iPhones
 
 ## v15 – Start per Button oder Leertaste
 Auf dem Lehrer-MacBook kann der Ablauf jetzt zusätzlich mit der **Leertaste** gesteuert werden: Bereit → Frage starten, Scannen → beenden, Auswertung → nächste Frage. Eingabefelder werden dabei nicht abgefangen.
+
+
+## v16 – Lehrersteuerung vereinfacht
+Der Lehrer-Spielmodus hat jetzt einen einzigen großen Aktionsbutton. Die Beschriftung und Farbe/Zustand erklären jederzeit den nächsten Schritt:
+- 🟢 **BEREIT → FRAGE STARTEN**
+- 🔵 **FRAGE LÄUFT → SCANNEN BEENDEN**
+- 🟠 **AUSWERTUNG → NÄCHSTE FRAGE**
+- 🎉 **QUIZ BEENDET**
+
+Die Leertaste löst dieselbe Aktion aus.
