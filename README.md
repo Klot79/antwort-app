@@ -109,3 +109,14 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - QR-Code wird intern mit **600 × 600 Pixeln** erzeugt.
 - Rahmen und übriges Kartenlayout bleiben erhalten.
 - Die Antwortflächen sind mit **A, B, C und D** gekennzeichnet.
+
+
+## v24 – Kartenlayout nach dem gewünschten Design
+- Kartenrahmen bleibt erhalten.
+- Die vier kleinen Eck-Rechtecke/Finder sind entfernt.
+- A/B/C/D stehen sauber und mittig **um** den QR-Code.
+- Emoji ist gegenüber der bisherigen Version deutlich kleiner.
+- Name und E-ID bleiben auf der Karte.
+- Die Namen können im Administrator weiterhin pro Kind ergänzt/geändert werden.
+- QR-Code wird mit **600 × 600 Pixel** erzeugt; seine physische Kartengröße bleibt kompakt.
+- Jede Karte bleibt eine eigene A4-Seite; die letzte Karte erzeugt keine zusätzliche Leerseite.
