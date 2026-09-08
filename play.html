@@ -19,11 +19,10 @@
 </style>
 </head>
 <body>
-<div class="top"><div class="brand">🎮 Antwort! · Lehrer</div><div class="spacer"></div><div class="room">Raum <span id="roomCode">…</span></div></div>
+<div class="top"><div class="brand">🎮 Antwort! · Lehrer</div><div class="spacer"></div><div class="room">📱 QR-Scanner bereit</div></div>
 <div class="wrap">
  <div class="connection">
-  <strong>📱 iPhone verbinden:</strong><span class="code" id="code">…</span>
-  <button class="connect" id="newRoom">Neuen Raum</button>
+  <strong>📱 iPhone:</strong><span class="code">QR-Code links unten auf dem Display scannen</span>
   <span class="status" id="connectionStatus">iPhone: noch nicht verbunden</span>
  </div>
  <div class="grid">
@@ -41,11 +40,11 @@
 <div id="feedback" class="feedback"><span id="feedbackIcon"></span></div>
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script>
-const KEY='antwort-v4-state',$=id=>document.getElementById(id);let peer=null,conn=null,room='',fb=null;
+const KEY='antwort-v4-state',$=id=>document.getElementById(id);let peer=null,conn=null,room='AK7P3Q',fb=null;
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function get(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}function save(s){localStorage.setItem(KEY,JSON.stringify(s))}
 function q(s){return s?.questions?.find(x=>x.id===s.currentQuestion)}
-function makeRoom(){return 'A'+Math.random().toString(36).slice(2,7).toUpperCase()}
+function makeRoom(){return room}
 function feedback(ok){clearTimeout(fb);$('feedbackIcon').textContent=ok?'👍':'❗';$('feedback').className='feedback show';fb=setTimeout(()=>$('feedback').className='feedback',650)}
 function render(){
  let s=get(),qq=q(s),a=Object.values(s?.answers||{});$('count').textContent=a.length;
@@ -64,13 +63,7 @@ function renderLive(a){
  $('live').innerHTML=a.map(x=>{let st=s.students.find(y=>y.id===x.id)||{};return '<div class="student"><div class="emoji">'+esc(st.emoji||'👤')+'</div><div><div class="name">'+esc(st.name||x.id)+'</div><div class="status">Antwort '+('ABCD'[x.answer]||'?')+'</div></div><div class="answer '+(x.correct?'good':'bad')+'">'+(x.correct?'👍':'❗')+'</div></div>'}).join('');
 }
 function broadcastState(){try{conn?.send({type:'state',state:get()})}catch(e){}}
-function setRoom(){
- room=makeRoom();$('code').textContent=room.slice(1);$('roomCode').textContent=room.slice(1);
- if(peer)peer.destroy();peer=new Peer('antwort-'+room,{debug:0});
- peer.on('open',()=>{$('connectionStatus').textContent='iPhone: Raum bereit · Code '+room.slice(1)});
- peer.on('connection',c=>{conn=c;setupConn();$('connectionStatus').textContent='📱 iPhone verbunden';c.on('open',broadcastState)});
- peer.on('error',e=>{$('connectionStatus').textContent='Verbindung konnte nicht geöffnet werden. Bitte „Neuen Raum“ drücken.'});
-}
+function setRoom(){if(peer)peer.destroy();$('connectionStatus').textContent='Verbinde den iPhone-Scanner über den festen QR-Code auf dem Display …';peer=new Peer('antwort-'+room,{debug:0});peer.on('open',()=>{$('connectionStatus').textContent='📱 Scanner-Verbindung bereit · QR-Code links unten am Display'});peer.on('connection',c=>{conn=c;setupConn();$('connectionStatus').textContent='📱 iPhone verbunden';c.on('open',broadcastState)});peer.on('error',e=>$('connectionStatus').textContent='Verbindung konnte nicht geöffnet werden. Bitte Display/QR prüfen.');}
 function setupConn(){if(!conn)return;conn.on('data',msg=>{if(msg?.type==='scan'){receiveScan(msg)}else if(msg?.type==='hello'){broadcastState()}});conn.on('close',()=>{$('connectionStatus').textContent='iPhone getrennt'})}
 function receiveScan(msg){
  let s=get();if(!s||s.phase!=='question')return;
@@ -81,6 +74,6 @@ function receiveScan(msg){
 function start(){let s=get();if(!s?.questions?.length)return;let i=Math.max(0,s.currentIndex??0);s.currentIndex=i;s.currentQuestion=s.questions[i].id;s.answers={};s.phase='question';save(s);broadcastState();render()}
 function finish(){let s=get();if(!s||s.phase!=='question')return;let qq=q(s),a=Object.values(s.answers||{});s.history=s.history||[];s.history.push({questionId:qq.id,total:a.length,correct:a.filter(x=>x.correct).length,rows:a.map(x=>({id:x.id,answer:x.answer,correct:x.correct}))});s.phase='results';save(s);broadcastState();render()}
 function next(){let s=get();if(!s||s.phase!=='results')return;let i=(s.currentIndex??0)+1;if(i>=s.questions.length)s.phase='finished';else{s.currentIndex=i;s.currentQuestion=s.questions[i].id;s.answers={};s.phase='idle'}save(s);broadcastState();render()}
-$('start').onclick=start;$('stop').onclick=finish;$('skip').onclick=finish;$('next').onclick=next;$('display').onclick=()=>window.open('display.html','antwort-display');$('newRoom').onclick=setRoom;$('scan').onclick=()=>alert('Auf dem iPhone Safari öffnen und den Raum-Code eingeben. Der Scan startet dort.');window.addEventListener('storage',render);setRoom();render();
+$('start').onclick=start;$('stop').onclick=finish;$('skip').onclick=finish;$('next').onclick=next;$('display').onclick=()=>window.open('display.html','antwort-display');$('scan').onclick=()=>window.open('display.html','antwort-display');window.addEventListener('storage',render);setRoom();render();
 </script>
 </body></html>

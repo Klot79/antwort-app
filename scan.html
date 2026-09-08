@@ -11,25 +11,20 @@
 <div class="wrap">
  <div class="head"><div class="logo">📱 Antwort! Scanner</div><div class="spacer"></div><div class="pill">Karten: <span id="count">0</span></div></div>
  <div class="card">
-  <div class="label">1 · RAUM VERBINDEN</div>
-  <input id="room" class="input" inputmode="text" maxlength="5" placeholder="z. B. K7P3Q">
-  <button class="btn" id="join">Mit MacBook verbinden</button>
-  <div id="status" class="status">Der Lehrer zeigt dir den 5-stelligen Raum-Code.</div>
+  <div class="label">📱 BEREIT</div>
+  <div style="font-size:22px;font-weight:950;margin:8px 0">Mit dem Display verbunden</div>
+  <button class="btn" id="join">Scanner starten</button>
+  <div id="status" class="status">Der feste QR-Code auf dem Display verbindet automatisch mit dem Lehrer-Mac.</div>
  </div>
 </div>
 <div id="camera" class="camera"><div class="camhead"><b>📷 Scannen</b><span id="camstatus" class="status">läuft …</span><div class="spacer"></div><button id="stop" class="stop">Stop</button></div><div class="view"><video id="video" playsinline muted></video><div class="guide"></div><div class="hint">Karte vollständig ins Feld halten</div></div></div>
 <div id="feedback" class="feedback"><span id="icon"></span></div>
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 <script>
-const $=id=>document.getElementById(id);let peer=null,conn=null,stream=null,raf=null,last=new Map(),timer=null,currentState=null;
+const $=id=>document.getElementById(id);let peer=null,conn=null,stream=null,raf=null,last=new Map(),timer=null,currentState=null;const FIXED_ROOM='K7P3Q';
 function feedback(ok){clearTimeout(timer);$('icon').textContent=ok?'👍':'❗';$('feedback').className='feedback show';timer=setTimeout(()=>$('feedback').className='feedback',600)}
 function showCount(){let a=Object.values(currentState?.answers||{});$('count').textContent=a.length}
-function join(){
- let code=$('room').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(code.length!==5){$('status').textContent='Bitte den 5-stelligen Raum-Code eingeben.';return}
- $('status').textContent='Verbinde …';peer?.destroy();peer=new Peer(undefined,{debug:0});
- peer.on('open',()=>{conn=peer.connect('antwort-A'+code,{reliable:true});conn.on('open',()=>{ $('status').textContent='✅ Verbunden. Bereit zum Scannen.';conn.send({type:'hello'}); });conn.on('data',onData);conn.on('close',()=>{$('status').textContent='Verbindung zum MacBook getrennt.';stopCamera()})});
- peer.on('error',e=>$('status').textContent='Verbindung fehlgeschlagen. Code prüfen und erneut versuchen.');
-}
+function join(){let code=FIXED_ROOM;$('status').textContent='Verbinde mit dem Lehrer …';peer?.destroy();peer=new Peer(undefined,{debug:0});peer.on('open',()=>{conn=peer.connect('antwort-A'+code,{reliable:true});conn.on('open',()=>{ $('status').textContent='✅ Verbunden. Bereit zum Scannen.';conn.send({type:'hello'}); });conn.on('data',onData);conn.on('close',()=>{$('status').textContent='Verbindung zum MacBook getrennt.';stopCamera()})});peer.on('error',e=>$('status').textContent='Verbindung fehlgeschlagen. Bitte QR-Code erneut scannen.');}
 function onData(msg){if(msg?.type==='state'){currentState=msg.state;showCount();if(currentState.phase==='question'&&!stream)startCamera()}}
 function stopCamera(){if(raf)cancelAnimationFrame(raf);raf=null;if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;$('video').srcObject=null;$('camera').classList.remove('open')}
 function sendScan(f){
@@ -44,5 +39,5 @@ function sendScan(f){
 }
 function loop(){if(!stream)return;let v=$('video'),c=document.createElement('canvas'),ctx=c.getContext('2d',{willReadFrequently:true});if(v.readyState>=2&&window.jsQR){c.width=v.videoWidth;c.height=v.videoHeight;if(c.width&&c.height){ctx.drawImage(v,0,0,c.width,c.height);let im=ctx.getImageData(0,0,c.width,c.height),f=jsQR(im.data,im.width,im.height,{inversionAttempts:'attemptBoth'});if(f){let m=/^ANTWORT:(E\d\d)$/.exec(f.data),n=Date.now();if(m&&(!last.has(m[1])||n-last.get(m[1])>900)){sendScan(f)}}}}raf=requestAnimationFrame(loop)}
 async function startCamera(){if(!navigator.mediaDevices?.getUserMedia){$('status').textContent='Dieser Browser unterstützt keine Kamera.';return}try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});$('video').srcObject=stream;await $('video').play();$('camera').classList.add('open');$('camstatus').textContent='Scan läuft dauerhaft';last.clear();loop()}catch(e){$('status').textContent='Kamera konnte nicht gestartet werden: '+e.message}}
-$('join').onclick=join;$('stop').onclick=stopCamera;
+$('join').onclick=join;$('stop').onclick=stopCamera;window.addEventListener('load',()=>{if(new URLSearchParams(location.search).get('raum')===FIXED_ROOM)join()});
 </script></body></html>
