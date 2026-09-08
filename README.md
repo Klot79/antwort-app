@@ -227,3 +227,18 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - Die Live-Ergebniszeilen werden jetzt exakt auf die vorgesehenen Karten des Jubelbildes gelegt.
 - Dadurch ist nur noch **eine** sichtbare Platzierung vorhanden.
 - Die tatsächlichen Punkte bleiben dynamisch.
+
+
+## v38 – statische Platzierungen aus dem Abschlussbild entfernt
+- Die fünf im Hintergrundbild fest eingebauten Platzierungsfelder wurden entfernt.
+- Pokal, Banner, Jubel, Konfetti und die übrige Gestaltung bleiben erhalten.
+- Die Top-5 wird ausschließlich durch die echte, dynamische Quiz-Auswertung erzeugt.
+- Dadurch kann keine zweite Platzierung mehr durch das Bild durchscheinen.
+
+
+## v39 – Abschlussbild vereinfacht
+- Es gibt jetzt **nur noch eine** Abschlussgrafik: `abschluss.png`.
+- Die fest eingebauten Beispiel-Platzierungen wurden nicht kompliziert aus dem Bild retuschiert.
+- Stattdessen liegt unter dem Banner „Die Top 5“ ein sauberer weißer Bereich.
+- Die echte Top-5 wird ausschließlich dynamisch von der App darübergelegt.
+- Alte/doppelte Abschlussgrafiken wurden aus dem Paket entfernt.

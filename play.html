@@ -49,7 +49,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,Bl
   height:100vh;
   min-height:100vh;
   overflow:hidden;
-  background:#eef6ff url("abschluss-gesamtbewertung-ohne-button.png") center center / cover no-repeat;
+  background:#eef6ff url("abschluss.png") center center / cover no-repeat;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -136,7 +136,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,Bl
   width:100%!important;
   height:100%!important;
   min-height:650px!important;
-  background:#eef6ff url("abschluss-gesamtbewertung-ohne-button.png") center center / cover no-repeat!important;
+  background:#eef6ff url("abschluss.png") center center / cover no-repeat!important;
 }
 .final-mode .dynamicBoard{
   top:57%!important;
@@ -186,7 +186,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,Bl
   width:100%!important;
   height:100%!important;
   min-height:650px!important;
-  background:#eef6ff url("abschluss-gesamtbewertung-ohne-button.png") center center / cover no-repeat!important;
+  background:#eef6ff url("abschluss.png") center center / cover no-repeat!important;
 }
 .main.final-mode .dynamicBoard{
   position:absolute!important;
@@ -218,7 +218,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,Bl
 
 <style id="final-single-leaderboard-v35">
 .finalCelebration{
-  background:#eef6ff url("abschluss-gesamtbewertung-ohne-button.png") center center / cover no-repeat!important;
+  background:#eef6ff url("abschluss.png") center center / cover no-repeat!important;
 }
 .finalCelebration .dynamicBoard{
   z-index:10!important;
@@ -242,7 +242,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,Bl
   width:100%!important;
   height:100%!important;
   min-height:650px!important;
-  background:#168eea url("abschluss-gesamtbewertung.png") center center / 100% 100% no-repeat!important;
+  background:#168eea url("abschluss.png") center center / 100% 100% no-repeat!important;
 }
 .final-mode .dynamicBoard{
   position:absolute!important;
@@ -337,6 +337,89 @@ body.final-display .dynamicRow{
   height:clamp(58px,7.0vh,82px)!important;
   background:#fff!important;
   opacity:1!important;
+}
+</style>
+
+<style id="final-v38-clean-background">
+.final-mode .dynamicBoard,
+body.final-display .dynamicBoard{
+  top:72.8%!important;
+  width:47%!important;
+  max-width:760px!important;
+  gap:10px!important;
+}
+.final-mode .dynamicRow,
+body.final-display .dynamicRow{
+  height:clamp(58px,6.7vh,80px)!important;
+  background:#fff!important;
+  opacity:1!important;
+}
+</style>
+
+<style id="final-v39-single-artwork">
+/* v39: one artwork only. The artwork contains the celebration and a clean
+   white area; the real Top 5 is rendered by the application. */
+.final-mode .finalCelebration,
+body.final-display .finalCelebration{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:650px!important;
+  background:#fff url("abschluss.png") center center / 100% 100% no-repeat!important;
+}
+.final-mode .dynamicBoard,
+body.final-display .dynamicBoard{
+  position:absolute!important;
+  left:50%!important;
+  top:68.5%!important;
+  transform:translate(-50%,-50%)!important;
+  width:min(54%,760px)!important;
+  max-width:760px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:10px!important;
+  z-index:20!important;
+}
+.final-mode .dynamicRow,
+body.final-display .dynamicRow{
+  height:clamp(58px,7.0vh,82px)!important;
+  border-radius:24px!important;
+  background:#fff!important;
+  opacity:1!important;
+  border:2px solid #edf1f7!important;
+  box-shadow:0 7px 18px rgba(30,70,130,.14)!important;
+  display:grid!important;
+  grid-template-columns:72px 82px 1fr 135px!important;
+  align-items:center!important;
+  padding:0 22px 0 12px!important;
+  box-sizing:border-box!important;
+}
+.final-mode .dynamicRank,
+body.final-display .dynamicRank{
+  font-size:clamp(24px,2.2vw,38px)!important;
+  font-weight:950!important;
+  color:#61728c!important;
+  text-align:center!important;
+}
+.final-mode .dynamicEmoji,
+body.final-display .dynamicEmoji{
+  font-size:clamp(34px,3vw,52px)!important;
+  text-align:center!important;
+}
+.final-mode .dynamicPlace,
+body.final-display .dynamicPlace{
+  font-size:clamp(23px,2vw,36px)!important;
+  font-weight:950!important;
+  color:#172238!important;
+}
+.final-mode .dynamicPoints,
+body.final-display .dynamicPoints{
+  font-size:clamp(22px,1.9vw,34px)!important;
+  font-weight:950!important;
+  color:#1678db!important;
+  text-align:right!important;
+  white-space:nowrap!important;
 }
 </style>
 </head>
