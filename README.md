@@ -104,8 +104,8 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - Druckseiten verwenden saubere `break-before/page-break-before` Regeln.
 
 
-## v22 – QR 600 Pixel
-- QR-Code wird jetzt tatsächlich als **600 × 600 Pixel** erzeugt.
-- Die **physische Größe des QR-Codes auf der Karte bleibt unverändert**.
+## v23 – Rahmen beibehalten + QR 600 px + A/B/C/D
+- Ausgangsbasis ist die **Version mit Kartenrahmen**.
+- QR-Code wird intern mit **600 × 600 Pixeln** erzeugt.
 - Rahmen und übriges Kartenlayout bleiben erhalten.
-- Das Emoji wurde deutlich vergrößert auf **50 mm**.
+- Die Antwortflächen sind mit **A, B, C und D** gekennzeichnet.
