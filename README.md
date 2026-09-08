@@ -151,12 +151,33 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - Keine zusätzliche Leerseite nach der letzten Karte.
 
 
-## v28 – endgültiges Kartendruck-Layout
-- Hochformat A4 bleibt unverändert.
-- Kein zusätzlicher Rahmen/Finder innerhalb der Karte; nur der abgerundete Kartenrahmen bleibt.
-- QR-Code wird technisch mit **600 × 600 Pixel** erzeugt und physisch auf **90 × 90 mm** vergrößert.
-- A/B/C/D stehen mit festem Abstand außerhalb des QR-Codes.
-- Antwortbuchstaben werden pro Drehvariante korrekt angeordnet.
-- Jede Karte belegt exakt eine A4-Seite.
-- Seitenumbruch erfolgt erst **vor der nächsten Karte**, nicht nach der letzten Karte. Dadurch keine zusätzliche leere Seite.
-- Name, Emoji und E-ID bleiben aus dem Administrator übernommen und editierbar.
+## v29 – Drucklayout technisch korrigiert
+- Ursache des Leerseiten-Problems beseitigt: kein `page-break-after` mehr auf jeder Karte.
+- Seitenumbruch erfolgt ausschließlich **vor jeder Karte außer der ersten**.
+- Jede Druckseite ist bewusst 296 mm hoch, damit keine Rundungs-/Überlaufseite entsteht.
+- QR-Code ist tatsächlich **90 × 90 mm** auf dem Ausdruck und wird mit **600 × 600 Pixel** gerendert.
+- A/B/C/D liegen außerhalb des QR-Codes.
+- Eck-Finder sind entfernt, entsprechend dem bestätigten Referenzdesign.
+
+
+## v29 – Druckproblem endgültig behoben
+- Druck wird in einem **eigenen, reinen Druckfenster** erzeugt; die Administratoroberfläche kann dadurch keine zusätzlichen Seiten mehr verursachen.
+- Es gibt keinen `page-break-after` mehr, der nach der letzten Karte eine Leerseite erzeugt.
+- Der Seitenumbruch liegt ausschließlich **vor Karte 2, 3, 4 ...**.
+- QR-Code: **600 × 600 Pixel** Renderauflösung und **90 × 90 mm** tatsächliche Druckfläche.
+- A/B/C/D sind vollständig außerhalb des QR-Codes.
+
+
+## v30 – Top 5 öffentlich, vollständige Lehrkraft-Auswertung
+- Gesamtergebnis auf Mac/Display zeigt **nur die ersten 5** mit Platzierung, Emoji und Punkten.
+- Namen erscheinen dort nicht.
+- Administrator > Statistiken zeigt weiterhin **alle 22 Schüler mit Namen**.
+- Zusätzlich: Gesamtpunkte, richtig, beantwortete Fragen und Quote für die spätere Förderung.
+
+
+## v31 – Jubel-Abschlussbildschirm
+- Das neue Jubel-/Feier-Design wird als Hintergrund für das Gesamtergebnis verwendet.
+- Die Top-5-Daten bleiben dynamisch und werden über dem Design eingeblendet.
+- Öffentlich weiterhin nur **Platzierung, Emoji und Punkte**, keine Namen.
+- Grüner Home-Button führt zurück zum Administrator.
+- Mac-Spielsteuerung und AirPlay-Display verwenden denselben Abschlussstil.
