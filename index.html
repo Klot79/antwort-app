@@ -9,7 +9,7 @@
 </style></head>
 <body>
 <header class="top"><div class="brand">Antwort!</div><div class="spacer"></div><button id="openDisplay">🖥️ Display öffnen</button><button id="playAll" class="play">🎮 Unterricht starten</button></header>
-<div class="layout"><aside class="side"><div class="nav"><button class="active" data-page="home">🏠 Übersicht</button><button data-page="questions">📝 Fragen</button><button data-page="cards">🪪 Karten</button><button data-page="students">👥 Schüler</button><button data-page="stats">📊 Statistiken</button><button data-scan="true" class="scan-nav">📱 Karten scannen</button></div></aside>
+<div class="layout"><aside class="side"><div class="nav"><button class="active" data-page="home">🏠 Übersicht</button><button data-page="questions">📝 Fragen</button><button data-page="cards">🪪 Karten</button><button data-page="students">👥 Schüler</button><button data-page="stats">📊 Statistiken</button><button data-scan="true" class="scan-nav" type="button">📱 Karten scannen</button></div></aside>
 <main class="main">
 <section id="home" class="page active"><h1 class="h1">Unterricht vorbereiten</h1><div class="sub">Ein einfacher Ablauf für die Lehrkraft – vorbereiten, prüfen, starten, scannen, auswerten.</div>
 <div class="card"><div class="step-grid"><div class="step"><div class="num">SCHRITT 1</div><h3>👥 Schüler</h3><p>22 feste Karten. Namen einmal eintragen.</p></div><div class="step"><div class="num">SCHRITT 2</div><h3>📝 Fragen</h3><p>Manuell erstellen oder Material einlesen.</p></div><div class="step"><div class="num">SCHRITT 3</div><h3>🖥️ Display</h3><p>Frage und A–D auf Beamer/TV anzeigen.</p></div><div class="step"><div class="num">SCHRITT 4</div><h3>📱 Antworten</h3><p>iPhone scannt Karten. Du siehst sofort richtig/falsch.</p></div></div></div>
@@ -36,9 +36,10 @@ let state=load();function save(){localStorage.setItem(KEY,JSON.stringify(state))
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function show(page){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===page));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page))}
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>show(b.dataset.page));
-$('openDisplay').onclick=()=>window.open('display.html','antwort-display');
-document.querySelectorAll('[data-scan="true"]').forEach(b=>b.addEventListener('click',()=>window.open('scan.html','antwort-scan')));
-function startLesson(){if(!state.questions.length){alert('Bitte zuerst mindestens eine Frage anlegen.');show('questions');return}state.currentIndex=0;state.currentQuestion=state.questions[0].id;state.phase='idle';state.answers={};save();window.open('play.html','antwort-play')}
+$('openDisplay').onclick=()=>{alert('Das Display wird aus dem Lehrer-Spielmodus geöffnet. Bitte zuerst „🎮 Unterricht starten“ wählen.');};
+document.querySelectorAll('[data-scan="true"]').forEach(b=>b.addEventListener('click',()=>window.location.href='scan.html'));
+function makeRoom(){return Math.random().toString(36).slice(2,7).toUpperCase()}
+function startLesson(){if(!state.questions.length){alert('Bitte zuerst mindestens eine Frage anlegen.');show('questions');return}state.currentIndex=0;state.currentQuestion=state.questions[0].id;state.phase='idle';state.answers={};save();const room=makeRoom();window.open('play.html?room='+encodeURIComponent(room),'antwort-play')}
 $('playAll').onclick=startLesson;$('homeStart').onclick=startLesson;
 $('newGame').onclick=()=>{if(!confirm('Wirklich alle Fragen und Ergebnisse löschen? Die 22 Schüler und Karten bleiben erhalten.'))return;state.questions=[];state.history=[];state.currentQuestion=null;state.currentIndex=-1;state.phase='idle';state.answers={};save()};
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['manual','material','auto'].forEach(m=>$('mode-'+m).style.display=m===b.dataset.mode?'block':'none')});

@@ -26,3 +26,7 @@ Hinweis: Die automatische Fragenerzeugung ist eine lokale, regelbasierte Textana
 
 ## iPhone-Scanner
 Im Administrator gibt es jetzt einen sichtbaren Button **„📱 Karten scannen öffnen“**. Er öffnet `scan.html` direkt. Auf dem iPhone wird dort der fünfstellige Raumcode des Lehrer-Spielmodus eingegeben. Nach der Verbindung startet beim Beginn einer Frage automatisch die Kamera.
+
+
+## v11.1 – iPhone-Scanner erreichbar
+Der Button „📱 Karten scannen“ öffnet den Scanner nun direkt per Seitenwechsel statt per neuem Fenster. Das ist auf iPhones/Safari zuverlässiger. Im Scanner gibt es ein eigenes Raumcode-Feld mit automatischer Großschreibung und Fokus.
