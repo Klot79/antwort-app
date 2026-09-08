@@ -44,3 +44,7 @@ Der Unterrichtsbildschirm verwendet jetzt nur noch eine aktive Hauptaktion:
 - **Fertig:** Gesamtwertung auf dem Display
 
 Display und iPhone bleiben als separate Geräte erhalten. Die Kamera des iPhones startet erst, wenn die aktuelle Frage vom Lehrer gestartet wurde.
+
+
+## v15 – Start per Button oder Leertaste
+Auf dem Lehrer-MacBook kann der Ablauf jetzt zusätzlich mit der **Leertaste** gesteuert werden: Bereit → Frage starten, Scannen → beenden, Auswertung → nächste Frage. Eingabefelder werden dabei nicht abgefangen.
