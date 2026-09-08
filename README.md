@@ -135,3 +135,17 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
   - D oben / A rechts / C unten / B links
 - Name und Emoji werden aus den Schülerdaten übernommen und bleiben im Administrator editierbar.
 - Keine zusätzliche leere Druckseite nach der letzten Karte.
+
+
+## v26 – Karten exakt nach Referenzdesign
+- Hochformat A4.
+- Abgerundeter schwarzer Rahmen.
+- Keine kleinen Eck-Rechtecke/Finder.
+- Kleines Emoji oben, darunter Name und E-ID.
+- QR-Code mittig und deutlich größer.
+- QR-Code wird technisch exakt mit **600 × 600 Pixel** erzeugt.
+- A/B/C/D liegen außerhalb des QR-Codes mit ausreichend Abstand.
+- Vier Orientierungen wechseln korrekt für das Drehen der Karte.
+- 22 Kinder = 22 einzelne A4-Seiten.
+- Namen bleiben im Administrator editierbar und werden automatisch auf die Karten übernommen.
+- Keine zusätzliche Leerseite nach der letzten Karte.
