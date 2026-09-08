@@ -58,3 +58,7 @@ Der Lehrer-Spielmodus hat jetzt einen einzigen großen Aktionsbutton. Die Beschr
 - 🎉 **QUIZ BEENDET**
 
 Die Leertaste löst dieselbe Aktion aus.
+
+
+## v17 – Ein-Klick-Unterricht
+**🎮 Unterricht starten** im Administrator startet jetzt gleichzeitig Lehrerfenster und Display und setzt die erste Frage direkt auf „läuft“. Ein separater „Display öffnen“-Button und ein separater „Frage starten“-Schritt im Lehrerfenster sind nicht mehr nötig. Der Lehrer beendet die Scanphase und geht danach mit **„Nächste Frage“** weiter. Die Leertaste steuert Stoppen und Weiter.
