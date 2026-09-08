@@ -22,3 +22,7 @@
 - Der Display-QR-Code wurde entfernt. Das iPhone verbindet sich über den sichtbaren fünfstelligen Raumcode.
 
 Hinweis: Die automatische Fragenerzeugung ist eine lokale, regelbasierte Textanalyse. Für wirklich semantisch hochwertige KI-Fragen wäre ein sicherer serverseitiger KI-Dienst erforderlich.
+
+
+## iPhone-Scanner
+Im Administrator gibt es jetzt einen sichtbaren Button **„📱 Karten scannen öffnen“**. Er öffnet `scan.html` direkt. Auf dem iPhone wird dort der fünfstellige Raumcode des Lehrer-Spielmodus eingegeben. Nach der Verbindung startet beim Beginn einer Frage automatisch die Kamera.
