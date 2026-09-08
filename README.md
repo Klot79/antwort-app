@@ -204,3 +204,11 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - Der Renderer prüft jetzt alle Elemente sicher, bevor er sie verändert.
 - Das Jubelbild wird am Ende zuverlässig in den großen Hauptbereich eingesetzt.
 - Rechts bleibt ausschließlich der Home-Button.
+
+
+## v35 – keine doppelte Siegerbewertung
+- Ursache gefunden: Das Jubelbild selbst enthielt bereits eine statische Beispiel-Top-5.
+- Darüber wurde zusätzlich die echte, dynamische Top-5 gelegt – dadurch erschien die Siegerbewertung doppelt.
+- Das Hintergrundbild wurde deshalb technisch bereinigt: Die statischen Top-5-Zeilen wurden entfernt.
+- Jetzt wird **nur noch die echte dynamische Top-5** angezeigt.
+- Die rechte Spalte enthält weiterhin nur den Home-Button.

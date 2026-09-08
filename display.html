@@ -10,7 +10,7 @@
   height:100vh;
   min-height:100vh;
   overflow:hidden;
-  background:#eef6ff url("abschluss-gesamtbewertung.png") center center / cover no-repeat;
+  background:#eef6ff url("abschluss-gesamtbewertung-ohne-button.png") center center / cover no-repeat;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -109,6 +109,15 @@ body.final-display .dynamicBoard{
   width:min(42vw,720px)!important;
 }
 body.final-display .homeBtn{display:none!important}
+</style>
+
+<style id="final-single-leaderboard-v35">
+.finalCelebration{
+  background:#eef6ff url("abschluss-gesamtbewertung-ohne-button.png") center center / cover no-repeat!important;
+}
+.finalCelebration .dynamicBoard{
+  z-index:10!important;
+}
 </style>
 </head><body><div class="wrap"><div class="head"><div class="logo">Antwort!</div><div class="spacer"></div><div class="counter">📷 <span id="count">0</span> Antworten</div></div><main id="main" class="main"></main></div>
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script><script>
