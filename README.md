@@ -181,3 +181,11 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - Öffentlich weiterhin nur **Platzierung, Emoji und Punkte**, keine Namen.
 - Grüner Home-Button führt zurück zum Administrator.
 - Mac-Spielsteuerung und AirPlay-Display verwenden denselben Abschlussstil.
+
+
+## v32 – finales Abschlussbild
+- Das vom Benutzer ausgewählte Jubelbild wird **ganz am Ende des Quiz** als vollständiger Abschlussbildschirm verwendet.
+- Es ersetzt die bisherige schlichte Gesamtbewertung.
+- Die Top-5-Platzierung bleibt dynamisch: Emoji, Platz und Punkte werden aus dem Quiz-Ergebnis eingesetzt.
+- Keine Schülernamen auf dem öffentlichen Abschlussbild.
+- Der Home-Button bleibt vorhanden.
