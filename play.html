@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Antwort! – Lehrer-Spielmodus</title>
+<style>
+:root{--nav:#172033;--bg:#f3f5fa;--card:#fff;--line:#dce2ec;--ink:#172033;--muted:#69758b;--green:#18a86f;--blue:#2589ef;--red:#e24d4d;--purple:#7050f5}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.top{background:var(--nav);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}.brand{font-size:23px;font-weight:950}.spacer{flex:1}
+.room{background:#2b3850;border-radius:12px;padding:9px 12px;font-weight:950}.wrap{max-width:1100px;margin:auto;padding:16px 14px 120px}
+.connection{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}.connection strong{font-size:17px}.code{font-size:25px;letter-spacing:.16em;font-weight:950}.status{font-size:14px;color:var(--muted);font-weight:800}
+.grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px}.phase{font-size:13px;letter-spacing:.13em;color:var(--muted);font-weight:950}.q{font-size:clamp(30px,4.5vw,55px);font-weight:950;line-height:1.08;margin:8px 0 18px;overflow-wrap:anywhere}.opts{display:grid;gap:9px}.opt{border:2px solid var(--line);border-radius:14px;padding:12px;font-weight:800;font-size:18px}.opt b{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:8px;background:#edf0f6;margin-right:8px}
+.countBox{display:flex;align-items:center;justify-content:space-between;background:#eef5ff;border-radius:17px;padding:15px;margin-bottom:13px}.countBox .n{font-size:42px;font-weight:950;color:var(--blue)}.countBox .txt{font-weight:950}
+.live{display:grid;gap:7px;max-height:430px;overflow:auto}.student{display:grid;grid-template-columns:42px 1fr auto;gap:9px;align-items:center;padding:9px;border-radius:13px;background:#f7f8fb;border:1px solid var(--line)}.student .emoji{font-size:27px}.student .name{font-weight:900}.student .answer{font-weight:950}.good{color:var(--green)}.bad{color:var(--red)}
+.empty{padding:20px;text-align:center;color:var(--muted);font-weight:800}
+.controls{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:10px;display:flex;gap:8px;justify-content:center;z-index:20}.controls button,.connection button{border:0;border-radius:13px;padding:14px 17px;font-weight:950;font-size:17px;color:#fff;cursor:pointer}.start{background:var(--green)}.scan{background:var(--blue)}.stop{background:var(--red)}.next{background:var(--purple)}.skip{background:#566176}.display{background:#26344b}.connect{background:var(--blue)}button:disabled{opacity:.35;cursor:not-allowed}
+.feedback{position:fixed;inset:0;z-index:50;display:none;place-items:center;pointer-events:none}.feedback.show{display:grid;animation:pop .65s ease}.feedback span{width:145px;height:145px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:88px;box-shadow:0 18px 60px #0006}@keyframes pop{0%{opacity:0;transform:scale(.55)}30%{opacity:1;transform:scale(1.08)}75%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.controls{flex-wrap:wrap}.controls button{flex:1;min-width:105px}.room{font-size:13px}.live{max-height:300px}}
+</style>
+</head>
+<body>
+<div class="top"><div class="brand">🎮 Antwort! · Lehrer</div><div class="spacer"></div><div class="room">Raum <span id="roomCode">…</span></div></div>
+<div class="wrap">
+ <div class="connection">
+  <strong>📱 iPhone verbinden:</strong><span class="code" id="code">…</span>
+  <button class="connect" id="newRoom">Neuen Raum</button>
+  <span class="status" id="connectionStatus">iPhone: noch nicht verbunden</span>
+ </div>
+ <div class="grid">
+  <section class="card" id="questionCard"></section>
+  <aside class="card">
+   <div class="countBox"><div><div class="txt">📷 Karten gescannt</div><div class="status">Antworten dieser Frage</div></div><div class="n" id="count">0</div></div>
+   <h3 style="margin:8px 0">Live-Rückmeldung</h3>
+   <div id="live" class="live"><div class="empty">Noch keine Karten erkannt.</div></div>
+  </aside>
+ </div>
+</div>
+<div class="controls">
+ <button class="start" id="start">▶ Start</button><button class="scan" id="scan">📱 Scanner verbinden</button><button class="stop" id="stop">■ Stop</button><button class="next" id="next">Weiter →</button><button class="skip" id="skip">Überspringen</button><button class="display" id="display">🖥️ Display</button>
+</div>
+<div id="feedback" class="feedback"><span id="feedbackIcon"></span></div>
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+const KEY='antwort-v4-state',$=id=>document.getElementById(id);let peer=null,conn=null,room='',fb=null;
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function get(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}function save(s){localStorage.setItem(KEY,JSON.stringify(s))}
+function q(s){return s?.questions?.find(x=>x.id===s.currentQuestion)}
+function makeRoom(){return 'A'+Math.random().toString(36).slice(2,7).toUpperCase()}
+function feedback(ok){clearTimeout(fb);$('feedbackIcon').textContent=ok?'👍':'❗';$('feedback').className='feedback show';fb=setTimeout(()=>$('feedback').className='feedback',650)}
+function render(){
+ let s=get(),qq=q(s),a=Object.values(s?.answers||{});$('count').textContent=a.length;
+ if(!s||!s.questions?.length){$('questionCard').innerHTML='<div class="phase">BEREIT</div><div class="q">Noch keine Fragen</div><div class="status">Lege sie zuerst im Administratorbereich an.</div>';renderLive([]);return}
+ if(s.phase==='results'){
+   let good=a.filter(x=>x.correct).length,total=a.length;
+   $('questionCard').innerHTML='<div class="phase">ERGEBNIS · FRAGE '+((s.currentIndex??0)+1)+'</div><div class="q">'+good+' von '+total+' richtig</div><div class="opts">'+qq.options.map((o,i)=>'<div class="opt"><b>'+('ABCD'[i])+'</b>'+esc(o)+'</div>').join('')+'</div><div class="status" style="margin-top:12px">Bereit für die nächste Frage.</div>';
+ } else if(s.phase==='finished') $('questionCard').innerHTML='<div class="q">Spiel beendet 🎉</div>';
+ else if(s.phase==='idle') $('questionCard').innerHTML='<div class="phase">BEREIT</div><div class="q">Frage '+((s.currentIndex??0)+1)+'</div><div class="status">Drücke Start.</div>';
+ else $('questionCard').innerHTML='<div class="phase">FRAGE '+((s.currentIndex??0)+1)+' / '+s.questions.length+'</div><div class="q">'+esc(qq.text)+'</div><div class="opts">'+qq.options.map((o,i)=>'<div class="opt"><b>'+('ABCD'[i])+'</b>'+esc(o)+'</div>').join('')+'</div><div class="status" style="margin-top:12px">Scanner läuft. Stoppen, sobald genug Kinder geantwortet haben.</div>';
+ renderLive(a);
+ $('start').disabled=s.phase==='question'||s.phase==='finished';$('scan').disabled=s.phase!=='question';$('stop').disabled=s.phase!=='question';$('next').disabled=s.phase!=='results';$('skip').disabled=s.phase!=='question';
+}
+function renderLive(a){
+ let s=get();if(!a.length){$('live').innerHTML='<div class="empty">Noch keine Karten erkannt.</div>';return}
+ $('live').innerHTML=a.map(x=>{let st=s.students.find(y=>y.id===x.id)||{};return '<div class="student"><div class="emoji">'+esc(st.emoji||'👤')+'</div><div><div class="name">'+esc(st.name||x.id)+'</div><div class="status">Antwort '+('ABCD'[x.answer]||'?')+'</div></div><div class="answer '+(x.correct?'good':'bad')+'">'+(x.correct?'👍':'❗')+'</div></div>'}).join('');
+}
+function broadcastState(){try{conn?.send({type:'state',state:get()})}catch(e){}}
+function setRoom(){
+ room=makeRoom();$('code').textContent=room.slice(1);$('roomCode').textContent=room.slice(1);
+ if(peer)peer.destroy();peer=new Peer('antwort-'+room,{debug:0});
+ peer.on('open',()=>{$('connectionStatus').textContent='iPhone: Raum bereit · Code '+room.slice(1)});
+ peer.on('connection',c=>{conn=c;setupConn();$('connectionStatus').textContent='📱 iPhone verbunden';c.on('open',broadcastState)});
+ peer.on('error',e=>{$('connectionStatus').textContent='Verbindung konnte nicht geöffnet werden. Bitte „Neuen Raum“ drücken.'});
+}
+function setupConn(){if(!conn)return;conn.on('data',msg=>{if(msg?.type==='scan'){receiveScan(msg)}else if(msg?.type==='hello'){broadcastState()}});conn.on('close',()=>{$('connectionStatus').textContent='iPhone getrennt'})}
+function receiveScan(msg){
+ let s=get();if(!s||s.phase!=='question')return;
+ let qq=q(s),st=s.students?.find(x=>x.id===msg.studentId);if(!qq||!st)return;
+ if(s.answers?.[st.id])return;
+ let correct=Number(msg.answer)===Number(qq.correct);s.answers=s.answers||{};s.answers[st.id]={id:st.id,answer:Number(msg.answer),correct,at:Date.now()};save(s);feedback(correct);broadcastState();render();
+}
+function start(){let s=get();if(!s?.questions?.length)return;let i=Math.max(0,s.currentIndex??0);s.currentIndex=i;s.currentQuestion=s.questions[i].id;s.answers={};s.phase='question';save(s);broadcastState();render()}
+function finish(){let s=get();if(!s||s.phase!=='question')return;let qq=q(s),a=Object.values(s.answers||{});s.history=s.history||[];s.history.push({questionId:qq.id,total:a.length,correct:a.filter(x=>x.correct).length,rows:a.map(x=>({id:x.id,answer:x.answer,correct:x.correct}))});s.phase='results';save(s);broadcastState();render()}
+function next(){let s=get();if(!s||s.phase!=='results')return;let i=(s.currentIndex??0)+1;if(i>=s.questions.length)s.phase='finished';else{s.currentIndex=i;s.currentQuestion=s.questions[i].id;s.answers={};s.phase='idle'}save(s);broadcastState();render()}
+$('start').onclick=start;$('stop').onclick=finish;$('skip').onclick=finish;$('next').onclick=next;$('display').onclick=()=>window.open('display.html','antwort-display');$('newRoom').onclick=setRoom;$('scan').onclick=()=>alert('Auf dem iPhone Safari öffnen und den Raum-Code eingeben. Der Scan startet dort.');window.addEventListener('storage',render);setRoom();render();
+</script>
+</body></html>

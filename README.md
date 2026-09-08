@@ -1,13 +1,38 @@
-# Antwort! v4 – komplett neu, zwei Bereiche
+# Antwort! v7 – Mac + AirPlay + iPhone Scanner
 
-- `index.html` = Administratorbereich: Fragen auf 3 Wegen erstellen, Karten drucken, Schüler verwalten, Scanner und Statistiken.
-- `display.html` = Displaybereich für die Klasse: vollständige Frage, vier Antworten, Karten-Zähler und Lehrersteuerung **Start / Weiter / Überspringen**.
+## Genau für den Unterricht gedacht
 
-## Spielablauf
-1. **Start** zeigt die aktuelle Frage.
-2. Im Adminbereich werden Karten gescannt. Oben rechts im Display steht jederzeit die Zahl der gescannten Karten.
-3. **Weiter** beendet die Frage und zeigt die Gesamtresultate.
-4. **Weiter** im Ergebnisbild startet die nächste Frage.
-5. **Überspringen** geht sofort zur nächsten Frage, ohne auf alle Karten zu warten und ohne Ergebnisanzeige.
+**MacBook:** Administrator + Lehrer-Spielmodus + AirPlay/Display  
+**iPhone:** nur Scanner
 
-Die Synchronisation zwischen Admin und Display erfolgt über `localStorage` im selben Browser/Gerät. Für ein Display auf einem anderen Gerät braucht es später eine kleine Realtime-Serververbindung.
+### Ablauf
+
+1. Auf dem Mac im Administratorbereich Fragen vorbereiten.
+2. `Spielmodus` öffnen.
+3. `Display` öffnen und dieses Fenster per AirPlay/Beamer zeigen.
+4. Im Lehrer-Spielmodus wird ein 5-stelliger Raumcode angezeigt.
+5. Auf dem iPhone `scan.html` öffnen und den Code eingeben.
+6. Sobald der Lehrer **Start** drückt, startet der Scanner auf dem iPhone.
+7. Jede erkannte Karte wird sofort an den Mac gesendet.
+8. Auf dem Mac sieht der Lehrer unmittelbar:
+   - 🟢/👍 richtig
+   - ❗ falsch
+   - Name des Schülers
+   - gewählte Antwort
+   - Anzahl gescannter Karten
+9. Scannen läuft weiter, bis der Lehrer **Stop** drückt.
+10. Stop zeigt die Gesamtergebnisse.
+11. **Weiter** macht die nächste Frage bereit.
+12. **Überspringen** beendet die laufende Frage und zeigt ebenfalls die Ergebnisse.
+
+### Verbindung
+
+Mac und iPhone verbinden sich direkt über PeerJS/WebRTC. Dadurch muss kein eigenes Backend eingerichtet werden. Beide Geräte brauchen Internet.
+
+Die Karten bleiben unverändert: QR-Code enthält `ANTWORT:E01` bis `ANTWORT:E22`; die Antwort A/B/C/D wird aus der Drehung der Karte erkannt.
+
+### Wichtig
+
+Der iPhone-Scanner benötigt eine HTTPS-Adresse. GitHub Pages ist dafür geeignet.
+
+Das Display ist absichtlich ohne Scan- und Lehrerbuttons, damit beim AirPlay nur die Frage, Antworten, Scan-Zahl und Ergebnisse zu sehen sind. Der Lehrer steuert ausschließlich auf dem Mac.
