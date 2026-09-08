@@ -149,3 +149,12 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - 22 Kinder = 22 einzelne A4-Seiten.
 - Namen bleiben im Administrator editierbar und werden automatisch auf die Karten übernommen.
 - Keine zusätzliche Leerseite nach der letzten Karte.
+
+
+## v27 – QR doppelt größer + Druckfix
+- Hochformat und Kartendesign bleiben wie in v26.
+- QR-Code bleibt technisch **600 × 600 Pixel**.
+- Gedruckte QR-Fläche ist auf **90 mm × 90 mm** vergrößert (ca. doppelte Kantenlänge gegenüber 45 mm).
+- A/B/C/D bleiben außerhalb des QR-Codes und sind nicht Teil des Codes.
+- Jede Kinderkarte ist exakt eine A4-Seite.
+- Keine zusätzliche leere Seite zwischen oder nach den Karten.
