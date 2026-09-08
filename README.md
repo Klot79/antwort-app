@@ -62,3 +62,27 @@ Die Leertaste löst dieselbe Aktion aus.
 
 ## v17 – Ein-Klick-Unterricht
 **🎮 Unterricht starten** im Administrator startet jetzt gleichzeitig Lehrerfenster und Display und setzt die erste Frage direkt auf „läuft“. Ein separater „Display öffnen“-Button und ein separater „Frage starten“-Schritt im Lehrerfenster sind nicht mehr nötig. Der Lehrer beendet die Scanphase und geht danach mit **„Nächste Frage“** weiter. Die Leertaste steuert Stoppen und Weiter.
+
+
+## v18 – vereinfachter Unterrichtsablauf
+Der Mac ist die einzige Steuerung und kann direkt per AirPlay gespiegelt werden. Das separate Display ist für den Ablauf nicht erforderlich.
+1. Fragen vorher im Administrator erstellen.
+2. **Unterricht starten** öffnet den großen Lehrerbildschirm.
+3. iPhone mit dem angezeigten Raumcode verbinden.
+4. **Scannen starten** – erst jetzt startet die iPhone-Kamera.
+5. **Weiter – Ergebnis** – Auswertung/Klassenstatistik.
+6. **Weiter – nächste Frage** – nächste Frage und neue Scanrunde.
+7. Nach der letzten Frage wird die Gesamtwertung angezeigt.
+Die Leertaste löst jeweils die aktuelle Hauptaktion aus.
+
+
+## v19 – MacBook als Steuerung und Anzeige
+Der MacBook-Spielmodus ist jetzt die zentrale Unterrichtsoberfläche. Es gibt keine Display-Steuerung mehr und keinen separaten Display-Button im Spielablauf. Der Mac zeigt Frage und Antworten groß an und steuert den kompletten Ablauf:
+1. Unterricht starten
+2. iPhone mit Raumcode verbinden
+3. **Scannen starten**
+4. **Weiter – Ergebnis**
+5. **Weiter – nächste Frage**
+6. am Ende **Gesamtergebnis**
+
+Das iPhone dient ausschließlich zum Scannen der Kinderkarten.

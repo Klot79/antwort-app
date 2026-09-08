@@ -1,120 +1,218 @@
 <!doctype html>
-<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Antwort! – Unterricht</title>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Antwort! – Unterricht</title>
 <style>
-:root{--nav:#182238;--bg:#f3f5fa;--card:#fff;--line:#dce3ee;--ink:#182238;--muted:#69758b;--green:#18a56d;--blue:#1683ee;--red:#df5353;--purple:#6945ed}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.top{background:var(--nav);color:#fff;padding:13px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:20}.brand{font-size:24px;font-weight:950}.spacer{flex:1}.room{background:#2b3850;border-radius:12px;padding:9px 12px;font-weight:950}.wrap{max-width:1250px;margin:auto;padding:18px 14px 105px}.connect{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}.code{font-size:26px;font-weight:950;letter-spacing:.18em;color:var(--blue)}.status{color:var(--muted);font-weight:800}.grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(320px,.7fr);gap:14px}.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:20px}.phase{font-size:13px;letter-spacing:.14em;color:var(--muted);font-weight:950}.q{font-size:clamp(30px,4.2vw,54px);font-weight:950;line-height:1.08;margin:10px 0 22px;overflow-wrap:anywhere}.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}.opt{padding:15px;border-radius:15px;background:#f1f3f7;font-size:18px;font-weight:850;min-height:75px}.opt b{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:9px;background:#fff;margin-right:8px}.countBox{display:flex;align-items:center;justify-content:space-between;background:#eef5ff;border-radius:17px;padding:15px;margin-bottom:14px}.countBox .n{font-size:44px;font-weight:950;color:var(--blue)}.live{display:grid;gap:7px;max-height:500px;overflow:auto}.student{display:grid;grid-template-columns:42px 1fr auto;gap:9px;align-items:center;padding:10px;border-radius:13px;background:#f8f9fc;border:1px solid var(--line)}.student .emoji{font-size:27px}.student .name{font-weight:900}.answer{font-weight:950}.good{color:var(--green)}.bad{color:var(--red)}.empty{text-align:center;padding:24px;color:var(--muted);font-weight:800}.keyboardHint{font-size:13px;text-align:center;color:#66758f;margin:-6px 0 14px}.teacherHint{background:#eaf5ff;border:1px solid #cfe5fb;color:#1769b0;border-radius:14px;padding:11px 14px;margin-bottom:14px;font-weight:900;text-align:center}.controls{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:9px;display:flex;justify-content:center;gap:8px;z-index:30}.controls button{border:0;border-radius:13px;padding:13px 16px;font-weight:950;color:#fff}.start{background:var(--green)}.stop{background:var(--red)}.next{background:var(--purple)}.display,.openScan{display:none}.feedback{position:fixed;inset:0;display:none;place-items:center;z-index:60;pointer-events:none}.feedback.show{display:grid;animation:pop .7s ease}.feedback span{width:150px;height:150px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:90px;box-shadow:0 20px 70px #0006}@keyframes pop{0%{opacity:0;transform:scale(.5)}30%{opacity:1;transform:scale(1.08)}100%{opacity:0;transform:scale(1)}}button:disabled{opacity:.35;cursor:not-allowed}.controls .start,.controls .stop,.controls .next{min-width:210px;font-size:17px}.controls .display,.controls .openScan{background:#eef1f7;color:#26344b}@media(max-width:800px){.grid{grid-template-columns:1fr}.opts{grid-template-columns:1fr}.controls{flex-wrap:wrap}}
+:root{--nav:#142038;--bg:#f4f7fb;--card:#fff;--line:#d9e2ee;--ink:#16233b;--muted:#66758e;--green:#18a56d;--blue:#147be8;--orange:#f0a22e;--purple:#6545e8;--red:#d94b4b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.top{background:var(--nav);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:14px}
+.brand{font-size:25px;font-weight:950}.spacer{flex:1}.room{background:#293750;border-radius:12px;padding:9px 13px;font-weight:950}.room b{color:#7db9ff;letter-spacing:.15em}
+.wrap{max-width:1450px;margin:auto;padding:20px 18px 30px}
+.connect{background:#fff;border:1px solid var(--line);border-radius:17px;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.connect strong{font-size:16px}.code{font-size:25px;font-weight:950;letter-spacing:.18em;color:var(--blue)}.status{color:var(--muted);font-weight:800}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:16px}
+.main{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px;min-height:650px;display:flex;flex-direction:column}
+.phase{text-align:center;font-size:15px;letter-spacing:.14em;color:var(--muted);font-weight:950}
+.question{font-size:clamp(42px,4.5vw,76px);line-height:1.08;font-weight:950;text-align:center;color:#176ee0;margin:20px auto 28px;max-width:1150px;overflow-wrap:anywhere}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:auto}
+.answer{min-height:125px;border-radius:20px;padding:23px;display:flex;align-items:flex-start;gap:16px;font-size:clamp(22px,2.1vw,32px);line-height:1.15;font-weight:900;border:3px solid transparent}
+.answer .letter{flex:0 0 50px;width:50px;height:50px;border-radius:14px;background:#fff9;display:grid;place-items:center;font-weight:950;font-size:27px}
+.a{background:#ffd8d3}.b{background:#d7f3de}.c{background:#fff0ad}.d{background:#e4d9ff}
+.answer.correct{border-color:#19a66b;box-shadow:0 0 0 4px #19a66b33}.answer.dim{opacity:.7}
+.instruction{text-align:center;color:var(--muted);font-weight:850;font-size:16px;margin-top:17px}
+.side{background:#fff;border:1px solid var(--line);border-radius:24px;padding:18px}
+.sideTitle{font-size:19px;font-weight:950;margin-bottom:12px}
+.count{background:#edf5ff;border-radius:17px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
+.count .n{font-size:43px;font-weight:950;color:var(--blue)}
+.live{display:grid;gap:7px;max-height:490px;overflow:auto}
+.student{display:grid;grid-template-columns:38px 1fr auto;gap:8px;align-items:center;padding:10px;border-radius:12px;background:#f8fafd;border:1px solid var(--line)}
+.emoji{font-size:25px}.name{font-weight:900}.small{font-size:13px;color:var(--muted);font-weight:800}.good{color:var(--green);font-weight:950}.bad{color:var(--red);font-weight:950}
+.empty{text-align:center;padding:30px 10px;color:var(--muted);font-weight:800}
+.control{margin-top:16px;background:#fff;border:2px solid var(--line);border-radius:20px;padding:14px 16px;display:flex;align-items:center;gap:14px}
+.state{font-weight:950}.state span{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.action{margin-left:auto;border:0;border-radius:15px;padding:17px 28px;min-width:310px;color:#fff;background:var(--purple);font-size:20px;font-weight:950;cursor:pointer;box-shadow:0 5px 0 #4934bd}
+.action:active{transform:translateY(3px);box-shadow:0 2px 0 #4934bd}.action:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.key{font-size:13px;color:var(--muted);font-weight:850;text-align:center;margin-top:8px}
+.total{display:grid;gap:9px;margin-top:12px}.rank{display:grid;grid-template-columns:38px 42px 1fr auto;align-items:center;gap:9px;padding:11px 12px;border:1px solid var(--line);border-radius:13px;background:#fafbfe}.rankNum{font-weight:950;color:var(--muted)}.rankEmoji{font-size:24px}.rankName{font-weight:900}.points{font-weight:950;color:var(--blue)}
+.feedback{position:fixed;inset:0;display:none;place-items:center;z-index:50;pointer-events:none}.feedback.show{display:grid;animation:pop .7s ease}.feedback span{width:160px;height:160px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:96px;box-shadow:0 20px 80px #0005}@keyframes pop{0%{opacity:0;transform:scale(.55)}30%{opacity:1;transform:scale(1.08)}100%{opacity:0;transform:scale(1)}}
+@media(max-width:980px){.layout{grid-template-columns:1fr}.side{order:2}.answers{grid-template-columns:1fr 1fr}.main{min-height:auto}}
+@media(max-width:650px){.answers{grid-template-columns:1fr}.answer{min-height:90px}.control{flex-direction:column;align-items:stretch}.action{margin-left:0;min-width:0;width:100%}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">🎮 Antwort! · Unterricht</div>
+  <div class="spacer"></div>
+  <div class="room">Raum <b id="roomCode">–</b></div>
+</header>
 
-.teacherControl{background:#fff;border:2px solid #dbe3ef;border-radius:24px;padding:20px 22px;margin:0 0 18px;box-shadow:0 8px 30px rgba(30,50,80,.07)}
-.controlState{display:flex;align-items:center;gap:15px;margin-bottom:14px;padding:14px 16px;border-radius:17px;background:#f0fdf4}
-.stateIcon{font-size:28px;line-height:1}.stateTitle{font-size:20px;font-weight:950;letter-spacing:.05em}.stateSub{font-size:14px;color:#63718a;font-weight:800;margin-top:2px}
-.bigAction{width:100%;min-height:68px;border:0;border-radius:18px;background:#6047e8;color:#fff;font-size:22px;font-weight:950;letter-spacing:.02em;cursor:pointer;box-shadow:0 7px 0 #4934ba;transition:transform .08s,box-shadow .08s}
-.bigAction:active{transform:translateY(5px);box-shadow:0 2px 0 #4934ba}.bigAction:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
-.spaceHelp{text-align:center;color:#64728a;font-size:14px;font-weight:800;margin-top:13px}
-.state-running{background:#eef6ff!important}.state-results{background:#fff7e8!important}.state-finished{background:#f3eefe!important}
-</style></head><body>
-<div class="top"><div class="brand">🎮 Antwort! · Unterricht</div><div class="spacer"></div><div class="room">Raum <span id="roomCode">–</span></div></div>
 <div class="wrap">
-<div class="teacherControl" id="teacherControl">
-  <div class="controlState state-ready" id="controlState">
-    <div class="stateIcon" id="stateIcon">🟢</div>
-    <div class="stateText">
-      <div class="stateTitle" id="stateTitle">BEREIT</div>
-      <div class="stateSub" id="stateSub">Frage 1 kann gestartet werden</div>
-    </div>
+  <div class="connect">
+    <strong>📱 iPhone</strong>
+    <span class="code" id="code">–</span>
+    <span class="status" id="connStatus">Auf dem iPhone den Scanner öffnen und diesen Code eingeben.</span>
   </div>
-  <button class="bigAction readyAction" id="bigAction" type="button">
-    <span id="bigActionIcon">▶</span>
-    <span id="bigActionText">FRAGE STARTEN</span>
-  </button>
-  <div class="spaceHelp">⌨️ <strong>LEERTASTE</strong> – dieselbe Aktion auslösen</div>
+
+  <div class="layout">
+    <main class="main">
+      <div class="phase" id="phase">FRAGE 1 / 1</div>
+      <div class="question" id="question">–</div>
+      <div class="answers" id="answers"></div>
+      <div class="instruction" id="instruction">iPhone verbinden. Danach „Scannen starten“.</div>
+
+      <div class="control">
+        <div class="state" id="stateText">🟢 BEREIT<span>Die Frage ist sichtbar. Noch wird nicht gescannt.</span></div>
+        <button class="action" id="action" type="button">📱 SCANNEN STARTEN</button>
+      </div>
+      <div class="key">⌨️ Leertaste = dieselbe Aktion</div>
+    </main>
+
+    <aside class="side">
+      <div class="count"><div><strong>📷 Antworten</strong><div class="small">für diese Frage</div></div><div class="n" id="count">0</div></div>
+      <div class="sideTitle">Live-Rückmeldung</div>
+      <div id="live" class="live"><div class="empty">Noch keine Karten gescannt.</div></div>
+      <div id="totalWrap" style="display:none">
+        <div class="sideTitle" style="margin-top:22px">🏆 Gesamtwertung</div>
+        <div id="total" class="total"></div>
+      </div>
+    </aside>
+  </div>
 </div>
-<div style="font-weight:950;font-size:14px;margin:0 0 8px">Lehrersteuerung</div><div class="teacherHint" id="teacherHint">Display und Unterricht wurden automatisch gestartet. iPhone mit Raumcode verbinden.</div><div class="keyboardHint">⌨️ <b>Leertaste</b> = aktuelle Aktion starten · beenden · weiter</div><div class="connect"><strong>📱 iPhone verbinden:</strong><span class="code" id="code">–</span><span class="status" id="connStatus">Scanner-Seite öffnen und den Code eingeben.</span></div>
-<div class="grid"><section class="card" id="questionCard"></section><aside class="card"><div class="countBox"><div><div style="font-weight:950">📷 Karten gescannt</div><div class="status">Antworten dieser Frage</div></div><div class="n" id="count">0</div></div><h3 style="margin:8px 0 10px">Live-Rückmeldung</h3><div id="live" class="live"><div class="empty">Noch keine Karten erkannt.</div></div></aside></div></div>
-<div class="controls">
-<button class="start" id="start">▶ Frage starten</button>
-<button class="stop" id="stop">■ Scannen beenden</button>
-<button class="next" id="next">➡️ Nächste Frage</button>
-<button class="display" id="display">🖥️ Display öffnen</button>
-<button class="openScan" id="openScan">📱 iPhone verbinden</button>
-</div>
+
 <div id="feedback" class="feedback"><span id="feedbackIcon"></span></div>
-<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script><script>
-const KEY='antwort-v4-state',$=id=>document.getElementById(id);let peer=null,connections=new Set(),feedbackTimer=null;
-function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}function get(){try{return JSON.parse(localStorage.getItem(KEY))}catch{return null}}function save(s){localStorage.setItem(KEY,JSON.stringify(s))}function current(s){return s?.questions?.find(q=>q.id===s.currentQuestion)}
+
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+const KEY='antwort-v4-state';
+const $=id=>document.getElementById(id);
+let peer=null,connections=new Set(),feedbackTimer=null;
+
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function get(){try{return JSON.parse(localStorage.getItem(KEY))}catch{return null}}
+function save(s){localStorage.setItem(KEY,JSON.stringify(s))}
+function current(s){return s?.questions?.find(q=>q.id===s.currentQuestion)}
 function room(){const r=(new URLSearchParams(location.search).get('room')||'').trim().toUpperCase();return /^[A-Z0-9]{5}$/.test(r)?r:''}
 const ROOM=room();
-if(!ROOM){document.body.innerHTML='<div style="font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;padding:40px;text-align:center"><h2>Kein Unterrichtsraum</h2><p>Bitte den Unterricht aus dem Administrator starten.</p></div>';throw new Error('Missing room code');}$('roomCode').textContent=ROOM;$('code').textContent=ROOM;
+if(!ROOM){document.body.innerHTML='<div style="font-family:sans-serif;padding:60px;text-align:center"><h2>Kein Unterrichtsraum</h2><p>Bitte im Administrator „Unterricht starten“ wählen.</p></div>';throw new Error('Missing room')}
+$('roomCode').textContent=ROOM;$('code').textContent=ROOM;
+
 function feedback(ok){clearTimeout(feedbackTimer);$('feedbackIcon').textContent=ok?'👍':'❗';$('feedback').className='feedback show';feedbackTimer=setTimeout(()=>$('feedback').className='feedback',700)}
+
 function render(){
- const s=get(),q=current(s),a=Object.values(s?.answers||{});
+ const s=get(),q=current(s),phase=s?.phase||'ready';
+ if(!s||!q){$('phase').textContent='KEINE FRAGEN';$('question').textContent='Bitte zuerst Fragen im Administrator erstellen.';$('answers').innerHTML='';$('instruction').textContent='';$('action').disabled=true;$('stateText').innerHTML='⚪ KEIN QUIZ';renderLive([]);return}
+ const idx=(s.currentIndex??0)+1,total=s.questions.length;
+ $('phase').textContent=`FRAGE ${idx} / ${total}`;
+ $('question').textContent=phase==='finished'?'Quiz beendet 🎉':q.text;
+ $('answers').innerHTML=phase==='finished'?'':q.options.map((o,i)=>`<div class="answer ${['a','b','c','d'][i]} ${phase==='results'&&i===Number(q.correct)?'correct':''}"><div class="letter">${'ABCD'[i]}</div><div>${esc(o)}</div></div>`).join('');
+ const a=Object.values(s.answers||{});
  $('count').textContent=a.length;
- const phase=s?.phase||'idle';
- if(!s||!q){
-   $('questionCard').innerHTML='<div class="phase">BEREIT</div><div class="q">Noch kein Quiz bereit</div><div class="status">Gehe zurück zum Administrator und erstelle oder übernimm Fragen.</div>';
-   renderLive([]); setActions('empty'); return;
- }
- if(phase==='results'){
+ if(phase==='ready'){
+   $('stateText').innerHTML='🟢 BEREIT<span>Frage ist sichtbar. Das iPhone wartet noch.</span>';
+   $('action').textContent='📱 SCANNEN STARTEN';$('action').disabled=false;
+   $('instruction').textContent='Frage gemeinsam ansehen. Dann „Scannen starten“ drücken.';
+ }else if(phase==='question'){
+   $('stateText').innerHTML='🔵 SCANNEN LÄUFT<span>Die Kinder zeigen ihre Karten.</span>';
+   $('action').textContent='➡️ WEITER – ERGEBNIS';$('action').disabled=false;
+   $('instruction').textContent='Wenn du fertig bist, „Weiter – Ergebnis“ drücken.';
+ }else if(phase==='results'){
    const good=a.filter(x=>x.correct).length;
-   $('questionCard').innerHTML=`<div class="phase">AUSWERTUNG · FRAGE ${(s.currentIndex??0)+1} / ${s.questions.length}</div><div class="q">${good} von ${a.length} richtig</div><div class="opts">${q.options.map((o,i)=>`<div class="opt"><b>${'ABCD'[i]}</b>${esc(o)}${i===Number(q.correct)?' ✓':''}</div>`).join('')}</div><div class="status" style="margin-top:12px">Die Klasse sieht jetzt die Auflösung. Wenn du bereit bist, klicke nur auf „Nächste Frage“.</div>`;
-   setActions('results');
- } else if(phase==='finished'){
-   $('questionCard').innerHTML='<div class="phase">FERTIG</div><div class="q">Quiz beendet 🎉</div><div class="status">Die Gesamtpunkte der Schülerinnen und Schüler werden auf dem Display angezeigt.</div>';
-   setActions('finished');
- } else if(phase==='idle'){
-   $('questionCard').innerHTML=`<div class="phase">NÄCHSTE FRAGE · ${(s.currentIndex??0)+1} / ${s.questions.length}</div><div class="q">Bereit?</div><div class="status">Wenn alle Kinder bereit sind, klicke auf „Frage starten“. Erst dann beginnt das Scannen.</div>`;
-   setActions('idle');
- } else {
-   $('questionCard').innerHTML=`<div class="phase">SCANNEN LÄUFT · FRAGE ${(s.currentIndex??0)+1} / ${s.questions.length}</div><div class="q">${esc(q.text)}</div><div class="opts">${q.options.map((o,i)=>`<div class="opt"><b>${'ABCD'[i]}</b>${esc(o)}</div>`).join('')}</div><div class="status" style="margin-top:12px">📱 Kinder zeigen ihre Karten. Scannen beenden, wenn du genug Antworten hast.</div>`;
-   setActions('question');
+   $('stateText').innerHTML='🟠 ERGEBNIS<span>'+good+' von '+a.length+' Antworten richtig.</span>';
+   $('action').textContent=idx>=total?'🏁 GESAMTERGEBNIS':'➡️ WEITER – NÄCHSTE FRAGE';
+   $('action').disabled=false;
+   $('instruction').textContent=idx>=total?'Letzter Schritt: Gesamtwertung anzeigen.':'Nächste Frage startet direkt die nächste Scanrunde.';
+ }else{
+   $('stateText').innerHTML='🎉 QUIZ BEENDET<span>Die Gesamtwertung ist fertig.</span>';
+   $('action').textContent='✓ FERTIG';$('action').disabled=true;
+   $('instruction').textContent='Alle Ergebnisse wurden gespeichert.';
  }
  renderLive(a);
+ if(phase==='finished')renderTotal(s);
+ else $('totalWrap').style.display='none';
 }
-function setActions(mode){
- const start=$('start'),stop=$('stop'),next=$('next'),hint=$('teacherHint');
- const big=$('bigAction'), icon=$('bigActionIcon'), text=$('bigActionText');
- const state=$('controlState'), stateIcon=$('stateIcon'), stateTitle=$('stateTitle'), stateSub=$('stateSub');
- start.style.display='none'; stop.style.display='none'; next.style.display='none';
- big.disabled=false;
- state.className='controlState';
- if(mode==='empty'){
-   state.classList.add('state-finished'); stateIcon.textContent='⚪'; stateTitle.textContent='KEIN QUIZ'; stateSub.textContent='Bitte zuerst Fragen anlegen oder übernehmen.';
-   big.disabled=true; icon.textContent=''; text.textContent='QUIZ VORBEREITEN'; hint.textContent='Öffne den Administrator und lege Fragen an.';
- }else if(mode==='idle'){
-   state.classList.add('state-running'); stateIcon.textContent='🔵'; stateTitle.textContent='FRAGE LÄUFT'; stateSub.textContent='Die Kinder zeigen ihre Karten.';
-   icon.textContent='■'; text.textContent='SCANNEN BEENDEN'; hint.textContent='Der Unterricht läuft. Wenn genügend Antworten da sind: Leertaste drücken.';
- }else if(mode==='question'){
-   state.classList.add('state-running'); stateIcon.textContent='🔵'; stateTitle.textContent='FRAGE LÄUFT'; stateSub.textContent='Die Kinder zeigen ihre Karten.';
-   icon.textContent='■'; text.textContent='SCANNEN BEENDEN'; hint.textContent='Wenn genügend Antworten da sind: Leertaste oder Button drücken.';
- }else if(mode==='results'){
-   state.classList.add('state-results'); stateIcon.textContent='🟠'; stateTitle.textContent='AUSWERTUNG'; stateSub.textContent='Die Lösung wird auf dem Display gezeigt.';
-   icon.textContent='→'; text.textContent='NÄCHSTE FRAGE'; hint.textContent='Leertaste oder Button = nächste Frage.';
- }else if(mode==='finished'){
-   state.classList.add('state-finished'); stateIcon.textContent='🎉'; stateTitle.textContent='QUIZ BEENDET'; stateSub.textContent='Die Gesamtwertung ist auf dem Display sichtbar.';
-   big.disabled=true; icon.textContent='✓'; text.textContent='FERTIG'; hint.textContent='Du kannst ein neues Quiz im Administrator starten.';
+
+function renderLive(a){
+ const s=get();
+ if(!a.length){$('live').innerHTML='<div class="empty">Noch keine Karten gescannt.</div>';return}
+ $('live').innerHTML=a.map(x=>{
+  const st=s.students?.find(y=>y.id===x.id)||{};
+  return `<div class="student"><div class="emoji">${esc(st.emoji||'👤')}</div><div><div class="name">${esc(st.name||x.id)}</div><div class="small">Antwort ${'ABCD'[x.answer]||'?'}</div></div><div class="${x.correct?'good':'bad'}">${x.correct?'👍':'❗'}</div></div>`;
+ }).join('');
+}
+
+function renderTotal(s){
+ const scores=(s.students||[]).map(st=>{
+   const points=(s.history||[]).reduce((sum,h)=>sum+(h.rows||[]).find(r=>r.id===st.id)?.correct?1:0,0);
+   return {...st,points};
+ }).sort((a,b)=>b.points-a.points || String(a.name||'').localeCompare(String(b.name||'')));
+ $('totalWrap').style.display='block';
+ $('total').innerHTML=scores.map((x,i)=>`<div class="rank"><div class="rankNum">${i+1}.</div><div class="rankEmoji">${esc(x.emoji||'👤')}</div><div class="rankName">${esc(x.name||x.id)}</div><div class="points">${x.points} Pkt.</div></div>`).join('');
+}
+
+function broadcast(){
+ for(const c of [...connections]){
+  try{if(c.open)c.send({type:'state',state:get()});else connections.delete(c)}
+  catch{connections.delete(c)}
  }
 }
-function renderLive(a){const s=get();if(!a.length){$('live').innerHTML='<div class="empty">Noch keine Karten erkannt.</div>';return}$('live').innerHTML=a.map(x=>{const st=s.students.find(y=>y.id===x.id)||{};return `<div class="student"><div class="emoji">${esc(st.emoji||'👤')}</div><div><div class="name">${esc(st.name||x.id)}</div><div class="status">Antwort ${'ABCD'[x.answer]||'?'}</div></div><div class="answer ${x.correct?'good':'bad'}">${x.correct?'👍':'❗'}</div></div>`}).join('')}
-function broadcast(){for(const c of [...connections]){try{if(c.open)c.send({type:'state',state:get()});else connections.delete(c)}catch{connections.delete(c)}}}
-function connectPeer(){peer?.destroy();peer=new Peer('antwort-A'+ROOM,{debug:0});peer.on('open',()=>{$('connStatus').textContent='Warte auf iPhone oder Display …'});peer.on('connection',c=>{connections.add(c);c.on('open',()=>{c.send({type:'state',state:get()});broadcast();$('connStatus').textContent='✅ Gerät verbunden'});c.on('data',msg=>{if(msg?.type==='hello')broadcast();if(msg?.type==='scan')receive(msg)});c.on('close',()=>{connections.delete(c);$('connStatus').textContent=connections.size?'✅ Gerät verbunden':'Warte auf iPhone oder Display …'});c.on('error',()=>connections.delete(c))});peer.on('error',e=>$('connStatus').textContent='❗ Verbindung nicht möglich. Prüfe Internetverbindung und öffne Scanner/Display erneut.')}
 
-function receive(msg){const s=get();if(!s||s.phase!=='question')return;const q=current(s),st=s.students?.find(x=>x.id===msg.studentId);if(!q||!st)return;if(s.answers?.[st.id])return;const answer=Number(msg.answer);if(![0,1,2,3].includes(answer))return;s.answers=s.answers||{};s.answers[st.id]={id:st.id,answer,correct:answer===Number(q.correct),at:Date.now()};save(s);feedback(answer===Number(q.correct));broadcast()}
-function start(){const s=get();if(!s?.questions?.length)return;s.currentQuestion=s.questions[s.currentIndex??0].id;s.answers={};s.phase='question';save(s);broadcast()}
-function stop(){const s=get();if(!s||s.phase!=='question')return;const q=current(s),a=Object.values(s.answers||{});s.history=s.history||[];s.history.push({questionId:q.id,total:a.length,correct:a.filter(x=>x.correct).length,rows:a.map(x=>({id:x.id,answer:x.answer,correct:x.correct}))});s.phase='results';save(s);broadcast()}
-function next(){const s=get();if(!s||s.phase!=='results')return;const i=(s.currentIndex??0)+1;if(i>=s.questions.length){s.phase='finished'}else{s.currentIndex=i;s.currentQuestion=s.questions[i].id;s.answers={};s.phase='question'}save(s);broadcast()}
+function connectPeer(){
+ peer?.destroy();
+ peer=new Peer('antwort-A'+ROOM,{debug:0});
+ peer.on('open',()=>{$('connStatus').textContent='Warte auf iPhone …'});
+ peer.on('connection',c=>{
+   connections.add(c);
+   c.on('open',()=>{c.send({type:'state',state:get()});$('connStatus').textContent='✅ iPhone verbunden'});
+   c.on('data',msg=>{if(msg?.type==='hello')c.send({type:'state',state:get()});if(msg?.type==='scan')receive(msg)});
+   c.on('close',()=>{connections.delete(c);$('connStatus').textContent=connections.size?'✅ iPhone verbunden':'Warte auf iPhone …'});
+   c.on('error',()=>connections.delete(c));
+ });
+ peer.on('error',()=>{$('connStatus').textContent='❗ Verbindung nicht möglich. Internet und Raumcode prüfen.'});
+}
 
+function receive(msg){
+ const s=get();if(!s||s.phase!=='question')return;
+ const q=current(s),st=s.students?.find(x=>x.id===msg.studentId);if(!q||!st)return;
+ const answer=Number(msg.answer);if(![0,1,2,3].includes(answer))return;
+ s.answers=s.answers||{};if(s.answers[st.id])return;
+ s.answers[st.id]={id:st.id,answer,correct:answer===Number(q.correct),at:Date.now()};
+ save(s);feedback(answer===Number(q.correct));broadcast();render();
+}
+
+function startScan(){
+ const s=get();if(!s?.questions?.length||s.phase!=='ready')return;
+ s.currentQuestion=s.questions[s.currentIndex??0].id;s.answers={};s.phase='question';save(s);broadcast();render();
+}
+
+function showResults(){
+ const s=get();if(!s||s.phase!=='question')return;
+ const q=current(s),a=Object.values(s.answers||{});
+ s.history=s.history||[];
+ s.history.push({questionId:q.id,total:a.length,correct:a.filter(x=>x.correct).length,rows:a.map(x=>({id:x.id,answer:x.answer,correct:x.correct}))});
+ s.phase='results';save(s);broadcast();render();
+}
+
+function next(){
+ const s=get();if(!s||s.phase!=='results')return;
+ const i=(s.currentIndex??0)+1;
+ if(i>=s.questions.length){s.phase='finished';s.currentQuestion=null;s.answers={};}
+ else{s.currentIndex=i;s.currentQuestion=s.questions[i].id;s.answers={};s.phase='question';}
+ save(s);broadcast();render();
+}
+
+function advance(){const phase=get()?.phase||'ready';if(phase==='ready')startScan();else if(phase==='question')showResults();else if(phase==='results')next()}
+$('action').addEventListener('click',advance);
 document.addEventListener('keydown',e=>{
-  if(e.code!=='Space' || e.repeat) return;
-  const tag=(e.target?.tagName||'').toLowerCase();
-  if(tag==='input'||tag==='textarea'||tag==='select'||e.target?.isContentEditable) return;
-  e.preventDefault();
-  const st=get(), phase=st?.phase||'idle';
-  if(phase==='idle'||phase==='question') stop();
-  else if(phase==='results') next();
+ if(e.code!=='Space'||e.repeat)return;
+ const tag=(e.target?.tagName||'').toLowerCase();
+ if(['input','textarea','select','button'].includes(tag)||e.target?.isContentEditable)return;
+ e.preventDefault();advance();
 });
-$('bigAction').addEventListener('click',()=>{
-  const st=get(), phase=st?.phase||'idle';
-  if(phase==='idle'||phase==='question') stop();
-  else if(phase==='results') next();
-});
-$('start').onclick=start;$('stop').onclick=stop;$('next').onclick=next;window.addEventListener('storage',render);connectPeer();render();
-</script></body></html>
+window.addEventListener('storage',render);
+connectPeer();render();
+</script>
+</body>
+</html>
