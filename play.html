@@ -171,6 +171,50 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,Bl
 }
 #totalWrap.final-side .homeBtn:active{transform:translateY(4px)!important}
 </style>
+
+<style id="final-fix-v34">
+.main.final-mode{
+  position:relative!important;
+  min-height:650px!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+}
+.main.final-mode .finalCelebration{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:650px!important;
+  background:#eef6ff url("abschluss-gesamtbewertung-ohne-button.png") center center / cover no-repeat!important;
+}
+.main.final-mode .dynamicBoard{
+  position:absolute!important;
+  left:50%!important;
+  top:57%!important;
+  transform:translate(-50%,-50%)!important;
+  width:min(48%,720px)!important;
+}
+#totalWrap.final-side{
+  display:block!important;
+}
+#totalWrap.final-side .finalSideHome{
+  height:100%;
+  min-height:650px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  box-sizing:border-box;
+}
+#totalWrap.final-side .homeBtn{
+  position:static!important;
+  transform:none!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+}
+</style>
 </head>
 <body>
 <header class="top">
@@ -244,9 +288,6 @@ function render(){
    $('action').style.display='none';
    $('stateText').innerHTML='🎉 FERTIG<span>Alle Fragen sind abgeschlossen.</span>';
    renderLive([]); renderTotal(s);
-   if(!finalSaying){finalSaying=s.finalSaying||SAYINGS[Math.floor(Math.random()*SAYINGS.length)];}
-   $('total').insertAdjacentHTML('beforebegin',`<div class="finalMessage">${esc(finalSaying)}</div><div class="homeArea"><button class="homeBtn" id="homeBtn" type="button">🏠 Zurück zum Administrator</button></div>`);
-   $('homeBtn').onclick=()=>location.href='index.html';
    return;
  }
  $('action').style.display='inline-flex';
@@ -298,34 +339,40 @@ function renderTotal(s){
  }).sort((a,b)=>b.points-a.points||String(a.id).localeCompare(String(b.id)));
  const top5=scores.slice(0,5);
 
- document.querySelector('.main').classList.add('final-mode');
- $('phase').style.display='none';
- $('question').style.display='none';
- $('answers').style.display='none';
- $('instruction').style.display='none';
- $('control').style.display='none';
- document.querySelector('.key')?.style.setProperty('display','none');
+ const main=document.querySelector('.main');
+ if(!main)return;
 
- $('totalWrap').className='final-side';
- $('totalWrap').style.display='block';
- $('totalWrap').innerHTML=`
-   <div class="finalSideHome">
-     <button class="homeBtn" onclick="location.href='index.html'">🏠 Zurück zum Administrator</button>
-   </div>`;
+ main.classList.add('final-mode');
+ ['phase','question','answers','instruction','control','stateText','action','feedback'].forEach(id=>{
+   const el=$(id);
+   if(el) el.style.display='none';
+ });
+
+ const totalWrap=$('totalWrap');
+ if(totalWrap){
+   totalWrap.className='final-side';
+   totalWrap.style.display='block';
+   totalWrap.innerHTML=`
+    <div class="finalSideHome">
+      <button class="homeBtn" id="finalHomeBtn" type="button">🏠 Zurück zum Administrator</button>
+    </div>`;
+   $('finalHomeBtn').onclick=()=>location.href='index.html';
+ }
 
  const board=document.createElement('div');
  board.className='finalCelebration';
- board.innerHTML=`<div class="dynamicBoard">
-   ${top5.map((x,i)=>`
-    <div class="dynamicRow">
-     <div class="dynamicRank">${i+1}.</div>
-     <div class="dynamicEmoji">${esc(x.emoji||'👤')}</div>
-     <div class="dynamicPlace">Platz ${i+1}</div>
-     <div class="dynamicPoints">${x.points} Pkt.</div>
-    </div>`).join('')}
- </div>`;
- $('main').innerHTML='';
- $('main').appendChild(board);
+ board.innerHTML=`
+   <div class="dynamicBoard">
+    ${top5.map((x,i)=>`
+      <div class="dynamicRow">
+       <div class="dynamicRank">${i+1}.</div>
+       <div class="dynamicEmoji">${esc(x.emoji||'👤')}</div>
+       <div class="dynamicPlace">Platz ${i+1}</div>
+       <div class="dynamicPoints">${x.points} Pkt.</div>
+      </div>`).join('')}
+   </div>`;
+ main.innerHTML='';
+ main.appendChild(board);
 }
 
 function broadcast(){

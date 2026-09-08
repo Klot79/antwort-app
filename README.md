@@ -197,3 +197,10 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - Der im Bild vorhandene alte Home-Button wurde aus der verwendeten Hintergrundfassung entfernt, damit er nicht doppelt erscheint.
 - Das AirPlay-Display zeigt das Jubelbild **vollflächig und zentriert** ohne Lehrer-Button.
 - Top-5-Platzierung, Emoji und Punkte bleiben dynamisch.
+
+
+## v34 – Abschlussfehler behoben
+- Ursache behoben: Der Abschlussrenderer griff auf ein nicht vorhandenes Element `control` zu und brach deshalb vor dem Anzeigen des Jubelbildes ab.
+- Der Renderer prüft jetzt alle Elemente sicher, bevor er sie verändert.
+- Das Jubelbild wird am Ende zuverlässig in den großen Hauptbereich eingesetzt.
+- Rechts bleibt ausschließlich der Home-Button.
