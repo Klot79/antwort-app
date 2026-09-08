@@ -220,3 +220,10 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - Die Ergebniszeilen sind vollständig deckend, damit keine statische Beispielwertung aus dem Bild durchscheint.
 - Rechts im Mac-Steuerungsfenster bleibt ausschließlich der Home-Button.
 - Im AirPlay-Display gibt es keinen Home-Button.
+
+
+## v37 – Top-5-Überlappung behoben
+- Ursache: Die dynamische Top-5 war gegenüber den fünf weißen Ergebnisfeldern im Hintergrund zu weit nach oben verschoben.
+- Die Live-Ergebniszeilen werden jetzt exakt auf die vorgesehenen Karten des Jubelbildes gelegt.
+- Dadurch ist nur noch **eine** sichtbare Platzierung vorhanden.
+- Die tatsächlichen Punkte bleiben dynamisch.

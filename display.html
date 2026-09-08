@@ -226,6 +226,33 @@ body.final-display .dynamicRow{
 }
 body.final-display .homeBtn{display:none!important}
 </style>
+
+<style id="final-alignment-v37">
+/* Align live rows exactly over the five white Top-5 cards in the artwork.
+   This prevents the baked-in sample ranking from appearing as a second list. */
+.final-mode .dynamicBoard{
+  top:73.5%!important;
+  width:47%!important;
+  max-width:760px!important;
+  gap:10px!important;
+}
+.final-mode .dynamicRow{
+  height:clamp(58px,7.0vh,82px)!important;
+  background:#fff!important;
+  opacity:1!important;
+}
+body.final-display .dynamicBoard{
+  top:73.5%!important;
+  width:47%!important;
+  max-width:760px!important;
+  gap:10px!important;
+}
+body.final-display .dynamicRow{
+  height:clamp(58px,7.0vh,82px)!important;
+  background:#fff!important;
+  opacity:1!important;
+}
+</style>
 </head><body><div class="wrap"><div class="head"><div class="logo">Antwort!</div><div class="spacer"></div><div class="counter">📷 <span id="count">0</span> Antworten</div></div><main id="main" class="main"></main></div>
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script><script>
 const KEY='antwort-v4-state',$=id=>document.getElementById(id);let remoteState=null,peer=null,conn=null;
