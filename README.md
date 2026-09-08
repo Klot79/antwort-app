@@ -1,9 +1,13 @@
-# Antwort! v3 – neu aufgebaut
+# Antwort! v4 – komplett neu, zwei Bereiche
 
-Die manuelle Quiz-Erstellung enthält **genau vier** Antwortfelder A–D.
-Die richtige Antwort wird direkt über einen **grünen Punkt** neben A, B, C oder D markiert.
-Es gibt kein separates Feld für die richtige Antwort.
+- `index.html` = Administratorbereich: Fragen auf 3 Wegen erstellen, Karten drucken, Schüler verwalten, Scanner und Statistiken.
+- `display.html` = Displaybereich für die Klasse: vollständige Frage, vier Antworten, Karten-Zähler und Lehrersteuerung **Start / Weiter / Überspringen**.
 
-`display.html` zeigt die komplette Fragestellung und alle vier Antworten; lange Fragen werden umgebrochen.
+## Spielablauf
+1. **Start** zeigt die aktuelle Frage.
+2. Im Adminbereich werden Karten gescannt. Oben rechts im Display steht jederzeit die Zahl der gescannten Karten.
+3. **Weiter** beendet die Frage und zeigt die Gesamtresultate.
+4. **Weiter** im Ergebnisbild startet die nächste Frage.
+5. **Überspringen** geht sofort zur nächsten Frage, ohne auf alle Karten zu warten und ohne Ergebnisanzeige.
 
-Nach dem Ersetzen der Dateien auf GitHub Pages kann Safari noch die alte Version aus dem Cache anzeigen. Dann die Seite neu laden bzw. in einem privaten Tab öffnen.
+Die Synchronisation zwischen Admin und Display erfolgt über `localStorage` im selben Browser/Gerät. Für ein Display auf einem anderen Gerät braucht es später eine kleine Realtime-Serververbindung.
