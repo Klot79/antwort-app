@@ -86,3 +86,26 @@ Der MacBook-Spielmodus ist jetzt die zentrale Unterrichtsoberfläche. Es gibt ke
 6. am Ende **Gesamtergebnis**
 
 Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
+
+
+## v20 – Abschluss, Statistik und Karten-QR
+- Am Quizende zeigt der Unterrichtsbildschirm nur **Emoji + Punkte**, niemals die Namen der Kinder.
+- Eine zufällige motivierende Abschlussnachricht wird eingeblendet.
+- Ein **🏠 Zurück zum Administrator**-Button beendet die Unterrichtsansicht.
+- In den Administrator-Statistiken bleiben die **Namen + Emoji** sichtbar.
+- Der QR-Code auf den gedruckten Karten wurde auf **450 × 450 px** vergrößert (3× gegenüber 150 × 150).
+- Ein erfolgreich erkannter Scan zeigt auf dem iPhone immer kurz **👍**; die Bewertung wird weiterhin am Mac mit 👍 richtig bzw. ❌ falsch angezeigt.
+
+
+## v21 – QR 700 px und Druckfehler behoben
+- QR-Code der Kinderkarten auf **700 × 700 px** vergrößert.
+- Drucklayout so angepasst, dass jede Karte genau auf einer A4-Seite beginnt.
+- Keine künstliche zusätzliche Leerseite nach der letzten Karte.
+- Druckseiten verwenden saubere `break-before/page-break-before` Regeln.
+
+
+## v22 – QR 600 Pixel
+- QR-Code wird jetzt tatsächlich als **600 × 600 Pixel** erzeugt.
+- Die **physische Größe des QR-Codes auf der Karte bleibt unverändert**.
+- Rahmen und übriges Kartenlayout bleiben erhalten.
+- Das Emoji wurde deutlich vergrößert auf **50 mm**.
