@@ -189,3 +189,11 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - Die Top-5-Platzierung bleibt dynamisch: Emoji, Platz und Punkte werden aus dem Quiz-Ergebnis eingesetzt.
 - Keine Schülernamen auf dem öffentlichen Abschlussbild.
 - Der Home-Button bleibt vorhanden.
+
+
+## v33 – Abschlussbild korrekt zentriert
+- Das Jubelbild liegt im Mac-Steuerungsfenster **zentral im großen Hauptbereich**.
+- Die rechte Spalte enthält **ausschließlich** den Button „Zurück zum Administrator“.
+- Der im Bild vorhandene alte Home-Button wurde aus der verwendeten Hintergrundfassung entfernt, damit er nicht doppelt erscheint.
+- Das AirPlay-Display zeigt das Jubelbild **vollflächig und zentriert** ohne Lehrer-Button.
+- Top-5-Platzierung, Emoji und Punkte bleiben dynamisch.

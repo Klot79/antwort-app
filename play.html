@@ -121,6 +121,56 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,Bl
   .finalCelebration .dynamicRow{grid-template-columns:50px 60px 1fr 100px;padding-right:14px}
 }
 </style>
+
+<style id="final-layout-v33">
+/* Final result is a real two-column teacher screen:
+   celebration in the main panel, only Home control in the right panel. */
+.main.final-mode{
+  background:#fff!important;
+  padding:0!important;
+  overflow:hidden!important;
+  min-height:650px!important;
+  border-radius:24px!important;
+}
+.main.final-mode .finalCelebration{
+  width:100%!important;
+  height:100%!important;
+  min-height:650px!important;
+  background:#eef6ff url("abschluss-gesamtbewertung-ohne-button.png") center center / cover no-repeat!important;
+}
+.final-mode .dynamicBoard{
+  top:57%!important;
+  width:min(48%,720px)!important;
+  gap:9px!important;
+}
+.final-mode .dynamicRow{
+  height:clamp(54px,7vh,78px)!important;
+}
+.final-mode .dynamicRank{font-size:clamp(22px,2vw,34px)!important}
+.final-mode .dynamicEmoji{font-size:clamp(30px,2.8vw,50px)!important}
+.final-mode .dynamicPlace{font-size:clamp(21px,1.9vw,34px)!important}
+.final-mode .dynamicPoints{font-size:clamp(21px,1.8vw,32px)!important}
+#totalWrap.final-side{
+  display:block!important;
+  height:100%!important;
+}
+#totalWrap.final-side .finalSideHome{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  box-sizing:border-box;
+}
+#totalWrap.final-side .homeBtn{
+  position:static!important;
+  transform:none!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+}
+#totalWrap.final-side .homeBtn:active{transform:translateY(4px)!important}
+</style>
 </head>
 <body>
 <header class="top">
@@ -247,20 +297,35 @@ function renderTotal(s){
    return {...st,points};
  }).sort((a,b)=>b.points-a.points||String(a.id).localeCompare(String(b.id)));
  const top5=scores.slice(0,5);
+
+ document.querySelector('.main').classList.add('final-mode');
+ $('phase').style.display='none';
+ $('question').style.display='none';
+ $('answers').style.display='none';
+ $('instruction').style.display='none';
+ $('control').style.display='none';
+ document.querySelector('.key')?.style.setProperty('display','none');
+
+ $('totalWrap').className='final-side';
  $('totalWrap').style.display='block';
- $('total').innerHTML=`
-  <div class="finalCelebration">
-   <div class="dynamicBoard">
-    ${top5.map((x,i)=>`
-      <div class="dynamicRow">
-       <div class="dynamicRank">${i+1}.</div>
-       <div class="dynamicEmoji">${esc(x.emoji||'👤')}</div>
-       <div class="dynamicPlace">Platz ${i+1}</div>
-       <div class="dynamicPoints">${x.points} Pkt.</div>
-      </div>`).join('')}
-   </div>
-   <button class="homeBtn" onclick="location.href='index.html'">🏠 Zurück zum Administrator</button>
-  </div>`;
+ $('totalWrap').innerHTML=`
+   <div class="finalSideHome">
+     <button class="homeBtn" onclick="location.href='index.html'">🏠 Zurück zum Administrator</button>
+   </div>`;
+
+ const board=document.createElement('div');
+ board.className='finalCelebration';
+ board.innerHTML=`<div class="dynamicBoard">
+   ${top5.map((x,i)=>`
+    <div class="dynamicRow">
+     <div class="dynamicRank">${i+1}.</div>
+     <div class="dynamicEmoji">${esc(x.emoji||'👤')}</div>
+     <div class="dynamicPlace">Platz ${i+1}</div>
+     <div class="dynamicPoints">${x.points} Pkt.</div>
+    </div>`).join('')}
+ </div>`;
+ $('main').innerHTML='';
+ $('main').appendChild(board);
 }
 
 function broadcast(){

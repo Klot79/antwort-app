@@ -82,12 +82,41 @@
   .finalCelebration .dynamicRow{grid-template-columns:50px 60px 1fr 100px;padding-right:14px}
 }
 </style>
+
+<style id="display-final-v33">
+body.final-display .wrap{display:none!important}
+body.final-display #main{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  max-width:none!important;
+  height:100vh!important;
+  margin:0!important;
+  padding:0!important;
+  background:#eef6ff!important;
+}
+body.final-display .finalCelebration{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  background:#eef6ff url("abschluss-gesamtbewertung-ohne-button.png") center center / cover no-repeat!important;
+}
+body.final-display .dynamicBoard{
+  left:50%!important;
+  top:57%!important;
+  width:min(42vw,720px)!important;
+}
+body.final-display .homeBtn{display:none!important}
+</style>
 </head><body><div class="wrap"><div class="head"><div class="logo">Antwort!</div><div class="spacer"></div><div class="counter">📷 <span id="count">0</span> Antworten</div></div><main id="main" class="main"></main></div>
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script><script>
 const KEY='antwort-v4-state',$=id=>document.getElementById(id);let remoteState=null,peer=null,conn=null;
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function get(){if(remoteState)return remoteState;return null}
 function render(){const s=get(),q=s?.questions?.find(x=>x.id===s.currentQuestion),a=Object.values(s?.answers||{});$('count').textContent=a.length;if(!s||!q){$('main').innerHTML='<div class="result">Bereit für den Unterricht 🎓</div><div class="hint">Die Lehrkraft startet die erste Frage.</div>';return}if(s.phase==='results'){const total=a.length,good=a.filter(x=>x.correct).length;const bars=q.options.map((o,i)=>{const n=a.filter(x=>x.answer===i).length,p=total?Math.round(n/total*100):0,correct=i===Number(q.correct);return `<div class="barrow ${correct?'correctRow':''}"><div>${'ABCD'[i]} · ${esc(o)} ${correct?'✓ RICHTIG':''}</div><div class="bar"><div class="fill" style="width:${p}%"></div></div><div>${n}</div></div>`}).join('');$('main').innerHTML=`<div class="phase">✓ AUFLÖSUNG · FRAGE ${(s.currentIndex??0)+1}</div><div class="question" style="font-size:clamp(30px,4vw,58px);margin-bottom:20px">${esc(q.text)}</div><div class="result" style="font-size:clamp(44px,6vw,82px)">${good} / ${total} richtig</div><div class="bars">${bars}</div><div class="hint">✓ = richtige Antwort · Die Klasse sieht die Auswertung. Danach folgt die nächste Frage.</div>`;return}if(s.phase==='finished'){
+ document.body.classList.add('final-display');
  const students=s.students||[],hist=s.history||[];
  const totals=students.map(st=>{
    let points=0;
@@ -95,19 +124,17 @@ function render(){const s=get(),q=s?.questions?.find(x=>x.id===s.currentQuestion
    return {...st,points};
  }).sort((a,b)=>b.points-a.points||String(a.id).localeCompare(String(b.id)));
  const top5=totals.slice(0,5);
-
  $('main').innerHTML=`
   <div class="finalCelebration" aria-label="Gesamtergebnis">
-    <div class="dynamicBoard">
-      ${top5.map((st,i)=>`
-        <div class="dynamicRow">
-          <div class="dynamicRank">${i+1}.</div>
-          <div class="dynamicEmoji">${esc(st.emoji||'👤')}</div>
-          <div class="dynamicPlace">Platz ${i+1}</div>
-          <div class="dynamicPoints">${st.points} Pkt.</div>
-        </div>`).join('')}
-    </div>
-    <button class="homeBtn" onclick="location.href='index.html'">🏠 Zurück zum Administrator</button>
+   <div class="dynamicBoard">
+    ${top5.map((st,i)=>`
+     <div class="dynamicRow">
+      <div class="dynamicRank">${i+1}.</div>
+      <div class="dynamicEmoji">${esc(st.emoji||'👤')}</div>
+      <div class="dynamicPlace">Platz ${i+1}</div>
+      <div class="dynamicPoints">${st.points} Pkt.</div>
+     </div>`).join('')}
+   </div>
   </div>`;
  return;
 }
