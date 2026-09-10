@@ -78,15 +78,15 @@
 </head>
 <body>
 <header class="top"><div class="brand">Antwort!</div><div class="spacer"></div><button id="playAll" class="play">🎮 Unterricht starten</button></header>
-<div class="layout"><aside class="side"><div class="nav"><button class="active" data-page="home">🏠 Übersicht</button><button data-page="questions">📝 Fragen</button><button data-page="cards">🪪 Karten</button><button data-page="students">👥 Schüler</button><button data-page="stats">📊 Statistiken</button><button data-scan="true" class="scan-nav" type="button">📱 Karten scannen</button></div></aside>
+<div class="layout"><aside class="side"><div class="nav"><button class="active" data-page="home">🏠 Übersicht</button><button data-page="questions">📝 Fragen</button><button data-page="cards">🪪 Karten</button><button data-page="students">👥 Schüler</button><button data-page="stats">📊 Statistiken</button><a href="scan.html" class="scan-nav" style="display:flex;align-items:center;justify-content:center;text-decoration:none">📱 Karten scannen</a></div></aside>
 <main class="main">
 <section id="home" class="page active"><h1 class="h1">Unterricht vorbereiten</h1><div class="sub">Fragen vorher erstellen. Danach nur noch Unterricht starten, iPhone verbinden und loslegen.</div>
-<div class="card"><div class="step-grid"><div class="step"><div class="num">SCHRITT 1</div><h3>👥 Schüler</h3><p>22 feste Karten. Namen einmal eintragen.</p></div><div class="step"><div class="num">SCHRITT 2</div><h3>📝 Fragen</h3><p>Manuell erstellen oder Material einlesen.</p></div><div class="step"><div class="num">SCHRITT 3</div><h3>🖥️ Display</h3><p>Frage und A–D auf Beamer/TV anzeigen.</p></div><div class="step"><div class="num">SCHRITT 4</div><h3>📱 Antworten</h3><p>iPhone scannt Karten. Du siehst sofort richtig/falsch.</p></div></div></div>
-<div class="card"><div class="row"><div><strong>Bereit für den Unterricht?</strong><div class="muted" style="margin-top:4px">Fragen: <span id="homeQuestions">0</span> · Schüler: 22 · Karten: 22</div></div><div class="spacer"></div><button class="btn green" id="homeStart">▶ Unterricht starten</button></div><div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)" class="row"><div><strong>📱 iPhone vorbereiten</strong><div class="muted" style="margin-top:4px">Öffne den Karten-Scanner auf dem iPhone und verbinde ihn mit dem Raumcode des Lehrer-Spielmodus.</div></div><div class="spacer"></div><button class="btn blue" data-scan="true">📱 Karten scannen öffnen</button></div></div>
+<div class="card"><div class="step-grid"><div class="step"><div class="num">SCHRITT 1</div><h3>👥 Schüler</h3><p>22 feste Karten. Namen einmal eintragen.</p></div><div class="step"><div class="num">SCHRITT 2</div><h3>📝 Fragen</h3><p>Manuell erstellen oder Material einlesen.</p></div><div class="step"><div class="num">SCHRITT 3</div><h3>🖥️ Display</h3><p>Frage und A–D auf Beamer/TV anzeigen.</p></div><div class="step"><div class="num">SCHRITT 4</div><h3>📱 Antworten</h3><p>iPhone scannt Karten. Nach jedem gelungenen Scan erscheint nur 👍.</p></div></div></div>
+<div class="card"><div class="row"><div><strong>Bereit für den Unterricht?</strong><div class="muted" style="margin-top:4px">Fragen: <span id="homeQuestions">0</span> · Schüler: 22 · Karten: 22</div></div><div class="spacer"></div><button class="btn green" id="homeStart">▶ Unterricht starten</button></div><div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)" class="row"><div><strong>📱 iPhone vorbereiten</strong><div class="muted" style="margin-top:4px">Öffne den Karten-Scanner auf dem iPhone und verbinde ihn mit dem Raumcode des Lehrer-Spielmodus.</div></div><div class="spacer"></div><a class="btn blue" href="scan.html" style="display:inline-block;text-decoration:none;text-align:center">📱 Karten scannen öffnen</a></div></div>
 <div class="card" style="border:2px solid var(--blue);background:#f7fbff">
   <div style="font-size:20px;font-weight:950">📱 iPhone als Scanner</div>
   <p class="muted">Auf dem iPhone öffnen und danach den 5-stelligen Raumcode vom Mac eingeben.</p>
-  <button class="btn blue" id="openScannerDirect" type="button">📱 Scanner auf dem iPhone öffnen</button>
+  <a class="btn blue" href="scan.html" style="display:inline-block;text-decoration:none;text-align:center">📱 Scanner auf dem iPhone öffnen</a>
 </div><div class="card"><strong>Neues Spiel</strong><p class="muted">Löscht Fragen und Ergebnisse, die 22 Schüler und Karten bleiben erhalten.</p><button class="btn danger" id="newGame">🗑️ Neues Spiel</button></div></section>
 <section id="questions" class="page"><h1 class="h1">Fragen</h1><div class="sub">Erstelle Fragen. Automatisch erzeugte Fragen werden erst nach deiner Prüfung übernommen.</div>
 <div class="card"><div class="tabs"><button class="tab active" data-mode="manual">➕ Manuell</button><button class="tab" data-mode="material">📚 PDF / Bild → Fragen</button><button class="tab" data-mode="auto">✍️ Text → Fragen</button></div>
@@ -109,14 +109,9 @@ let state=load();function save(){localStorage.setItem(KEY,JSON.stringify(state))
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function show(page){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===page));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page))}
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>show(b.dataset.page));
-document.querySelectorAll('[data-scan="true"]').forEach(b=>b.addEventListener('click',()=>{
-  const url=new URL('scan.html',window.location.href);
-  window.location.assign(url.href);
-}));
 function makeRoom(){return Math.random().toString(36).slice(2,7).toUpperCase()}
 function startLesson(){if(!state.questions.length){alert('Bitte zuerst mindestens eine Frage anlegen.');show('questions');return}state.currentIndex=0;state.currentQuestion=state.questions[0].id;state.phase='ready';state.answers={};save();const room=makeRoom();window.location.href='play.html?room='+encodeURIComponent(room)}
 $('playAll').onclick=startLesson;$('homeStart').onclick=startLesson;
-$('openScannerDirect').onclick=()=>window.location.assign(new URL('scan.html',window.location.href).href);
 $('newGame').onclick=()=>{if(!confirm('Wirklich alle Fragen und Ergebnisse löschen? Die 22 Schüler und Karten bleiben erhalten.'))return;state.questions=[];state.history=[];state.currentQuestion=null;state.currentIndex=-1;state.phase='idle';state.answers={};save()};
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['manual','material','auto'].forEach(m=>$('mode-'+m).style.display=m===b.dataset.mode?'block':'none')});
 function paintManual(){document.querySelectorAll('.answer-row').forEach((r,i)=>r.classList.toggle('correct',i===selectedCorrect))}
