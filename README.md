@@ -259,3 +259,11 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - QR-Code bleibt 600×600 Pixel (90 mm im Drucklayout).
 - A4 Hochformat: genau **eine Karte pro Seite**, keine zusätzliche Leerseite zwischen Karten.
 - Nach dem Drucken wird die Administratoransicht automatisch wiederhergestellt.
+
+
+## v43 – iPhone Scanner-Verbindung repariert
+- Die Scanner-Navigation verwendet jetzt einen robusten relativen URL-Aufruf, der auch auf GitHub-Pages-Projektseiten funktioniert.
+- Im Administrator gibt es einen eindeutig sichtbaren Button **„📱 Scanner auf dem iPhone öffnen“**.
+- `scan.html` bleibt eine eigenständige iPhone-Seite: Raumcode eingeben → verbinden → auf „Scannen starten“ des Macs warten.
+- Die Kamera startet weiterhin erst, wenn der Lehrer die Frage freigibt.
+- Scan-Rückmeldung bleibt ausschließlich **👍**, ohne richtig/falsch.
