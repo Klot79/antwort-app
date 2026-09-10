@@ -250,3 +250,12 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - Es wird dabei weder im Live-Feedback noch im Scan-Hinweis „richtig“ oder „falsch“ angezeigt.
 - Das AirPlay-Display zeigt bei einer neu erkannten Karte kurz ein großes **👍**.
 - Die Auflösungs-/Ergebnisphase bleibt für die vom Lehrer ausgelöste Auswertung erhalten.
+
+
+## v41 – Kartendruck repariert
+- Der Druck läuft jetzt **direkt im aktuellen Administratorfenster**, statt über ein Popup.
+- Dadurch wird der häufige Popup-Blocker als Fehlerquelle vermieden.
+- Vor dem Drucken werden die 22 QR-Codes erzeugt.
+- QR-Code bleibt 600×600 Pixel (90 mm im Drucklayout).
+- A4 Hochformat: genau **eine Karte pro Seite**, keine zusätzliche Leerseite zwischen Karten.
+- Nach dem Drucken wird die Administratoransicht automatisch wiederhergestellt.

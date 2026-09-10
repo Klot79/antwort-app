@@ -30,7 +30,51 @@
   #printRoot .qr{width:90mm!important;height:90mm!important}
   #printRoot .qr img,#printRoot .qr canvas{width:90mm!important;height:90mm!important;max-width:none!important;max-height:none!important}
 }
-</style></head>
+</style>
+<style id="card-print-v41">
+@media print{
+  body.printing-cards > *:not(#printRoot){display:none!important}
+  body.printing-cards #printRoot{
+    display:block!important;
+    width:210mm!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  body.printing-cards #printRoot .print-page{
+    width:210mm!important;
+    height:297mm!important;
+    margin:0!important;
+    padding:6mm!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    box-sizing:border-box!important;
+    break-after:page!important;
+    page-break-after:always!important;
+    break-before:auto!important;
+    page-break-before:auto!important;
+  }
+  body.printing-cards #printRoot .print-page:last-child{
+    break-after:auto!important;
+    page-break-after:auto!important;
+  }
+  body.printing-cards #printRoot .print-card{
+    width:198mm!important;
+    height:285mm!important;
+    margin:0!important;
+    box-sizing:border-box!important;
+    break-inside:avoid!important;
+    page-break-inside:avoid!important;
+  }
+  body.printing-cards #printRoot .qr img,
+  body.printing-cards #printRoot .qr canvas{
+    width:90mm!important;
+    height:90mm!important;
+    max-width:none!important;
+    max-height:none!important;
+  }
+}
+</head>
 <body>
 <header class="top"><div class="brand">Antwort!</div><div class="spacer"></div><button id="playAll" class="play">🎮 Unterricht starten</button></header>
 <div class="layout"><aside class="side"><div class="nav"><button class="active" data-page="home">🏠 Übersicht</button><button data-page="questions">📝 Fragen</button><button data-page="cards">🪪 Karten</button><button data-page="students">👥 Schüler</button><button data-page="stats">📊 Statistiken</button><button data-scan="true" class="scan-nav" type="button">📱 Karten scannen</button></div></aside>
@@ -104,43 +148,31 @@ function buildPrint(){
   state.students.forEach(st=>new QRCode($('qr-'+st.id),{text:'ANTWORT:'+st.id,width:600,height:600,correctLevel:QRCode.CorrectLevel.M}));
 }
 function openCardPrintWindow(){
-  const labels=[
-    {top:'A',right:'B',bottom:'C',left:'D'}
-  ];
-  const cards=state.students.map((st,idx)=>{
-    const l=labels[idx%4];
-    return `<section class="print-page"><article class="print-card">
-      <div class="card-top"><div class="pemoji">${st.emoji}</div><div class="pname">${esc(st.name||'Schüler')}</div><div class="pid">${st.id}</div></div>
-      <div class="qr-zone"><div class="edge ea">${l.top}</div><div class="edge eb">${l.right}</div><div class="edge ec">${l.bottom}</div><div class="edge ed">${l.left}</div><div class="qr" id="qr-${st.id}"></div></div>
-    </article></section>`;
-  }).join('');
-  const w=window.open('','_blank','width=900,height=1200');
-  if(!w){alert('Bitte Pop-ups für diese Seite erlauben.');return;}
-  w.document.open();
-  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Antwort! – Karten</title>
-  <style>
-  @page{size:A4 portrait;margin:0}
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:#fff;width:210mm}
-  .print-page{width:210mm;height:296mm;margin:0;padding:6mm;display:flex;align-items:center;justify-content:center}
-  .print-page+.print-page{break-before:page;page-break-before:always}
-  .print-card{width:198mm;height:284mm;border:1.2mm solid #111;border-radius:11mm;position:relative;overflow:hidden;background:#fff}
-  .card-top{position:absolute;top:8mm;left:0;right:0;text-align:center;z-index:2}
-  .pemoji{font-size:15mm;line-height:1;margin-bottom:2mm}
-  .pname{font-size:11mm;line-height:1.05;font-weight:950;color:#182238}
-  .pid{font-size:5.5mm;line-height:1.1;color:#555;margin-top:1.5mm}
-  .qr-zone{position:absolute;left:50%;top:55%;width:125mm;height:125mm;transform:translate(-50%,-50%)}
-  .qr{position:absolute;left:50%;top:50%;width:90mm;height:90mm;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;z-index:1}
-  .qr img,.qr canvas{width:90mm!important;height:90mm!important;max-width:none!important;max-height:none!important;image-rendering:auto}
-  .edge{position:absolute;z-index:3;font-size:10mm;line-height:1;font-weight:950;color:#182238;width:16mm;height:16mm;display:flex;align-items:center;justify-content:center;background:#fff}
-  .ea{left:50%;top:0;transform:translateX(-50%)}.eb{right:0;top:50%;transform:translateY(-50%)}.ec{left:50%;bottom:0;transform:translateX(-50%)}.ed{left:0;top:50%;transform:translateY(-50%)}
-  </style></head><body>${cards}<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"><\/script><script>
-  const students=${JSON.stringify(state.students)};
-  function make(){students.forEach(st=>new QRCode(document.getElementById('qr-'+st.id),{text:'ANTWORT:'+st.id,width:600,height:600,correctLevel:QRCode.CorrectLevel.M}));setTimeout(()=>window.print(),700)}
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',make);else make();
-  <\/script></body></html>`);
-  w.document.close();
+  buildPrint();
+  const root=$('printRoot');
+  if(!root) return;
+
+  document.body.classList.add('printing-cards');
+
+  // QRCodeJS creates the 600x600 QR codes asynchronously in the print area.
+  // Wait until all 22 cards have a QR element before opening the browser print dialog.
+  const expected=state.students.length;
+  let tries=0;
+  const waitForQR=()=>{
+    const ready=root.querySelectorAll('.qr canvas,.qr img').length>=expected;
+    if(ready || tries++>80){
+      setTimeout(()=>window.print(),120);
+    }else{
+      setTimeout(waitForQR,100);
+    }
+  };
+  waitForQR();
 }
+window.addEventListener('afterprint',()=>{
+  document.body.classList.remove('printing-cards');
+  const root=$('printRoot');
+  if(root) root.innerHTML='';
+});
 $('printCards').onclick=()=>openCardPrintWindow();
 function renderStats(){
  const rows=state.history.flatMap(h=>h.rows||[]);
