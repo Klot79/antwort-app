@@ -535,7 +535,7 @@ function renderLive(a){
  if(!a.length){$('live').innerHTML='<div class="empty">Noch keine Karten gescannt.</div>';return}
  $('live').innerHTML=a.map(x=>{
   const st=s.students?.find(y=>y.id===x.id)||{};
-  return `<div class="student"><div class="emoji">${esc(st.emoji||'👤')}</div><div><div class="name">${esc(st.name||x.id)}</div><div class="small">Antwort ${'ABCD'[x.answer]||'?'}</div></div><div class="${x.correct?'good':'bad'}">${x.correct?'👍':'❌'}</div></div>`;
+  return `<div class="student"><div class="emoji">${esc(st.emoji||'👤')}</div><div><div class="name">${esc(st.name||x.id)}</div><div class="small">Karte gescannt</div></div><div class="good">👍</div></div>`;
  }).join('');
 }
 

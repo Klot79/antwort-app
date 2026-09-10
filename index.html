@@ -91,12 +91,9 @@ function renderCards(){const list=$('cardsList');list.innerHTML=state.students.m
 function buildPrint(){
   const root=$('printRoot');
   const labelSets=[
-    {top:'A',right:'B',bottom:'C',left:'D'},
-    {top:'B',right:'D',bottom:'C',left:'A'},
-    {top:'C',right:'B',bottom:'A',left:'D'},
-    {top:'D',right:'A',bottom:'C',left:'B'}
+    {top:'A',right:'B',bottom:'C',left:'D'}
   ];
-  root.innerHTML=state.students.map((st,idx)=>{const l=labelSets[idx%4];return `<div class="print-page">
+  root.innerHTML=state.students.map((st,idx)=>{const l=labelSets[0];return `<div class="print-page">
     <div class="print-card">
       <div class="card-top"><div class="pemoji">${st.emoji}</div><div class="pname">${esc(st.name||'Schüler')}</div><div class="pid">${st.id}</div></div>
       <div class="qr-zone">
@@ -108,10 +105,7 @@ function buildPrint(){
 }
 function openCardPrintWindow(){
   const labels=[
-    {top:'A',right:'B',bottom:'C',left:'D'},
-    {top:'B',right:'D',bottom:'C',left:'A'},
-    {top:'C',right:'B',bottom:'A',left:'D'},
-    {top:'D',right:'A',bottom:'C',left:'B'}
+    {top:'A',right:'B',bottom:'C',left:'D'}
   ];
   const cards=state.students.map((st,idx)=>{
     const l=labels[idx%4];

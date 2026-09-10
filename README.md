@@ -242,3 +242,11 @@ Das iPhone dient ausschließlich zum Scannen der Kinderkarten.
 - Stattdessen liegt unter dem Banner „Die Top 5“ ein sauberer weißer Bereich.
 - Die echte Top-5 wird ausschließlich dynamisch von der App darübergelegt.
 - Alte/doppelte Abschlussgrafiken wurden aus dem Paket entfernt.
+
+## v40 – Karten und Scan-Rückmeldung
+- Alle 22 Karten verwenden jetzt exakt dieselbe Orientierung: **A oben, B rechts, C unten, D links**.
+- Der QR-Code bleibt die persönliche Karten-ID; die Antwort wird weiterhin aus der Drehung der Karte erkannt.
+- Während des Scannens zeigt die Mac-Steuerung bei jeder erkannten Karte nur **👍 Karte gescannt**.
+- Es wird dabei weder im Live-Feedback noch im Scan-Hinweis „richtig“ oder „falsch“ angezeigt.
+- Das AirPlay-Display zeigt bei einer neu erkannten Karte kurz ein großes **👍**.
+- Die Auflösungs-/Ergebnisphase bleibt für die vom Lehrer ausgelöste Auswertung erhalten.
